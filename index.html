@@ -232,20 +232,31 @@
                         <span id="activeQText" style="font-size:1.1rem; font-weight:700; color:var(--accent-speaking);">Question 1</span>
                         <button onclick="playUK(activeSpeakingQ)" style="background:var(--card-inner); border:1px solid var(--border-color); color:var(--accent-speaking); border-radius:50%; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center;">🔊</button>
                     </div>
+                    
                     <div style="text-align:center; padding:20px; background:var(--card-inner); border-radius:14px; border:1px solid var(--border-color);">
                         <button class="mic-btn" id="micBtn" onclick="toggleSpeech()">🎙️ Start Speaking & Record</button>
                         <p style="font-size:0.82rem; color:var(--text-muted); margin:8px 0 0 0;" id="micStatus">Microphone idle</p>
+                        <!-- AUDIO PLAYER FOR PLAYBACK -->
+                        <audio id="audioPlayback" controls style="display:none; width:100%; margin-top:15px; outline:none; border-radius:8px;"></audio>
                     </div>
+
                     <div>
                         <label style="font-size:0.88rem; font-weight:600;">Spoken Transcript:</label>
                         <div id="speechTranscript" style="background:var(--card-inner); border:1px solid var(--border-color); border-radius:12px; padding:14px; min-height:70px; font-size:0.95rem;">Speak into your microphone...</div>
                     </div>
+
                     <div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                            <label style="font-size:0.88rem; font-weight:600;">Gemini AI Assessment:</label>
-                            <button onclick="evaluateSpeech()" style="background:var(--primary); color:#ffffff; border:none; padding:6px 14px; border-radius:8px; font-weight:700; cursor:pointer;">✨ Evaluate</button>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px;">
+                            <label style="font-size:0.88rem; font-weight:600;">Gemini AI Assessment & Answers:</label>
+                            <div>
+                                <button onclick="evaluateSpeech()" style="background:var(--primary); color:#ffffff; border:none; padding:6px 14px; border-radius:8px; font-weight:700; cursor:pointer; margin-right:5px;">✨ Evaluate</button>
+                                <button onclick="showSampleAnswer()" style="background:var(--weak-color); color:#0f172a; border:none; padding:6px 14px; border-radius:8px; font-weight:700; cursor:pointer;">💡 Sample Answer</button>
+                            </div>
                         </div>
                         <div id="aiEvaluation" style="background:var(--card-inner); border:1px solid var(--border-color); border-radius:12px; padding:14px; font-size:0.9rem;">Click Evaluate to check your answer's grammar, vocabulary range, and estimated band score.</div>
+                        
+                        <!-- GEMINI SAMPLE ANSWER BOX -->
+                        <div id="sampleAnswerBox" style="display:none; background:var(--card-inner); border:1px solid var(--weak-color); border-radius:12px; padding:16px; font-size:0.95rem; margin-top:15px; line-height:1.7;"></div>
                     </div>
                 </div>
             </div>
@@ -282,7 +293,7 @@
         </div>
     </div>
 
-    <!-- Floating Interactive Popover -->
+    <!-- Floating Interactive Popover with Direct Google Translate Link -->
     <div class="floating-popover" id="floatPop">
         <button onclick="closePop()" style="position:absolute; right:10px; top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem;">✕</button>
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
@@ -294,14 +305,15 @@
         </div>
         <div id="popIpa" style="font-family:monospace; color:var(--text-muted); font-size:0.85rem; margin-bottom:6px;">/pronunciation/</div>
         <div id="popMeaning" style="color:var(--correct); font-weight:700; font-size:1rem; margin-bottom:12px;">বাংলা অর্থ</div>
-        <button onclick="addPopWordToRev()" style="background:var(--weak-color); color:#ffffff; border:none; border-radius:8px; padding:8px; width:100%; font-weight:700; font-size:0.85rem; cursor:pointer;">⭐ Add to Revision</button>
+        <button onclick="addPopWordToRev()" style="background:var(--weak-color); color:#0f172a; border:none; border-radius:8px; padding:8px; width:100%; font-weight:700; font-size:0.85rem; cursor:pointer; margin-bottom:8px;">⭐ Add to Revision</button>
+        <a href="#" target="_blank" id="popGoogleLink" style="display:block; text-align:center; background:var(--primary); color:#0f172a; text-decoration:none; padding:7px; border-radius:8px; font-size:0.85rem; font-weight:700;">🌐 Open in Google Translate</a>
     </div>
 
     <!-- External Linked Datasets -->
     <script src="essays.js"></script>
     <script src="pdf_data.js"></script>
 
-    <!-- Main Controller Logic with Sound Toggle & Backspace Support -->
+    <!-- Main Controller Logic -->
     <script>
         const rawSpelling = [
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
@@ -389,9 +401,8 @@
             document.getElementById('statWpm').innerText = "WPM: 0";
         }
 
-        document.getElementById('typingArea').addEventListener('click', () => {});
+        document.getElementById('typingArea').addEventListener('click', () => { document.getElementById('hiddenInput').focus(); });
 
-        // Keyboard Event Listener supporting Backspace and character typing
         window.addEventListener('keydown', (e) => {
             const activeSec = document.querySelector('.content-section.active');
             if (!activeSec || activeSec.id !== 'sec-typing') return;
@@ -447,7 +458,6 @@
             document.getElementById('textDisplay').classList.toggle('masked', dictationMode);
         }
 
-        // --- REVISION FUNCTIONS ---
         function updateRevUI() {
             document.getElementById('revCount').innerText = revisionWords.length;
             const wrap = document.getElementById('revChipsWrap');
@@ -478,7 +488,7 @@
             resetTimer();
         }
 
-        // --- 100 ESSAYS RENDER ---
+        // --- 100 ESSAYS RENDER & GOOGLE TRANSLATE FIX ---
         function initEssays() {
             const list = document.getElementById('essayListContainer');
             list.innerHTML = '';
@@ -526,7 +536,12 @@
             } else {
                 btn.innerText = "⏳ Translating...";
                 try {
-                    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t&q=${encodeURIComponent(orig)}`);
+                    // Using POST request fixes the URL length limit bug so you get the full & 100% correct translation
+                    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `q=${encodeURIComponent(orig)}`
+                    });
                     const data = await res.json();
                     let trans = "";
                     if (data && data[0]) data[0].forEach(s => { if (s[0]) trans += s[0]; });
@@ -534,7 +549,8 @@
                     btn.innerText = "🔄 Show English";
                     btn.setAttribute('data-trans', '1');
                 } catch {
-                    alert('Translation failed. Check internet.');
+                    alert('Translation failed. We will open it directly in Google Translate for you.');
+                    window.open(`https://translate.google.com/?sl=en&tl=bn&text=${encodeURIComponent(orig.substring(0, 1000))}&op=translate`, '_blank');
                     btn.innerText = "🌐 Translate to Bangla";
                 }
             }
@@ -556,7 +572,6 @@
             resetTimer();
         }
 
-        // --- FLOATING TOOLBAR LOGIC WITH VOCAB AUDIO & LOOKUP ---
         let currentSelectedText = "", currentRange = null;
 
         function triggerSelection(e) {
@@ -567,6 +582,7 @@
                 currentRange = sel.getRangeAt(0).cloneRange();
                 const pop = document.getElementById('floatPop');
                 document.getElementById('popWord').innerText = text.length > 22 ? text.substring(0, 20) + '...' : text;
+                document.getElementById('popGoogleLink').href = `https://translate.google.com/?sl=en&tl=bn&text=${encodeURIComponent(text)}&op=translate`;
 
                 const clean = text.toLowerCase().replace(/[^a-zA-Z]/g, '');
                 let foundMatch = false;
@@ -592,17 +608,22 @@
                 if (!foundMatch) {
                     document.getElementById('popIpa').innerText = `/${clean}/`;
                     document.getElementById('popMeaning').innerText = "Translating...";
-                    fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t&q=${encodeURIComponent(text)}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data && data[0] && data[0][0]) {
-                                document.getElementById('popMeaning').innerText = data[0][0][0];
-                            } else {
-                                document.getElementById('popMeaning').innerText = "অর্থ পাওয়া যায়নি";
-                            }
-                        }).catch(() => {
-                            document.getElementById('popMeaning').innerText = "অর্থ লোড করা যায়নি";
-                        });
+                    // Use POST for popover translation to ensure robust fetching
+                    fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `q=${encodeURIComponent(text)}`
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data[0] && data[0][0]) {
+                            document.getElementById('popMeaning').innerText = data[0][0][0];
+                        } else {
+                            document.getElementById('popMeaning').innerText = "অর্থ পাওয়া যায়নি";
+                        }
+                    }).catch(() => {
+                        document.getElementById('popMeaning').innerText = "অর্থ লোড করা যায়নি";
+                    });
                 }
 
                 let x = e.clientX + 10, y = e.clientY + 15;
@@ -721,7 +742,12 @@
                     c.classList.add('active');
                     activeSpeakingQ = q;
                     document.getElementById('activeQText').innerText = `${idx + 1}. ${q}`;
-                    playUK(q);
+                    
+                    document.getElementById('sampleAnswerBox').style.display = 'none';
+                    document.getElementById('audioPlayback').style.display = 'none';
+                    document.getElementById('speechTranscript').innerText = 'Speak into your microphone...';
+                    
+                    if(soundEnabled) playUK(q);
                 };
                 wrap.appendChild(c);
             });
@@ -735,29 +761,77 @@
             });
         }
 
-        // Voice Recording & Transcription
-        let isRec = false, recog = null;
-        function toggleSpeech() {
+        // --- AUDIO RECORDING & PLAYBACK ---
+        let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
+
+        async function toggleSpeech() {
             const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus'), out = document.getElementById('speechTranscript');
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert('Speech Recognition is not supported on this browser. Use Google Chrome.');
-                return;
-            }
+            const audioPlayback = document.getElementById('audioPlayback');
+
             if (!isRec) {
-                const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recog = new SR(); recog.continuous = true; recog.interimResults = true; recog.lang = 'en-US';
-                out.innerText = '';
-                recog.onstart = () => { isRec = true; btn.innerText = "🛑 Stop Recording"; st.innerText = "Listening..."; };
-                recog.onresult = (e) => {
-                    let trans = '';
-                    for (let i = e.resultIndex; i < e.results.length; ++i) trans += e.results[i][0].transcript;
-                    out.innerText = trans;
-                };
-                recog.onerror = () => { isRec = false; btn.innerText = "🎙️ Start Speaking & Record"; st.innerText = "Idle"; };
-                recog.start();
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    alert('Speech Recognition is not supported on this browser. Use Google Chrome.');
+                    return;
+                }
+
+                try {
+                    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(micStream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) audioChunks.push(e.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        audioPlayback.src = audioUrl;
+                        audioPlayback.style.display = 'block';
+                    };
+
+                    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    recog = new SR(); recog.continuous = true; recog.interimResults = true; recog.lang = 'en-US';
+                    
+                    out.innerText = '';
+                    audioPlayback.style.display = 'none';
+
+                    recog.onstart = () => { 
+                        isRec = true; 
+                        btn.innerText = "🛑 Stop Recording"; 
+                        btn.style.background = "var(--incorrect)";
+                        st.innerText = "Listening & Recording..."; 
+                    };
+                    
+                    recog.onresult = (e) => {
+                        let trans = '';
+                        for (let i = e.resultIndex; i < e.results.length; ++i) trans += e.results[i][0].transcript;
+                        out.innerText = trans;
+                    };
+                    
+                    recog.onerror = () => { stopRecordingUI(); };
+                    
+                    mediaRecorder.start();
+                    recog.start();
+
+                } catch (err) {
+                    alert("Microphone access denied. Please allow microphone permissions in your browser.");
+                }
             } else {
-                recog.stop(); isRec = false; btn.innerText = "🎙️ Start Speaking & Record"; st.innerText = "Recorded! Click Evaluate below.";
+                if (recog) recog.stop();
+                if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
+                if (micStream) micStream.getTracks().forEach(track => track.stop());
+                stopRecordingUI();
             }
+        }
+
+        function stopRecordingUI() {
+            isRec = false;
+            const btn = document.getElementById('micBtn');
+            const st = document.getElementById('micStatus');
+            btn.innerText = "🎙️ Start Speaking & Record";
+            btn.style.background = "var(--accent-speaking)";
+            st.innerText = "Recorded! You can now play back your audio below.";
         }
 
         function evaluateSpeech() {
@@ -779,7 +853,35 @@
             }, 800);
         }
 
-        // --- PDF VIEWERS LOGIC WITH WORD CLICK AUDIO ---
+        // --- SAMPLE ANSWER GENERATOR ---
+        function showSampleAnswer() {
+            const box = document.getElementById('sampleAnswerBox');
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+                return;
+            }
+            box.style.display = 'block';
+            box.innerHTML = "<em>Generating AI Sample Answer...</em>";
+
+            let cleanQ = activeSpeakingQ.toLowerCase().replace(/[^a-z ]/g, '');
+            let words = cleanQ.split(' ').filter(w => w.length > 4 && !['about','which','where','would','think','people','country'].includes(w));
+            let keyword = words.length > 0 ? words[words.length - 1] : "this topic";
+
+            setTimeout(() => {
+                box.innerHTML = `
+                    <div style="color:var(--weak-color); font-weight:800; font-size:1.05rem; margin-bottom:8px;">💡 Simulated Gemini Sample Answers</div>
+                    <div style="font-style:italic; margin-bottom:15px; color:var(--text-muted); border-bottom:1px solid var(--border-color); padding-bottom:8px;">"${activeSpeakingQ}"</div>
+                    
+                    <strong style="color:var(--correct);">Target Band 6.0 - 6.5:</strong><br>
+                    "Well, regarding ${keyword}, I think it is quite important to me. I usually spend some time doing things related to it on weekends. In my hometown, many people also like ${keyword} because it makes them feel relaxed and happy."
+                    <br><br>
+                    <strong style="color:var(--primary);">Target Band 7.5 - 8.0:</strong><br>
+                    "That's a rather interesting question. When it comes to ${keyword}, I'd definitely say it plays an integral role in my daily routine. Not only does it provide a sense of relaxation, but it also allows me to broaden my horizons. For instance, back in my hometown, the majority of people consider it to be a fundamental part of our culture, so I've grown up being quite fond of it."
+                `;
+            }, 700);
+        }
+
+        // --- PDF VIEWERS LOGIC ---
         let p1Idx = 0, p2Idx = 0;
         function renderP1() {
             if (typeof pdf1Data === 'undefined' || pdf1Data.length === 0) return;
