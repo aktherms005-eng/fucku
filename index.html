@@ -42,8 +42,8 @@
 
         .top-nav {
             display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 15px; margin-bottom: 25px;
-            background: var(--card-bg); padding: 15px 22px; border-radius: 18px;
+            flex-wrap: wrap; gap: 14px; margin-bottom: 25px;
+            background: var(--card-bg); padding: 14px 22px; border-radius: 18px;
             box-shadow: var(--shadow); border: 1px solid var(--border-color);
         }
 
@@ -61,23 +61,23 @@
         .tab-btn.rev-badge.active { background: var(--accent-red); color: #ffffff; }
 
         .action-btns { 
-            display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end;
+            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
         }
 
         .api-input {
-            padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-color);
-            font-size: 0.85rem; width: 180px; background: var(--card-inner); color: var(--text-main); outline: none;
+            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
+            font-size: 0.8rem; width: 200px; background: var(--card-inner); outline: none;
             transition: border-color 0.2s;
         }
         .api-input:focus { border-color: var(--primary); }
 
         .control-btn {
             background: var(--card-inner); border: 1px solid var(--border-color);
-            color: var(--primary); padding: 8px 12px; border-radius: 10px;
-            cursor: pointer; font-size: 0.9rem; font-weight: 700;
-            transition: all 0.2s; display: flex; align-items: center; gap: 5px;
+            color: var(--text-main); padding: 8px 14px; border-radius: 10px;
+            cursor: pointer; font-size: 0.8rem; font-weight: 600;
+            transition: all 0.2s;
         }
-        .control-btn:hover { border-color: var(--primary); background: #eff6ff; }
+        .control-btn:hover { border-color: var(--primary); }
 
         header { text-align: center; margin-bottom: 25px; }
         h1 { margin: 0 0 6px 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary); }
@@ -116,7 +116,6 @@
         .text-display span.correct { color: var(--correct); font-weight: 700; }
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 4px; }
         .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); }
-        .text-display.masked span.untyped { filter: blur(8px); opacity: 0.3; }
 
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 1rem; color: var(--primary); }
@@ -208,7 +207,6 @@
             
             <div class="action-btns">
                 <input type="password" id="geminiApiKey" class="api-input" placeholder="Gemini API Key..." title="Enter your Gemini API key from Google AI Studio" onchange="saveApiKey()">
-                <button class="control-btn" id="dictBtn" onclick="toggleDictation()" title="Toggle Dictation Mode">🎧</button>
                 <label class="control-btn" style="display:flex; align-items:center; gap:5px; margin:0;"><input type="checkbox" id="soundToggle" checked>🔊</label>
             </div>
         </div>
@@ -859,7 +857,7 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration (Fixed API version to 2.5-flash)
+        // Live Gemini Integration (Fixed API version to 3.8-flash)
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
@@ -868,8 +866,8 @@
             }
 
             try {
-                // Fixed API Version
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
+                // Fixed API Version to gemini-3.8-flash
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
