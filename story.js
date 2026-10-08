@@ -3,167 +3,126 @@ let storyData = [
         id: 1,
         topic: "Foreword",
         question: "Foreword by Mary Gaitskill",
-        answer: `One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil; it's about powerful slaves and foolish demons, secret spirits hidden in jars; it's about truth living in the treacherous heart like an abiding and holy law waiting to be revealed in the words of a story told by a porter, a tailor, a concubine or lady-all through the lips of the lady Shahrazad to an enraged, cuckolded king on a revenge mission against woman-kind. If she stops telling stories, he will kill her like every other woman he sleeps with.
-
-Shahrazad isn't a character in the usual sense, as her voice disappears in the stories that seem to exist without a narrator; she appears only at the very beginning and very end of One Thousand and One Nights. Yet she is an icon of feminine force, both submissive and powerful, invisible and generative. Traditionally One Thousand and One Nights ends when Shahrazad presents the king with three children and, because she has proven herself, he decides to marry her rather than kill her. Perhaps the most refreshing thing about Hanan al-Shaykh's delightful retelling is that it does not end with Shahrazad's transformation from storyteller to wife and mom; instead, al-Shaykh chooses to keep her in the realm of invisibility and magic.
-
-Shahrazad's stories are on every theme and subject, from con-artistry to justice to love; they are surreal and grimy-real, and they express powerful oppositions: male/female, union/disunion, love/hate, nature/society. The theme of betrayal and/or trickery runs through many of them...
-
-The action of the stories in One Thousand and One Nights is dark and full of cruelty-especially toward women, who are constantly being accused of adultery and then murdered or beat up. But the animating spirit here is light and full of play, especially on the part of the female characters, who are consistently resourceful and witty.
-
-Al-Shaykh's Nights has special beauty in that it emphasizes this mischievous aspect alongside the expansive, revelatory and forgiving nature of the tales. With so many versions of the Nights it's hard to compare, but many of the older versions I've seen have a tight, convoluted quality which, while dreamishly, brilliantly inventive, can have the random feel of Grimm's least interesting fairy tales...`
+        answer: `One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil; it’s about powerful slaves and foolish demons, secret spirits hidden in jars; it’s about truth living in the treacherous heart like an abiding and holy law waiting to be revealed in the words of a story told by a porter, a tailor, a concubine or lady—all through the lips of the lady Shahrazad to an enraged, cuckolded king on a revenge mission against woman-kind. If she stops telling stories, he will kill her like every other woman he sleeps with. Shahrazad isn’t a character in the usual sense, as her voice disappears in the stories that seem to exist without a narrator; she appears only at the very beginning and very end of One Thousand and One Nights. Yet she is an icon of feminine force, both submissive and powerful, invisible and generative. Traditionally One Thousand and One Nights ends when Shahrazad presents the king with three children and, because she has proven herself, he decides to marry her rather than kill her. Perhaps the most refreshing thing about Hanan al-Shaykh’s delightful retelling is that it does not end with Shahrazad’s transformation from storyteller to wife and mom; instead, al-Shaykh chooses to keep her in the realm of invisibility and magic. Shahrazad’s stories are on every theme and subject, from conartistry to justice to love; they are surreal and grimy-real, and they express powerful oppositions: male/female, union/disunion, love/hate, nature/society. The theme of betrayal and/or trickeryruns through many of them: A brokenhearted woman helps her gullible ancé to win the love of a murderous beauty while protecting him with talismanic poems which will save his life—even as he destroys hers. A woman traps ve amorous fools inside a cabinet (which she’s tricked one of them into building) where they eventually, to avoid bursting their bladders, pee on each others’ heads. An impoverished elderly widow disguised as a holy woman and concerned mother goes on a rampage of fraud and theft, tricking one of her victims into yanking out another’s teeth—and is rewarded for her crimes with a government position. A husband chops his beloved wife to pieces because, at market, a slave who in truth has never met her brags that he’s the wife’s lover, as he aunts a rare fruit the husband gave her. Two sisters who betray another sister because they are jealous that she has found love are turned into dogs, and must be savagely beaten every day by the sister they wronged for the rest of their lives—even though she has long ago forgiven them and sobs as she strikes them. The action of the stories in One Thousand and One Nights is dark and full of cruelty—especially toward women, who are constantly being accused of adultery and then murdered or beat up. But the animating spirit here is light and full of play, especially on the part of the female characters, who are consistently resourceful and witty. The supposedly enslaved mistress of a demon taunts and commands two cuckolded kings to “make love” to her; they obey and then dance and cheer, “How great is the cunning of women!” Both cunning queens are murdered, but the demon’s mistress lives on to triumphantly declare: “I have slept with one hundred men under the very horns of this lthy demon as he snored happily, assuming that I am his alone … he is a fool, for he does not know that no one can prevent a woman from ful lling her desires, even if she is hidden under the roaring sea, jealously guarded by a demon” (this page). This apparent fear of and admiration for triumphant female lust keeps popping out against the theme of vengeance against said lust, and it is not al-Shaykh’s invention; it is intrinsic to the complex soul of the original. But how to refer to the “original”? The stories in One Thousand and One Nights were told orally for centuries, coming outof India and Persia in the sixth century, and carried by traders and travelers all over the world; they were rst written in Arabic in 1450. Through subsequent translations, disparate versions became folded into each other, as minor characters become major players and events are transformed, revealing the original themes di erently, yet faithfully. For if the characters telling the stories within the stories are, like Shahrazad, pleading for their lives, they are also pleading for an aspect of truth to be revealed, and this desire for revelation is profoundly heartfelt. Shahrazad is not just out to save her skin, she wants to heal; she is asking for forgiveness, not only for women’s sexual in delity but for men’s violent possessiveness, for human boobishness in general. She also acknowledges that certain things cannot be tolerated. In her stories, foolishness, lust, greed, jealousy, lying, cruelty, cowardice and vanity are exposed and readily forgiven; rape and cold-blooded murder are not forgiven. The moral codes are honored sincerely— but then there is that lewd demon’s mistress, a consistent narrative mischief, a respect for pure, life-force passion that runs through the tales, which reminds me of what William Blake said about Paradise Lost: that Milton, being a poet, was of the Devil’s camp whether he knew it or not. Al-Shaykh’s Nights has special beauty in that it emphasizes this mischievous aspect alongside the expansive, revelatory and forgiving nature of the tales. With so many versions of the Nights it’s hard to compare, but many of the older versions I’ve seen have a tight, convoluted quality which, while dreamishly, brilliantly inventive, can have the random feel of Grimm’s least interesting fairy tales, a sort of then-this-happened-and-then-this-happened action-based narrative style. In contrast, al-Shaykh’s style foregrounds structure and character. She pays little attention to the famous voyages of Sindbad, and Ali Baba (who was apparently invented by the rst Western translator, Antoine Galland) doesn’t even get a mention. Instead the narrative pivots around a grand party at the sumptuous home of three beautiful and independent sisters who are hosting several men—dervishes, merchants and a porter, all of whom are unexpected guests. They eat, drink and sing,but mostly they talk and tell stories that take them around the world and beyond it. The classic Nights features these ladies and their guests in passing, but al-Shaykh returns to them again and again, rooting her stories in the mysterious underground of male-female relations. Many of the classic stories have long, literally underground, sequences where major action takes place: one story starts with a prince agreeing to entomb his cousin and his cousin’s beautiful sister in a fabulous crypt where they will consummate their love and be burnt to cinders doing so. Another prince follows a beautiful young man down into the gorgeous underground chamber, in which the boy’s father has hidden him and discovers his fate—that he must kill the boy—while doing everything possible to avoid it. Al-Shaykh features some of these stories, but she stresses the secret underworld we experience every day, in which emotional truth is expressed in strange actions that have somehow become normal. The story of the two sisters turned into bitches, who are compulsorily whipped by their unwilling sister in the middle of a civil gathering, is a story of cruelty that is secret and mechanical even as it happens in plain sight. It is a physical metaphor for the invisible violence that goes on between people everywhere (especially in families), while civil words are being spoken and daily life goes forward. When we rst see the dogs being beaten, we don’t know who they really are or why this is happening. The sisters demand that their guests ask no questions, and when one of them breaks the rule, the truths underlying the beautiful party are revealed. The very slave who caused an innocent woman to be hacked to death with his trivial marketplace bragging is exposed and pardoned by a suddenly revealed king; much later the slave reveals himself as a powerful healer with magic strong enough to lift the curse and return the dogs to their human form. Whipped dogs are also digni ed women, a stupid slave is also a wise healer; the truth of this night is ugly, then beautiful then nally mysterious because of the way these qualities are linked.But how such truth is revealed is as important as what is revealed: delicacy and attention to propriety is present in the stories, even if sometimes comically so. The rst guest of the three glamorous ladies, the besotted porter, is allowed to stay, feast and bathe with them because he shows himself discreet by quoting poetry: “Guard your secrets closely / When they’re told they y / If unable to keep treasures in our own heart / Who then can forbid another, yours to impart?” (this page). As the night goes on, they each cuddle up in his lap and ask him what they’ve got between the legs—by which they mean, he’s got to guess the exact name they’ve given it or else be pummeled—and each lady has a di erent private name. In “The First Dervish” the woman (Aziza) helps her cousin and ancé (Aziz) to woo another woman who also happens to be a killer. Aziza instructs Aziz on exactly what verses to say to the lady every night, and asks how the lady replies:  He:   Lovers, in the name of God Tell me how can one relieve this endless desperation? She:   He should conceal his love and hide Showing only his patience and humility.  He:   He tried to show fair patience but could only nd A heart that was lled with unease. She:   If he cannot counsel his patience to conceal his secrets Nothing will serve him better than death.  He:   I have heard, obeyed and now must I die Salutations to she who tore us apart. (this page–this page) In the story Aziz has failed completely to conceal his love or to be patient, but he can nonetheless woo the other woman; he is also saved from death by reciting the lines, “Loyalty is good. Treachery is bad.” At the same time, the ancée is speaking to her rival through the words and, in the initial sequence, congratulating her on her victory. Ironically, it is Aziza, who has restrained her love and shown in nite patience, who will die. The story (and there is more to it than I have described) is essentially a ght betweensacred and profane love; it is bloody and no one can really win. It doesn’t make sense that reciting these lines should save Aziz, none of it makes “sense”—and yet in a deeply satisfying way it does, for the ritual nature of the incantatory words stands as a dramatic counter to the raw power of sexuality and emotion, and expresses the protective quality of propriety, discretion and order. These stories of intense opposites are rich and ashing in combination, a skein of words that glimmers like a net of fastdarting sh which are also jewels. They make unity of chaos and take joy from su ering. Before he meets the demon’s mistress, the brother of the cuckold Shahrayar, King Shahzaman (a cuckold too!), sulks about their wives doing it with slaves and kitchen boys, lamenting, “What treacherous world is this which fails to distinguish between a sovereign king and a nobody?” (this page). It’s a question that asserts propriety, discretion and social hierarchy and, over the course of One Thousand and One Nights, Shahrazad, with her loving plenitude and subtlety, replies by revealing the entire world, with all its chaos and abiding order. He asks, “What kind of a world is this?” And she answers, “Why, king, a very wonderful world indeed.” Finally, he believes; so do we.`
     },
     {
         id: 2,
         topic: "Preface",
         question: "Author's Preface",
-        answer: `I don't recall exactly whether I was eight or ten years old when I first heard the words Alf layla wa layla, one thousand and one nights, but I do remember listening to a radio dramatisation and being utterly smitten: the clamour, hustle and bustle of the bazaars and souks, the horses' hooves, the creaking of a dungeon door, how the radio seemed to vibrate and shake at the footsteps of a demon, and the famous crow of the lonely rooster at the start of each episode, which would be answered by all the roosters in our neighbourhood.
-
-I heard that a girl in my class had Alf layla wa layla, and I hurried with her to peer at a few volumes in a glass cabinet, next to a carved tusk of an elephant. The volumes were leather-bound, their title engraved in gold. I asked my friend if I might touch one, but she said that her father always locked the cabinet and kept the key in his pocket, because he said he feared that if anyone finished the stories they would drop dead. Of course I didn't know then, and neither did my friend, that the reason her father didn't want any of the women of the house to read Alf layla wa layla was because of its explicit sexuality.
-
-As the years passed, my obsession with Alf layla wa layla faded. I wanted desperately to escape the world it evoked. But Shahrazad found her way to me. I decided I must discover why, while most Arabs considered the framing story of Shahrazad to be a mere cliché, academics regarded it as a work of genius and a cornerstone of Arabic literature.
-
-I read page after page, marvelling at Shahrazad's perseverance in remaining the king's prisoner in order to reveal to him the truth of her mind. I came to see that her weapon was art at its best, her endless invention of all of those magnificent stories...`
+        answer: `I don’t recall exactly whether I was eight or ten years old when I rst heard the words Alf layla wa layla, one thousand and one nights, but I do remember listening to a radio dramatisation and being utterly smitten: the clamour, hustle and bustle of the bazaars and souks, the horses’ hooves, the creaking of a dungeon door, how the radio seemed to vibrate and shake at the footsteps of a demon, and the famous crow of the lonely rooster at the start of each episode, which would be answered by all the roosters in our neighbourhood. I heard that a girl in my class had Alf layla wa layla, and I hurried with her to peer at a few volumes in a glass cabinet, next to a carved tusk of an elephant. The volumes were leather-bound, their title engraved in gold. I asked my friend if I might touch one, but she said that her father always locked the cabinet and kept the key in his pocket, because he said he feared that if anyone nished the stories they would drop dead. Of course I didn’t know then, and neither did my friend, that the reason her father didn’t want any of the women of the house to read Alf layla wa layla was because of its explicit sexuality. As the years passed, my obsession with Alf layla wa layla faded. I wanted desperately to escape the world it evoked. But Shahrazad found her way to me. I decided I must discover why, while most Arabs considered the framing story of Shahrazad to be a mere cliché, academics regarded it as a work of genius and a cornerstone of Arabic literature. I read page after page, marvelling at Shahrazad’s perseverance in remaining the king’s prisoner in order to reveal to him the truth of her mind. I came to see that her weapon was art at its best, herendless invention of all of those magni cent stories. The more I read, the more I came to admire the at, simple style I had so criticised in the past. The simplicity of the language touched me, for it was the language of those who didn’t reach for a dictionary but expressed their true, crude, raw and intense feelings, whether they praised, elegised or defamed. In these voices lay the foundation of magic realism, the ashback, and the use of the surreal to explain the ordinary—all the things I had mistakenly thought Alf layla wa layla lacked. Reading Alf layla wa layla this time was personal: I felt as if I had opened the door of a carriage which took me back into the heart of my Arab heritage, and to the classical Arab language, after a great absence. I was astonished at how our forebears had shaped our societies, showing us how to live our daily lives, through these tales which were lled with insights and moral and social rules and laws, without the in uence of religion, but derived from rst-hand experience and deepest natural feelings towards every living thing. The e ect of Alf layla wa layla was so strong and real that Arab societies shaped themselves around it; the names of its characters were embedded in our language, becoming proverbs, adjectives and even modes of speech. I was in awe of the complex society the stories evoked, which allowed relationships between humans and jinnis and beasts, real and imaginary, and I smiled at the codes of conduct and the carefully laid-out etiquette. But as a female Arab writer my real enchantment was the discovery that women in those forgotten ancient societies were far from passive and fearful; they showed their strong will and intelligence and wit, all the time recognising that their behaviour was the second nature of the weak and the oppressed. When I nished adapting these nineteen stories for the stage and for this book, I thanked Shahrazad for leading me into a myriad of worlds. And, when I stepped back into our century, it dawned on me that in a sense my friend’s father was right when he had said that anyone who nished Alf layla wa layla would die: the reader might nd herself detached and lifeless when forced to withdraw from thesublime vividness of the numerous worlds of the One Thousand and One Nights. I hope you revel in the journey as much as I did.`
     },
     {
         id: 3,
         topic: "Tale 1",
         question: "Shahrayar and Shahrazad",
-        answer: `A long, long time ago lived two Kings who were brothers. The elder, King Shahrayar, ruled India and Indochina. The younger, Shahzaman, ruled Samarkand. Shahrayar was so powerful and strong that even savage animals feared him; but at the same time, he was fair, caring and kind to his people-just as the eyelid protects the eye. And they, in turn, were loyal, obeyed him blindly, and adored him.
-
-Shahrayar woke one morning and experienced a pang of longing for his younger brother. He realised, to his amazement, that he hadn't seen Shahzaman in ten years. So he summoned his Vizier, the father of the two girls Shahrazad and Dunyazad, and asked him to go immediately to Samarkand and fetch his brother. The Vizier travelled for days and nights, until he reached Samarkand and met King Shahzaman, who welcomed him and slaughtered beasts in his honour, and he gave him the good news. "King Shahrayar is sound and well; he needs only to see your face and so he has sent me to ask that you visit him."
-
-Happy Shahzaman embraced the Vizier, replying that he too had missed his brother, and that he would prepare to leave at once.
-
-In no time everything was ready: troops, horses and camels, and sheep to be slaughtered for food. Shahzaman was filled with happiness and excitement, for he was going to see his brother, so he set out at once, not wanting to delay one minute longer as he heard the beat of the tambourine and the blowing of the trumpets. He rushed to his wife's quarters to bid her goodbye, but to his horror he found her lying in the arms of one of the kitchen boys. The world blackened and spun, as though he was caught in a hurricane.
-
-"I am the sovereign King of Samarkand and yet my wife has betrayed me, but with whom? With another king? A general in the army? No-with a kitchen boy!"
-
-In his fury, he drew his sword and killed his wife and the kitchen boy, then dragged them by the heels and threw their bodies from the very top of the palace into the trench below. Then he left his kingdom with his brother's Vizier and entourage, his heart bleeding with sorrow and grief.
-
-As they travelled, the change of scenery and the beauty and solitude of the ravines and mountains failed to provide distraction, but only heightened Shahzaman's sense of loss and misfortune. He reached India and embraced his brother King Shahrayar, who placed his guest palace at his disposal...`
+        answer: ``
     },
     {
         id: 4,
         topic: "Tale 2",
         question: "The Fisherman and the Jinni",
-        answer: `It is said, oh wise and happy King, that a very poor fisherman who swore by Almighty God that he would only cast his net three times each day, went down to the sea late one afternoon as usual, waited until he saw the moon shining above him, and then threw his net very carefully into the water. He sat there for a time, and then, when he pulled on his net and felt that it had grown heavy, he sang to himself:
-
-"Glide over to me, my magnificent fish
-And slither into my waiting net
-So that someone asleep on his soft silken bed
-Will awaken and buy you with his silver bread."
-
-He opened his net and there, to his horror, found a dead donkey. "A donkey?" he cried out. "My wretched luck. You send me a donkey when you know that my family and I are starved out of our brains?" He managed to free it from his net with one hand while pinching his nose with the other to block out the horrible smell.
-
-He cast his net carefully into the sea again, waited for it to sink, tugged on it and to his amazement felt that the net was even heavier than the first time. It was so heavy he had to climb back on to the shore, drive a stake into the ground, and tie the rope of the net to the stake. Then he hauled with all his might until he managed to pull the net up out of the sea.
-
-But instead of an abundance of fish jumping and playing in the net he found a broken, rusty wooden chest filled with sand. He shouted in a loud voice, "A chest? Is this how you compensate my work? My labour? Or are you telling me that the key to my good fortune lies inside this coffin?"
-
-He kicked the chest as hard as he could, but then managed to recover his patience, and washed out his net once again...`
-    }
-];,
+        answer: ``
+    },
     {
         id: 5,
         topic: "Tale 3",
         question: "The Porter and the Three Ladies",
-        answer: "Once there was a porter in Baghdad who was approached by a beautiful lady wrapped in a brocade coat. She asked him to carry her basket and follow her through the market. They visited various stalls, buying fruits, flowers, and fine foods. Finally, they arrived at a magnificent mansion where two other incredibly beautiful ladies welcomed them. The porter was amazed by their beauty and the luxurious setting, and he asked if he could stay with them as their servant and entertainer."
+        answer: ``
     },
     {
         id: 6,
         topic: "Tale 4",
         question: "The First Dervish",
-        answer: "The first dervish shared his sad tale of how he lost his right eye. He was once a prince named Aziz, engaged to his loving cousin Aziza. However, on the day of his wedding, he saw a mysterious and beautiful woman at a window who communicated with him using secret hand signs. Obsessed with this new woman, he kept abandoning the faithful Aziza, who patiently helped him decipher the mysterious woman's clues."
+        answer: ``
     },
     {
         id: 7,
         topic: "Tale 5",
         question: "The Second Dervish",
-        answer: "The second dervish was also a prince, born to the King of Persia. He was a scholar who loved science, poetry, and beautiful calligraphy. While traveling to India, his caravan was attacked by bandits, forcing him to flee for his life to an unknown city. There, he had to disguise himself as a poor woodcutter to survive. One day in the forest, he discovered a hidden underground palace where a beautiful young woman was kept prisoner by a terrible demon."
+        answer: ``
     },
     {
         id: 8,
         topic: "Tale 6",
         question: "The Third Dervish",
-        answer: "The third dervish was the son of a sailor but chose to stay in Baghdad to marry. After his wife fell ill, she desperately asked for an apple, which was incredibly rare to find. He traveled for weeks to the Caliph's orchards to buy three precious apples for her. However, upon his return, a misunderstanding involving a mischievous slave led him to believe his wife had been unfaithful. Consumed by a blind rage, he committed a terrible crime that he would forever regret."
+        answer: ``
     },
     {
         id: 9,
         topic: "Tale 7",
         question: "The First Merchant",
-        answer: "The first merchant finally reveals his true identity to the bewildered guests: he is none other than Jaafar the Barmecide, the Vizier to the great Caliph Haroun al-Rashid. He explains that the Caliph had recently discovered a murdered woman locked inside a chest caught by a poor fisherman. Furious at this brutal crime committed in his city, the Caliph ordered Jaafar to find the killer within a week, or face execution himself."
+        answer: ``
     },
     {
         id: 10,
         topic: "Tale 8",
         question: "The Hunchback",
-        answer: "A tailor and his wife invite a funny, drunken hunchback into their home for a pleasant dinner. During the meal, the tailor jokingly shoves a large piece of fish into the hunchback's mouth, but a bone gets stuck in his throat, choking him to death. Terrified of being accused of murder, the couple secretly leaves the body at a Jewish physician's house. This sets off a hilarious and chaotic chain reaction where multiple people across the city mistakenly believe they are the ones who killed the hunchback."
+        answer: ``
     },
     {
         id: 11,
         topic: "Tale 9",
         question: "The Mistress of the House's Tale",
-        answer: "The mistress of the house finally explains the dark secret behind the two black dogs she whips every night. She reveals that these dogs are actually her envious elder sisters. They were transformed into animals by her jinni husband as a punishment for their wicked jealousy and deep betrayal. She is forced to whip them relentlessly every night not out of cruelty, but because it is the only way to fulfill the jinni's strict curse and keep her sisters alive."
+        answer: ``
     },
     {
         id: 12,
         topic: "Tale 10",
         question: "The Doorkeeper's Tale",
-        answer: "The doorkeeper bravely steps forward to explain the terrible scars covering her body. She was once married to an incredibly jealous man who made her swear an oath never to look at or speak to another man. One day, while shopping for rare and beautiful fabrics, a merchant refused to sell to her for money, demanding a kiss on the cheek instead. When the merchant cruelly bit her cheek, her husband discovered the mark, brutally flogged her out of jealousy, and abandoned her."
+        answer: ``
     },
     {
         id: 13,
         topic: "Tale 11",
         question: "The Shopper's Tale",
-        answer: "The shopper recounts her tragic romance with none other than the Caliph himself. Their secret love affair sparked the intense jealousy of Lady Zubeida, the Caliph's wife, who deceitfully drugged her and locked her inside a chest to be buried alive. Though rescued by a kind merchant named Ghanem, the Caliph was led to believe she had betrayed him, casting her into a dark prison before she finally escaped by feigning her own death."
+        answer: ``
     },
     {
         id: 14,
         topic: "Tale 12",
         question: "The Reaction of the Caliph",
-        answer: "Deeply moved and remorseful upon hearing the truth, the Caliph orders his slave Rayhan to lift the curse on the two elder sisters. By burning the jinni's magical feather, the spell is broken, and the hounds are instantly transformed back into human women. Seeking to restore harmony and heal their past traumas, the Caliph arranges marriages for everyone present, rewarding the dervishes and the porter with wealth and noble titles."
+        answer: ``
     },
     {
         id: 15,
         topic: "Tale 13",
         question: "Dalila the Wily",
-        answer: "Determined to secure her late husband's pension from the Caliph, an old woman named Dalila orchestrates a series of brilliant and hilarious cons across Baghdad. Disguised as a pious holy woman, she manages to trick an Emir's wife, a young merchant, a dyer, and a donkey owner, stripping them of their clothes and wealth. Her masterful deceit ultimately impresses the Caliph, who rewards her absolute cunning with the pension she sought."
+        answer: ``
     },
     {
         id: 16,
         topic: "Tale 14",
         question: "The Demon's Wife",
-        answer: "King Shahrayar and his brother wander in despair until they encounter a towering demon carrying a glass box. When the terrifying demon falls asleep, the beautiful woman trapped inside the box forces the two kings to submit to her desires. She proudly adds their royal rings to her vast collection of ninety-eight others, proving to the kings that even a powerful demon cannot control a woman's cunning and invincible will."
+        answer: ``
     },
     {
         id: 17,
         topic: "Tale 15",
         question: "The Woman and Her Five Lovers",
-        answer: "To free her wrongfully imprisoned lover, a brilliant and resourceful woman sets a clever trap for the city's most powerful and corrupt officials. She visits the Wali and the Qadi, using her charm and beauty to tempt them. When the corrupt men demand inappropriate favors in exchange for her lover's release, she tricks them into visiting her home, successfully plotting to outsmart them all and expose their hypocrisy."
-    }
-];,
+        answer: ``
+    },
     {
         id: 18,
         topic: "Tale 16",
         question: "Budur and Qamar al-Zaman",
-        answer: "Prince Qamar al-Zaman and Princess Budur are brought together by magical jinn who argue over who is the most beautiful mortal. They fall deeply in love but are abruptly separated. Enduring madness, long journeys, and incredible hardships—including Budur disguising herself as a man and ruling a kingdom—the two devoted lovers finally reunite."
+        answer: ``
     },
     {
         id: 19,
         topic: "Tale 17",
         question: "Zumurrud and Nur al-Din",
-        answer: "A beautiful and incredibly clever slave girl named Zumurrud is purchased by the handsome Nur al-Din. Their happiness is cut short through a series of tragic separations, kidnappings by thieves, and daring escapes. Using her wits, Zumurrud disguises herself as a man, eventually becomes a king, and waits patiently to exact justice on her tormentors and reunite with her true love."
+        answer: ``
     },
     {
         id: 20,
         topic: "Tale 18",
         question: "The Fourth Voyage of Sindbad the Sailor",
-        answer: "Driven by wanderlust, Sindbad sets sail again only to be shipwrecked on a perilous island. He narrowly escapes cannibals and reaches a prosperous kingdom where he is married to a wealthy woman. However, he soon discovers a horrifying local custom: when a spouse dies, the living partner is buried alive with them in a massive cavern. Sindbad is buried alive but uses his survival instincts to escape with incredible riches."
+        answer: ``
     },
     {
         id: 21,
         topic: "Tale 19",
         question: "The Resolution of the Porter and the Three Ladies",
-        answer: "The overarching story finally concludes after all the dark and wondrous secrets of the house are revealed. Touched by the incredible tales of suffering, loyalty, and magic, the Caliph Haroun al-Rashid brings ultimate justice and peace. He arranges joyful marriages for the three brave sisters, the three one-eyed dervishes, and the witty porter, allowing them all to live happily ever after."
+        answer: ``
     }
 ];
