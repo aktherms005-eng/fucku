@@ -163,9 +163,9 @@
         .ai-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; }
         audio { width: 100%; margin-top: 15px; border-radius: 8px; height: 45px; }
 
-        /* Updated Minimal Floating Tooltip */
+        /* Minimal Floating Tooltip */
         .floating-popover {
-            position: fixed; display: none; z-index: 1000;
+            position: fixed; display: none; z-index: 3000;
             background: var(--card-bg); color: var(--text-main); border: 2px solid var(--primary);
             border-radius: 12px; padding: 12px 14px; width: 230px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
         }
@@ -191,6 +191,44 @@
             font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 0; transition: 0.2s;
         }
 
+        /* Reading Mode Modal */
+        .reading-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 2000; display: none;
+            justify-content: center; align-items: flex-start; overflow-y: auto;
+            padding: 40px 20px; box-sizing: border-box; backdrop-filter: blur(5px);
+        }
+        .reading-modal-content {
+            background: #fdf6e3; /* Soft Sepia */
+            color: #333; max-width: 800px; width: 100%; border-radius: 16px; padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative;
+            transition: background 0.3s, color 0.3s;
+        }
+        .reading-modal-content.dark {
+            background: #1e1e1e; color: #ddd;
+        }
+        .close-reading-btn {
+            position: absolute; top: 20px; right: 20px; background: var(--accent-red);
+            color: #fff; border: none; border-radius: 8px; padding: 8px 16px;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .close-reading-btn:hover { background: var(--accent-red-hover); }
+        
+        .reading-controls {
+            display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #ccc; padding-bottom: 15px;
+        }
+        .reading-modal-content.dark .reading-controls { border-bottom-color: #444; }
+        
+        .reading-controls button {
+            background: rgba(0,0,0,0.05); border: 1px solid #aaa; border-radius: 6px;
+            padding: 6px 12px; cursor: pointer; font-weight: 700; color: inherit; transition: 0.2s;
+        }
+        .reading-modal-content.dark .reading-controls button { background: rgba(255,255,255,0.1); border-color: #666; }
+        
+        .reading-text {
+            font-size: 1.2rem; line-height: 2; white-space: pre-line;
+        }
+
         /* PDF Table */
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
         .pdf-table th, .pdf-table td { border: 1px solid var(--border-color); padding: 14px 18px; text-align: left; }
@@ -199,7 +237,7 @@
 </head>
 <body>
 
-    <!-- Audio Synth for Typing Errors/Correctness -->
+    <!-- Audio Synth -->
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
@@ -222,7 +260,7 @@
     </script>
 
     <div class="container">
-        <!-- Top Nav with Responsive Fixed Layout -->
+        <!-- Top Nav -->
         <div class="top-nav">
             <div class="nav-tabs">
                 <button class="tab-btn active" id="tabTyping" onclick="showTab('typing')">⌨️ Spelling</button>
@@ -369,7 +407,22 @@
         </div>
     </div>
 
-    <!-- Minimal Floating Interactive Popover -->
+    <!-- READING MODE MODAL -->
+    <div id="readingModal" class="reading-modal">
+        <div id="readingModalContent" class="reading-modal-content">
+            <button class="close-reading-btn" onclick="closeReadingMode()">✕ Close</button>
+            <div class="reading-controls">
+                <button onclick="changeReadingFontSize(1)">A+</button>
+                <button onclick="changeReadingFontSize(-1)">A-</button>
+                <button onclick="toggleReadingTheme()">🌙 Theme</button>
+            </div>
+            <h2 id="readingTitle" style="color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px;">Title</h2>
+            <!-- Important: onmouseup added here so double click dictionary still works in reading mode! -->
+            <div id="readingBody" class="reading-text" onmouseup="triggerSelection(event)">Body</div>
+        </div>
+    </div>
+
+    <!-- Minimal Floating Interactive Popover (Removed Google Translate Link) -->
     <div class="floating-popover" id="floatPop">
         <button onclick="closePop()" style="position:absolute; right:8px; top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem; font-weight:bold;">✕</button>
         <div class="popover-header">
@@ -381,7 +434,7 @@
         </div>
         <div id="popIpa" class="popover-ipa">/pronunciation/</div>
         <div id="popMeaning" class="popover-meaning">বাংলা অর্থ</div>
-        <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff; margin-bottom:0;">⭐ Add to Revision List</button>
+        <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff; margin-bottom:0;">⭐ Add to Revision</button>
     </div>
 
     <!-- External Linked Datasets -->
@@ -439,16 +492,9 @@
             { title: "★ Tricky 4: Numbers & Misc", words: ["fourteen", "forty", "ninety", "twelfth", "millimetre", "kilometre", "temperature", "percentage", "frequency", "quantity", "straight", "height", "length", "width"] }
         ];
 
-        // 1001 Nights Sample Data
         const defaultStoryData = [
-            {
-                id: 1,
-                topic: "Foreword",
-                question: "Foreword by Mary Gaitskill",
-                answer: "One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil; it's about powerful slaves and foolish demons, secret spirits hidden in jars; it's about truth living in the treacherous heart like an abiding and holy law waiting to be revealed in the words of a story told by a porter, a tailor, a concubine or lady-all through the lips of the lady Shahrazad to an enraged, cuckolded king on a revenge mission against woman-kind. If she stops telling stories, he will kill her like every other woman he sleeps with."
-            }
+            { id: 1, topic: "Foreword", question: "Foreword by Mary Gaitskill", answer: "One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil..." }
         ];
-        // If story.js is present it will use that, otherwise falls back to sample
         const finalStoryData = (typeof storyData !== 'undefined' && storyData.length > 0) ? storyData : defaultStoryData;
 
         const sessionsData = rawSpelling.map(s => ({ title: s.title, text: s.words.join(' ') }));
@@ -678,6 +724,33 @@
             resetTimer();
         }
 
+        // --- READING MODE LOGIC ---
+        let currentReadingFontSize = 1.2;
+        
+        function openReadingMode(title, contentId) {
+            const rawText = document.getElementById(contentId).getAttribute('data-orig');
+            document.getElementById('readingTitle').innerText = title;
+            document.getElementById('readingBody').innerText = rawText;
+            document.getElementById('readingModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // stop background scrolling
+        }
+        
+        function closeReadingMode() {
+            document.getElementById('readingModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // restore scrolling
+        }
+        
+        function changeReadingFontSize(step) {
+            currentReadingFontSize += (step * 0.1);
+            if(currentReadingFontSize < 0.8) currentReadingFontSize = 0.8;
+            if(currentReadingFontSize > 2.5) currentReadingFontSize = 2.5;
+            document.getElementById('readingBody').style.fontSize = currentReadingFontSize + 'rem';
+        }
+        
+        function toggleReadingTheme() {
+            document.getElementById('readingModalContent').classList.toggle('dark');
+        }
+
         // --- 100 ESSAYS ---
         function initEssays() {
             const list = document.getElementById('essayListContainer');
@@ -693,6 +766,7 @@
                     <div class="essay-card-header">
                         <span class="essay-topic">${e.topic}</span>
                         <div>
+                            <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('Essay #${e.id} - ${e.topic}', 'ans_en_essay_${e.id}')">📖 Read Focus</button>
                             <button class="control-btn" data-trans="0" onclick="translateContent('essay', ${e.id}, this)">🌐 Translate to Bangla</button>
                             <span style="font-weight:800; margin-left:10px; color:var(--primary);">Essay #${e.id}</span>
                         </div>
@@ -745,6 +819,7 @@
                     <div class="essay-card-header">
                         <span class="essay-topic" style="background:var(--weak-color); color:#fff;">${e.topic}</span>
                         <div>
+                            <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('${e.topic} - ${e.question}', 'ans_en_story_${e.id}')">📖 Read Focus</button>
                             <button class="control-btn" data-trans="0" onclick="translateContent('story', ${e.id}, this)">🌐 Translate to Bangla</button>
                             <span style="font-weight:800; margin-left:10px; color:var(--primary);">Chapter #${e.id}</span>
                         </div>
@@ -832,7 +907,7 @@
                 }
 
                 let x = e.clientX + 10, y = e.clientY + 15;
-                if (x + 250 > window.innerWidth) x = window.innerWidth - 260;
+                if (x + 230 > window.innerWidth) x = window.innerWidth - 240;
                 pop.style.left = `${x}px`; pop.style.top = `${y}px`; pop.style.display = 'block';
 
                 if (document.getElementById('soundToggle').checked && !text.includes(' ') && text.length < 18) playUK(text);
@@ -957,7 +1032,7 @@
             });
         }
 
-        // Audio Recorder Code - Set to UK English
+        // Audio Recorder Code
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
 
         async function toggleSpeech() {
@@ -984,8 +1059,6 @@
 
                     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
                     recog = new SR(); recog.continuous = true; recog.interimResults = true; 
-                    
-                    // Force British English for better IELTS accent recognition
                     recog.lang = 'en-GB'; 
                     
                     out.innerText = '';
@@ -1025,7 +1098,7 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration (Fixed API version to 3.8-flash)
+        // Live Gemini Integration
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
@@ -1034,7 +1107,6 @@
             }
 
             try {
-                // Fixed API Version to gemini-3.8-flash
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
