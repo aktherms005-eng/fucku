@@ -163,11 +163,32 @@
         .ai-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; }
         audio { width: 100%; margin-top: 15px; border-radius: 8px; height: 45px; }
 
-        /* Floating Tooltip */
+        /* Updated Floating Tooltip - Smaller and Neater */
         .floating-popover {
             position: fixed; display: none; z-index: 1000;
             background: var(--card-bg); color: var(--text-main); border: 2px solid var(--primary);
-            border-radius: 16px; padding: 18px; width: 320px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 12px; padding: 12px 14px; width: 260px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+        .popover-header {
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 8px;
+        }
+        .popover-word {
+            color: var(--primary); font-size: 1rem; font-weight: 800;
+        }
+        .popover-actions button {
+            background: var(--card-inner); border: 1px solid var(--border-color); 
+            border-radius: 6px; padding: 4px 6px; cursor: pointer; font-size: 0.9rem;
+        }
+        .popover-ipa {
+            font-family: monospace; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 4px;
+        }
+        .popover-meaning {
+            color: var(--correct); font-weight: 700; font-size: 0.95rem; margin-bottom: 10px;
+        }
+        .popover-btn {
+            border: none; border-radius: 8px; padding: 8px; width: 100%; 
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 6px; transition: 0.2s;
         }
 
         /* PDF Table */
@@ -348,26 +369,25 @@
         </div>
     </div>
 
-    <!-- Floating Interactive Popover -->
+    <!-- Updated Floating Interactive Popover -->
     <div class="floating-popover" id="floatPop">
-        <button onclick="closePop()" style="position:absolute; right:12px; top:12px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.2rem; font-weight:bold;">✕</button>
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid var(--border-color); padding-bottom:10px; margin-bottom:12px;">
-            <strong id="popWord" style="color:var(--primary); font-size:1.3rem;">Word</strong>
-            <div>
-                <button onclick="speakPopWord()" style="background:var(--card-inner); border:1px solid var(--border-color); color:var(--primary); border-radius:8px; padding:6px 10px; cursor:pointer; font-size:1.1rem;" title="Listen">🔊</button>
-                <button onclick="applyHighlight()" style="background:var(--card-inner); border:1px solid var(--border-color); color:var(--weak-color); border-radius:8px; padding:6px 10px; cursor:pointer; font-size:1.1rem;" title="Highlight">🖍️</button>
+        <button onclick="closePop()" style="position:absolute; right:8px; top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem; font-weight:bold;">✕</button>
+        <div class="popover-header">
+            <strong id="popWord" class="popover-word">Word</strong>
+            <div class="popover-actions">
+                <button onclick="speakPopWord()" title="Listen">🔊</button>
+                <button onclick="applyHighlight()" title="Highlight">🖍️</button>
             </div>
         </div>
-        <div id="popIpa" style="font-family:monospace; color:var(--text-muted); font-size:0.95rem; margin-bottom:8px;">/pronunciation/</div>
-        <div id="popMeaning" style="color:var(--correct); font-weight:800; font-size:1.15rem; margin-bottom:16px;">বাংলা অর্থ</div>
-        <button onclick="addPopWordToRev()" style="background:var(--accent-red); color:#ffffff; border:none; border-radius:10px; padding:10px; width:100%; font-weight:700; font-size:0.95rem; cursor:pointer; margin-bottom:10px; transition:0.2s;">⭐ Add to Revision List</button>
-        <a href="#" target="_blank" id="popGoogleLink" style="display:block; text-align:center; background:var(--primary); color:#ffffff; text-decoration:none; padding:10px; border-radius:10px; font-size:0.95rem; font-weight:700; transition:0.2s;">🌐 Open in Google Translate</a>
+        <div id="popIpa" class="popover-ipa">/pronunciation/</div>
+        <div id="popMeaning" class="popover-meaning">বাংলা অর্থ</div>
+        <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff;">⭐ Add to Revision List</button>
+        <a href="#" target="_blank" id="popGoogleLink" class="popover-btn" style="display:block; text-align:center; background:var(--primary); color:#fff; text-decoration:none;">🌐 Open in Google Translate</a>
     </div>
 
     <!-- External Linked Datasets -->
     <script src="essays.js"></script>
     <script src="pdf_data.js"></script>
-    <!-- Add story.js here when you create it for the rest of the tales -->
     <script src="story.js"></script>
 
     <!-- Main Controller Logic -->
@@ -1013,7 +1033,7 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration
+        // Live Gemini Integration (Fixed API version to 3.8-flash)
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
@@ -1022,7 +1042,8 @@
             }
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+                // Fixed API Version to gemini-3.8-flash
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
