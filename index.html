@@ -183,7 +183,7 @@
 
         <header>
             <h1 id="pageTitle">IELTS Spelling Practice Meter</h1>
-            <p class="desc" id="pageDesc">Type words naturally. Correct words turn green, errors turn red.</p>
+            <p class="desc" id="pageDesc">Type words naturally. Use Backspace to correct mistakes.</p>
         </header>
 
         <!-- 1. TYPING -->
@@ -281,7 +281,7 @@
         </div>
     </div>
 
-    <!-- Floating Interactive Popover with Direct Bangla Meaning & Audio -->
+    <!-- Floating Interactive Popover -->
     <div class="floating-popover" id="floatPop">
         <button onclick="closePop()" style="position:absolute; right:10px; top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem;">✕</button>
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:8px; margin-bottom:8px;">
@@ -300,7 +300,7 @@
     <script src="essays.js"></script>
     <script src="pdf_data.js"></script>
 
-    <!-- Main Controller Logic -->
+    <!-- Main Controller Logic with Backspace Support -->
     <script>
         const rawSpelling = [
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
@@ -338,11 +338,12 @@
             { title: "33. Colors", words: ["blue", "white", "orange", "green", "grey", "black", "red", "yellow", "purple", "brown", "pink"] },
             { title: "34. Expressions and Time", words: ["three times", "three times per week", "a gap year", "full-time", "part-time", "midday", "midnight", "millennium", "century", "decade", "fortnight"] },
             { title: "35. Other Terms", words: ["passport photo", "state", "government", "individual", "variety", "private sector", "practice", "gender", "creativity", "original inhabitant", "indigenous", "demonstration", "strike", "entrance", "circuit", "guarantee", "dialog", "commerce", "carriage", "narrative", "chocolate", "satellite", "decision", "prototype", "attitude", "daily routine", "personal fulfillment", "activity", "recipient", "ultrasound", "pedestrian safety", "traffic jams", "procedures", "creation", "prize", "junior", "senior", "opportunity", "driving license", "process", "literary", "man-made", "Republicans", "umbrella", "frequently updated", "waiting list", "sewer systems", "liberal democracy", "Democrats", "lunar calendar", "libertarian", "burger", "videos", "nature conservation", "life expectancy", "fund-raising event", "magnet", "dialect", "ramification", "straight", "farewell", "welfare", "encyclopedia", "evolution", "revolution", "illiteracy", "robot", "proficiency", "sufficient"] },
-            { title: "★ Tricky Double Letters", words: ["accommodation", "embarrassment", "millennium", "recommend", "necessary", "success", "occur", "occurred", "profession", "possession", "disappoint", "apparent", "colleague", "immediate", "interrupt", "exaggerate", "parallel", "commitment", "committee", "harass", "assess", "assessment", "fulfill", "beginning", "disappear", "aggressive", "tomorrow"] },
-            { title: "★ Tricky Silent Letters", words: ["environment", "government", "Wednesday", "February", "knowledge", "doubt", "subtle", "discipline", "foreign", "rhythm", "acquire", "fascinating", "muscle", "exhausted", "aisle", "column", "autumn", "castle", "climb", "receipt"] }
+            { title: "★ Tricky 1: Double Letters", words: ["accommodation", "embarrassment", "millennium", "recommend", "necessary", "success", "occur", "occurred", "profession", "possession", "disappoint", "apparent", "colleague", "immediate", "interrupt", "exaggerate", "parallel", "commitment", "committee", "harass", "assess", "assessment", "fulfill", "beginning", "disappear", "aggressive", "tomorrow"] },
+            { title: "★ Tricky 2: Silent Letters", words: ["environment", "government", "Wednesday", "February", "knowledge", "doubt", "subtle", "discipline", "foreign", "rhythm", "acquire", "fascinating", "muscle", "exhausted", "aisle", "column", "autumn", "castle", "climb", "receipt"] },
+            { title: "★ Tricky 3: Vowel Traps & Academic", words: ["independent", "persistent", "subsequent", "consequent", "preceding", "proceeding", "definition", "definitely", "separate", "privilege", "occurrence", "independent", "guarantee", "maintenance", "recommendation"] },
+            { title: "★ Tricky 4: Numbers, Measures & Misc", words: ["fourteen", "forty", "ninety", "twelfth", "millimetre", "kilometre", "temperature", "percentage", "frequency", "quantity", "straight", "height", "length", "width"] }
         ];
 
-        // Format: Normal single space for typing
         const sessionsData = rawSpelling.map(s => ({ title: s.title, text: s.words.join(' ') }));
 
         let revisionWords = JSON.parse(localStorage.getItem('ielts_revision_words') || '[]');
@@ -391,8 +392,25 @@
 
         document.getElementById('typingArea').addEventListener('click', () => document.getElementById('hiddenInput').focus());
 
-        // Flexible Typing Logic: Allows moving forward even on errors (No error lock)
-        document.getElementById('hiddenInput').addEventListener('input', (e) => {
+        // Keyboard Event Listener to handle Backspace correctly
+        window.addEventListener('keydown', (e) => {
+            const activeSec = document.querySelector('.content-section.active');
+            if (!activeSec || activeSec.id !== 'sec-typing') return;
+
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                if (curIdx > 0) {
+                    charSpans[curIdx].classList.remove('active');
+                    curIdx--;
+                    charSpans[curIdx].classList.remove('correct', 'incorrect');
+                    charSpans[curIdx].classList.add('active');
+                }
+            } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                handleTypedChar(e.key);
+            }
+        });
+
+        function handleTypedChar(ch) {
             if (curIdx >= charSpans.length) return;
             if (!isPlaying) {
                 isPlaying = true; startTime = new Date();
@@ -403,9 +421,7 @@
                 }, 1000);
             }
 
-            const ch = e.target.value; e.target.value = '';
             const exp = currentText[curIdx];
-
             charSpans[curIdx].classList.remove('active');
             if (ch === exp) {
                 charSpans[curIdx].classList.add('correct');
@@ -419,13 +435,12 @@
                 clearInterval(timer);
                 alert('Session completed successfully!');
             }
-        });
+        }
 
         function toggleDictation() {
             dictationMode = !dictationMode;
             document.getElementById('dictBtn').innerText = dictationMode ? "🎧 Dictation: ON" : "🎧 Dictation: OFF";
             document.getElementById('textDisplay').classList.toggle('masked', dictationMode);
-            document.getElementById('hiddenInput').focus();
         }
 
         // --- REVISION FUNCTIONS ---
@@ -457,7 +472,6 @@
             });
             if (charSpans[0]) charSpans[0].classList.add('active');
             resetTimer();
-            document.getElementById('hiddenInput').focus();
         }
 
         // --- 100 ESSAYS RENDER ---
@@ -536,7 +550,6 @@
             });
             if (charSpans[0]) charSpans[0].classList.add('active');
             resetTimer();
-            document.getElementById('hiddenInput').focus();
         }
 
         // --- FLOATING TOOLBAR LOGIC WITH BUILT-IN DATASET LOOKUP ---
@@ -554,7 +567,6 @@
                 const clean = text.toLowerCase().replace(/[^a-zA-Z]/g, '');
                 let foundMatch = false;
 
-                // Search inside local pdf1Data dataset first
                 if (typeof pdf1Data !== 'undefined') {
                     const match = pdf1Data.flat().find(item => item.w.toLowerCase() === clean);
                     if (match) {
@@ -564,7 +576,6 @@
                     }
                 }
 
-                // If not in PDF 1, check PDF 2 dataset
                 if (!foundMatch && typeof pdf2Data !== 'undefined') {
                     const match2 = pdf2Data.flat().find(item => item.w.toLowerCase() === clean);
                     if (match2) {
@@ -574,7 +585,6 @@
                     }
                 }
 
-                // Fallback to auto-translate API if not found in local datasets
                 if (!foundMatch) {
                     document.getElementById('popIpa').innerText = `/${clean}/`;
                     document.getElementById('popMeaning').innerText = "Translating...";
@@ -587,7 +597,7 @@
                                 document.getElementById('popMeaning').innerText = "অর্থ পাওয়া যায়নি";
                             }
                         }).catch(() => {
-                            document.getElementById('popMeaning').innerText = "অর্থ লোড করা যায়নি";
+                            document.getElementById('popMeaning').innerText = "অর্থ লোড করা যায়নি";
                         });
                 }
 
@@ -637,46 +647,60 @@
         }
 
         // --- 200 SPEAKING QUESTIONS ---
-        const speakingList = const rawSpelling = [
-            { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
-            { title: "2. Money Matters", words: ["cash", "debit", "credit card", "cheque", "in advance", "annual fee", "monthly membership", "interest rate", "deposit", "tuition fees", "poverty", "bank statement", "money management", "current account", "student account", "withdraw", "low-risk investment", "mortgage", "grace period", "budget deficit", "retail voucher", "coupon", "counterfeit money", "public money", "tax payers' money", "debt", "interest-free credit", "purchase", "partial refund", "annuity", "non-refundable", "MasterCard", "Visa", "distribution costs", "income", "finance department", "family finances", "duty-free store"] },
-            { title: "3. Subjects", words: ["science", "politics", "history", "biology", "architecture", "law", "geography", "archaeology", "literature", "business management", "agriculture", "statistics", "mathematics", "logic", "physics", "psychology", "anthropology", "economics", "philosophy", "performing arts", "visual arts", "chemistry", "humanities"] },
-            { title: "4. College / University", words: ["course outline", "group discussion", "handout", "written work", "report writing", "research", "proofreading", "experiment", "experience", "reference", "textbook", "dictionary", "laptop", "printer", "student advisor", "teamwork", "module", "topic", "assessment", "library", "department", "computer center", "classroom", "lecture", "tutor", "main hall", "attendance", "deadline", "give a talk", "speech", "computer laboratory", "certificate", "diploma", "placement test", "overseas students", "full-time", "facilities", "college", "dining room", "specialist", "knowledge", "international", "accommodation", "homestay", "primary", "secondary", "intermediate", "media room", "resources room", "staff", "commencement", "dissertation", "leaflet", "faculty", "pupils", "pencil", "feedback", "tasks", "outcomes", "advanced", "introductory", "extra background", "higher education", "guidelines", "post-secondary", "supervisor", "bachelor's degree", "compound", "vocabulary", "student support services", "student retention", "publication", "foreign students", "schedule", "school reunion", "registrar's office", "stationery"] },
-            { title: "5. Marketing", words: ["catalog", "interview", "newsletter", "competition", "TV program", "strategies", "research method", "entertainment industry", "leadership", "management", "display", "products", "customer", "special offer", "collecting data", "questionnaire", "survey", "mass media", "statistic", "profit margin", "poll", "business card", "training", "trainee", "merchandise", "manufacture", "recruitment"] },
-            { title: "6. Health", words: ["yoga", "keep-fit", "salad bar", "vegetarian", "outdoor activities", "leisure time", "disease", "meal", "protein", "balanced diet", "food pyramid", "vitamin", "carbohydrates", "rice", "pasta", "potatoes", "pizza", "tomatoes", "bread", "cereals", "minerals", "zinc", "meat", "seafood", "eggs", "beans", "milk", "cheese", "yoghurt", "fruit", "vegetables", "citrus fruits", "green pepper", "blackcurrant", "nuts", "egg yolk", "liver", "medicine", "treatment", "remedy", "nursing care", "nursery", "regular exercise"] },
-            { title: "7. Nature", words: ["field", "footbridge", "environment", "waterfall", "river", "mountain", "forest", "village", "coast", "reef", "lake", "valley", "hill", "cliff", "island", "peninsula", "earthquake", "avalanche", "tornado", "typhoon", "desertification", "volcano", "disaster", "catastrophe", "erosion", "landslides", "storm", "flood", "hurricane", "pond", "jungle", "oasis", "dam", "canyon"] },
-            { title: "8. The Environment", words: ["greenhouse effect", "acid rain", "global warming", "carbon dioxide", "burning fossil", "exhaust fumes", "deforestation", "nitrogen oxide", "smog", "climate", "pollution", "temperature", "power plants", "landfill", "cattle", "wind turbine", "solar power", "hydroelectric power", "renewable", "source of energy", "reliable", "solar panels", "environmentally friendly", "oxygen", "chemical-free", "desert", "degradation", "vegetation", "sea level", "ocean currents", "soil conditioner", "coal", "fossil fuels", "firewood", "drought", "contaminated"] },
-            { title: "9. The Animal Kingdom", words: ["birds of prey", "seabirds", "poultry and game", "mammals", "cetacean", "whale", "primates", "rodents", "fish", "amphibian", "reptile", "insects", "octopus", "phylum", "class", "order", "family", "genus", "species", "livestock", "creature", "lion", "penguin"] },
-            { title: "10. Plants", words: ["mushroom", "fungus", "leaves", "seed", "core", "bark", "trunk", "twig", "branch", "flower", "stem", "roots", "cluster", "fertilizer"] },
-            { title: "11. Continents", words: ["South America", "North America", "Africa", "Asia", "Europe", "Australia", "Antarctica"] },
-            { title: "12. Countries", words: ["Egypt", "Mexico", "France", "Indonesia", "Turkey", "England", "Germany", "China", "Greece", "Brazil", "India", "North Korea", "Malaysia", "New Zealand", "Nigeria", "Pakistan", "Singapore", "Switzerland", "United Kingdom", "Italy", "The Dominican Republic", "The Philippines", "Denmark"] },
-            { title: "13. Languages", words: ["linguistics", "bilingual", "trilingual", "polyglot", "Portuguese", "Mandarin", "Bengali", "Chinese", "Hindi", "Russian", "Japanese", "German", "Punjabi", "Thai", "Persian", "Filipino", "French", "Italian", "Greek"] },
-            { title: "14. Architecture", words: ["dome", "palace", "fort", "castle", "glasshouse", "pyramid", "log cabin", "lighthouse", "hut", "skyscraper", "sculpture"] },
-            { title: "15. Homes", words: ["semi-detached house", "duplex", "terraced house", "town house", "row house", "bungalow", "thatched cottage", "mobile home", "houseboat", "block of flats", "apartment building", "condominium", "chimney", "bedroom", "basement", "landlord", "tenant", "rent", "lease", "neighborhood", "suburb", "sofa", "coffee table", "dormitory", "storey", "kitchen", "refrigerator", "microwave", "ground floor", "oven", "hallway", "insurance"] },
-            { title: "16. Cities", words: ["cities", "street", "lane", "city centre", "central station", "car park", "department store", "bridge", "temple", "embassy", "road system", "hospital", "garden"] },
-            { title: "17. Workplaces", words: ["clinic", "dentist", "reception", "appointment", "staff", "selection", "colleague", "workshop", "showroom", "information desk", "employer", "employment", "unemployed", "technical cooperation", "team leaders", "stress", "ability", "vision", "confidence", "employee", "internship"] },
-            { title: "18. Rating and Qualities", words: ["reasonable", "satisfactory", "dangerous", "safe", "strongly recommended", "poor quality", "satisfied", "disappointed", "efficient", "luxurious", "colored", "spotted", "striped", "expensive", "cheap"] },
-            { title: "19. Tour", words: ["tourist guided tour", "ticket office", "souvenir", "trip", "guest", "reservation", "view", "culture", "memorable", "single/double bedded room", "picnic", "tourist attraction", "hostel", "suite", "aquarium"] },
-            { title: "20. Verbs", words: ["train", "develop", "collect", "supervise", "mark", "edit", "revise", "exhibit", "donate", "surpass", "register", "support", "hunt", "persuade", "concentrate", "discuss", "suggest", "arrange", "borrow", "immigrate", "review", "learn", "touch"] },
-            { title: "21. Adjectives", words: ["energetic", "social", "ancient", "necessary", "fantastic", "exciting", "fabulous", "dull", "comfortable", "convenient", "suitable", "affordable", "voluntary", "mandatory", "compulsory", "temporary", "permanent", "immense", "vast", "salty", "extinct", "vulnerable", "pessimistic", "optimistic", "realistic", "practical", "knowledgeable", "flexible", "confident", "Western", "intensive", "tranquil", "spectacular", "intact", "various"] },
-            { title: "22. Hobbies", words: ["orienteering", "caving", "spelunking", "archery", "ice skating", "scuba-diving", "snorkeling", "skateboarding", "bowls", "darts", "golf", "billiards", "photography", "painting", "pottery", "woodcarving", "gardening", "stamp collection", "embroidery", "climbing", "chess", "parachute"] },
-            { title: "23. Sports", words: ["cricket", "baseball", "basketball", "rugby", "soccer", "American football", "hockey", "swimming", "tennis", "squash", "badminton", "ping-pong", "field", "court", "pitch", "stadium", "team", "the discus", "the javelin", "the hammer", "the high jump", "horse racing", "show jumping", "polo", "cycling", "gymnasium", "athlete", "gym", "extreme sports", "paragliding", "hang-gliding", "skydiving", "abseiling", "snowboarding", "bungee jumping", "surfing", "windsurfing", "jet-skiing", "body boarding", "white-water rafting", "kite surfing", "mountain biking", "jogging", "press-up", "push-up", "barbell", "treadmill", "judo", "recreation", "snooker", "walking", "championship", "canoeing", "refreshment"] },
-            { title: "24. Shapes", words: ["square", "rectangular", "triangular", "polygon", "oval", "spherical", "spiral", "circular", "curved", "cylindrical"] },
-            { title: "25. Measurements", words: ["width", "length", "altitude", "imperial system", "metric system", "mass", "depth", "breadth", "height", "three dimensions", "frequency"] },
-            { title: "26. Transportations", words: ["cargo plane", "shipment", "container ship", "boat", "lifeboat", "ferry", "hovercraft", "hydrofoil", "liner", "canal boat", "narrow boat", "dinghy sailing", "sailboat", "paddle steamer", "cabin cruiser", "rowing boat", "rowboat", "kayak", "canoe", "punt", "gondola", "aircraft", "helicopter", "seaplane", "airship", "hot-air balloon"] },
-            { title: "27. Weather", words: ["humid", "hot", "sticky", "breeze", "chilly", "cold", "cool", "dry", "dusty", "freezing", "warm", "wet", "weather forecast", "antenna", "moisture"] },
-            { title: "28. Places", words: ["local library", "swimming pool", "cafeteria", "cottage", "parliament", "accommodation", "restaurant", "canteen", "café", "bookshop", "sports centre", "city council", "dance studio", "park", "conversation club", "kindergarten"] },
-            { title: "29. Equipment and Tools", words: ["helmet", "light", "musical instrument", "cassette", "silicon chip", "digital monitor", "gadget", "device", "screen", "brakes", "wheels", "mechanical pencil", "disk", "backpack"] },
-            { title: "30. The Arts and Media", words: ["opera", "orchestra", "concert", "symphony", "the press", "conductor", "vocalist", "audience", "festival", "carnival", "exhibition", "classical music", "theatre", "cinema", "art gallery", "museum", "ballet", "television", "radio", "graphics", "newspaper"] },
-            { title: "31. Materials", words: ["fur", "metal", "steel", "aluminum", "copper", "rubber", "plastic", "ceramics", "glass", "cement", "stone", "textile", "cotton", "fabric", "wool", "leather", "bone", "paper", "lumber/wood", "glue", "composite", "fiberglass", "concrete", "wax", "silver", "gold", "feather"] },
-            { title: "32. Works and Jobs", words: ["occupation", "profession", "designer", "decorator", "architect", "engineer", "manager", "waitress", "waiter", "teacher", "vacancy", "professor", "specialist", "psychologist", "volunteer", "freelance", "secretary", "craftsman", "work experience", "curriculum vitae", "mail address", "receptionist", "pilot", "guard", "flight attendant", "lecturer", "office assistant", "clerk", "accountant", "cashier", "captain"] },
-            { title: "33. Colors", words: ["blue", "white", "orange", "green", "grey", "black", "red", "yellow", "purple", "brown", "pink"] },
-            { title: "34. Expressions and Time", words: ["three times", "three times per week", "a gap year", "full-time", "part-time", "midday", "midnight", "millennium", "century", "decade", "fortnight"] },
-            { title: "35. Other Terms", words: ["passport photo", "state", "government", "individual", "variety", "private sector", "practice", "gender", "creativity", "original inhabitant", "indigenous", "demonstration", "strike", "entrance", "circuit", "guarantee", "dialog", "commerce", "carriage", "narrative", "chocolate", "satellite", "decision", "prototype", "attitude", "daily routine", "personal fulfillment", "activity", "recipient", "ultrasound", "pedestrian safety", "traffic jams", "procedures", "creation", "prize", "junior", "senior", "opportunity", "driving license", "process", "literary", "man-made", "Republicans", "umbrella", "frequently updated", "waiting list", "sewer systems", "liberal democracy", "Democrats", "lunar calendar", "libertarian", "burger", "videos", "nature conservation", "life expectancy", "fund-raising event", "magnet", "dialect", "ramification", "straight", "farewell", "welfare", "encyclopedia", "evolution", "revolution", "illiteracy", "robot", "proficiency", "sufficient"] },
-            { title: "★ Tricky 1: Double Letters", words: ["accommodation", "embarrassment", "millennium", "recommend", "necessary", "success", "occur", "occurred", "profession", "possession", "disappoint", "apparent", "colleague", "immediate", "interrupt", "exaggerate", "parallel", "commitment", "committee", "harass", "assess", "assessment", "fulfill", "beginning", "disappear", "aggressive", "tomorrow"] },
-            { title: "★ Tricky 2: Silent Letters", words: ["environment", "government", "Wednesday", "February", "knowledge", "doubt", "subtle", "discipline", "foreign", "rhythm", "acquire", "fascinating", "muscle", "exhausted", "aisle", "column", "autumn", "castle", "climb", "receipt"] },
-            { title: "★ Tricky 3: Vowel Traps & Academic", words: ["independent", "persistent", "subsequent", "consequent", "preceding", "proceeding", "definition", "definitely", "separate", "privilege", "occurrence", "independent", "guarantee", "maintenance", "recommendation"] },
-            { title: "★ Tricky 4: Numbers, Measures & Misc", words: ["fourteen", "forty", "ninety", "twelfth", "millimetre", "kilometre", "temperature", "percentage", "frequency", "quantity", "straight", "height", "length", "width"] }
+        const speakingList = [
+            "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
+            "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
+            "Where do you want to see yourself after 10 years in terms of your career?", "Tell me about your best friend at school.", "Do you enjoy studying Accounting? Why or why not?",
+            "What do you like most about your hometown?", "Do you prefer living in a city or a village? Why?", "How often do you meet your best friend?",
+            "What do you usually do together when you meet?", "Do you think having close friends is important? Why?", "What do you study? / Where do you study that?",
+            "Why did you choose that subject?", "Is it a popular subject in your country?", "Do you like that subject?", "Do you get on with your classmates?",
+            "What was your first day like?", "What are the main aspects of your subject?", "Where is your hometown?", "Do you like your hometown?",
+            "Do you often visit your hometown?", "What is your hometown like?", "What is the oldest place in your hometown?", "What is there for a foreigner to do or see in your hometown?",
+            "How could your hometown be improved?", "Has your hometown changed much since you were a child?", "Is there good public transportation in your hometown?",
+            "Do you think your hometown is a good place to bring up children?", "What is your job? / Where do you work?", "Why did you choose that job? / Is it a popular job in your country?",
+            "Do you like your job? / Do you get on well with your colleagues?", "What responsibilities do you have at work?", "If you had the chance, would you change your job?",
+            "Where is your home?", "Do you live in a house or a flat?", "Who do you live with?", "Are there many rooms in your home?", "What is your favourite room?",
+            "How are the walls decorated?", "What would you change about your home?", "Do you plan to live there in the future?", "What facilities are there near your home?",
+            "What is your neighbourhood like?", "Do most people live in houses in your country?", "Are you good at art?", "Did you learn art at school when you were a child?",
+            "What kind of art do you like?", "Is art popular in your country?", "Have you ever been to an art gallery?", "Do you think children can benefit from going to art galleries?",
+            "Do you have a bike?", "How often do you use it?", "How old were you when you learned to ride a bike?", "Do many people in your country use bicycles?",
+            "Do you think using bicycles should be encouraged?", "Did you enjoy your childhood?", "What is your first memory of your childhood?", "Did you have a lot of friends when you were a child?",
+            "What did you enjoy doing as a child?", "Do you think it is better for children to grow up in the city or in the countryside?", "Do you usually celebrate your birthdays?",
+            "How did you celebrate your last birthday?", "Which birthdays are the most important ones in your country?", "Do you think children should celebrate their birthdays with a party?",
+            "Are clothes important to you?", "What kind of clothes do you usually wear?", "Do you ever wear the traditional clothes of your country?", "Where do you usually buy your clothes?",
+            "Have you ever worn a uniform?", "Do most people in your country follow fashion?", "Do you often use a computer?", "How do you usually get online?",
+            "Do you prefer desktops or laptops?", "What do you use your computer for?", "Do you think it is important to learn how to use a computer?", "When do you usually get up in the morning?",
+            "Do you usually have the same routine every day? What is your daily routine?", "Do you ever change your routine?", "Is your routine the same today as it was when you were a child?",
+            "Do you think it is important to have a daily routine?", "Do you often have dreams when you sleep?", "Do you usually remember your dreams?", "Do you think dreams are important to remember?",
+            "Do you ever have daydreams?", "What kind of daydreams do you usually have?", "Do you spend much time with your family?", "Who are you closest to in your family?",
+            "Do you prefer spending time with your family or friends?", "Who is your best friend?", "Are you still friends with people from your childhood?", "Is family important in your country?",
+            "Do you like flowers?", "What's your favourite flower?", "When was the last time you gave someone flowers?", "Do any flowers have a special meaning in your country?",
+            "Why do you think women like flowers more than men?", "What's your favourite food?", "Have you always liked the same food?", "Is there any food you dislike?",
+            "What is a common meal in your country?", "Do you have a healthy diet?", "What do you think of fast food?", "Do you often go out in the evenings?",
+            "What do you like to do when you go out?", "Do you prefer going out alone or with friends?", "How often do you go out on weekends?", "Do you think it's important for people to go out?",
+            "What makes you happy?", "What do you do to stay happy?", "Does your happiness change with time?", "What was the happiest moment in your life?",
+            "Do you think money brings happiness?", "Do you have a hobby?", "What equipment do you need for it?", "Do you think hobbies should be shared with other people?",
+            "Did you have a hobby as a child?", "What hobbies are popular in your country?", "Why do you think people have hobbies?", "How often do you go online?",
+            "What do you use the internet for?", "How do you get online?", "Do you have your own computer?", "What's your favourite website?",
+            "Do you think children should be allowed unsupervised access to the internet?", "What do you usually do in your leisure time?", "Do you prefer to spend your free time alone or with others?",
+            "What did you enjoy doing in your free time when you were a child?", "Do you have enough leisure time now?", "What do you think is the best way to spend leisure time?",
+            "Do you like music?", "What's your favourite type of music?", "Can you sing?", "Did you learn music at school when you were a child?",
+            "If you could learn a musical instrument, what would it be?", "Do you think music is important?", "Do you like your neighbours?", "Are neighbours usually close to each other in your country?",
+            "What is your neighbourhood like?", "Do you think your neighbourhood is a good place for children?", "How could your neighbourhood be improved?",
+            "Do you think it is important to have a good relationship with your neighbours?", "Do you live in a noisy area?", "What kinds of sounds do you hear on a daily basis?",
+            "Where do you go to spend time in peace and quiet?", "Are there any sounds which you think are pleasant?", "Do you have any noisy friends?",
+            "Do you have a pet?", "Do you like animals?", "What's your favourite animal?", "What is a popular pet to have in your country?", "Did you have a pet as a child?",
+            "Why do people have pets?", "Do you like shopping?", "What do you usually buy when you go shopping?", "Do you prefer shopping alone or with others?",
+            "Do you enjoy shopping for clothes?", "Do you think online shopping is popular in your country?", "What are the advantages of shopping online?",
+            "Do you like sports?", "What's your favourite sport?", "Do you watch sport on TV?", "Did you play sport when you were a child?", "Do you think it's important to play sport?",
+            "Why do people like watching sport?", "Do you often watch TV?", "What kind of TV programmes do you like?", "What was your favourite show when you were a child?",
+            "Do you think TV has changed much in the last few years?", "Do you prefer watching TV alone or with your family?", "How often do you watch news on TV?",
+            "How do you usually travel around your city?", "What's your favourite kind of transport?", "Do you prefer public transport or private transport?",
+            "Is public transport popular in your country?", "How could public transport be improved?", "Do you enjoy long journeys?", "Do you like travelling?",
+            "What's the best place you've ever visited?", "How do you usually travel long distances?", "Do you like travelling with family or friends?",
+            "What places would you like to visit in the future?", "Do you prefer travelling to new places or visiting the same places again?",
+            "What's the weather like where you live?", "What's your favourite type of weather?", "What do you usually do in the hot weather?",
+            "Do you prefer dry weather or wet weather?", "Has the weather changed much in your country in recent years?"
         ];
 
         let activeSpeakingQ = speakingList[0];
@@ -787,7 +811,7 @@
             if (t === 'typing') {
                 document.getElementById('tabTyping').classList.add('active');
                 document.getElementById('pageTitle').innerText = "IELTS Spelling Practice Meter";
-                document.getElementById('pageDesc').innerText = "Type words naturally. Correct words turn green, errors turn red.";
+                document.getElementById('pageDesc').innerText = "Type words naturally. Use Backspace to correct mistakes.";
                 document.getElementById('hiddenInput').focus();
             } else if (t === 'revision') {
                 document.getElementById('tabRev').classList.add('active');
