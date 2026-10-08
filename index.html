@@ -42,8 +42,8 @@
 
         .top-nav {
             display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 14px; margin-bottom: 25px;
-            background: var(--card-bg); padding: 14px 22px; border-radius: 18px;
+            flex-wrap: wrap; gap: 15px; margin-bottom: 25px;
+            background: var(--card-bg); padding: 15px 22px; border-radius: 18px;
             box-shadow: var(--shadow); border: 1px solid var(--border-color);
         }
 
@@ -61,23 +61,23 @@
         .tab-btn.rev-badge.active { background: var(--accent-red); color: #ffffff; }
 
         .action-btns { 
-            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+            display: flex; gap: 10px; flex-wrap: wrap; align-items: center; justify-content: flex-end;
         }
 
         .api-input {
-            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
-            font-size: 0.8rem; width: 200px; background: var(--card-inner); outline: none;
+            padding: 8px 12px; border-radius: 10px; border: 1px solid var(--border-color);
+            font-size: 0.85rem; width: 180px; background: var(--card-inner); color: var(--text-main); outline: none;
             transition: border-color 0.2s;
         }
         .api-input:focus { border-color: var(--primary); }
 
         .control-btn {
             background: var(--card-inner); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 8px 14px; border-radius: 10px;
-            cursor: pointer; font-size: 0.8rem; font-weight: 600;
-            transition: all 0.2s;
+            color: var(--primary); padding: 8px 12px; border-radius: 10px;
+            cursor: pointer; font-size: 0.9rem; font-weight: 700;
+            transition: all 0.2s; display: flex; align-items: center; gap: 5px;
         }
-        .control-btn:hover { border-color: var(--primary); }
+        .control-btn:hover { border-color: var(--primary); background: #eff6ff; }
 
         header { text-align: center; margin-bottom: 25px; }
         h1 { margin: 0 0 6px 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary); }
@@ -116,6 +116,7 @@
         .text-display span.correct { color: var(--correct); font-weight: 700; }
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 4px; }
         .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); }
+        .text-display.masked span.untyped { filter: blur(8px); opacity: 0.3; }
 
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 1rem; color: var(--primary); }
@@ -194,23 +195,21 @@
     </script>
 
     <div class="container">
-        <!-- Top Nav -->
+        <!-- Top Nav with Responsive Fixed Layout -->
         <div class="top-nav">
             <div class="nav-tabs">
                 <button class="tab-btn active" id="tabTyping" onclick="showTab('typing')">⌨️ Spelling</button>
                 <button class="tab-btn rev-badge" id="tabRev" onclick="showTab('revision')">⭐ Revision (<span id="revCount">0</span>)</button>
                 <button class="tab-btn" id="tabEssays" onclick="showTab('essays')">📚 100 Essays</button>
-                <button class="tab-btn" id="tabSpeaking" onclick="showTab('speaking')">🎙️ Speaking (200 Qs)</button>
-                <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 PDF 1: Vocab</button>
-                <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 PDF 2: Listening</button>
+                <button class="tab-btn" id="tabSpeaking" onclick="showTab('speaking')">🎙️ Speaking</button>
+                <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 Vocab PDF</button>
+                <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 Listening PDF</button>
             </div>
             
             <div class="action-btns">
-                <input type="password" id="geminiApiKey" class="api-input" placeholder="Enter Gemini API Key here..." title="Enter your Gemini API key from Google AI Studio" onchange="saveApiKey()">
-                
-                <label style="font-size:0.8rem; font-weight:700; color:var(--primary); cursor:pointer; background:var(--card-inner); padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); display:flex; align-items:center;">
-                    <input type="checkbox" id="soundToggle" checked style="margin-right:5px;">🔊
-                </label>
+                <input type="password" id="geminiApiKey" class="api-input" placeholder="Gemini API Key..." title="Enter your Gemini API key from Google AI Studio" onchange="saveApiKey()">
+                <button class="control-btn" id="dictBtn" onclick="toggleDictation()" title="Toggle Dictation Mode">🎧</button>
+                <label class="control-btn" style="display:flex; align-items:center; gap:5px; margin:0;"><input type="checkbox" id="soundToggle" checked>🔊</label>
             </div>
         </div>
 
@@ -235,7 +234,7 @@
         <!-- 2. REVISION -->
         <div id="sec-revision" class="content-section">
             <div class="essay-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;">
                     <h3 style="margin:0; color:var(--primary);">⭐ Difficult Words for Revision</h3>
                     <div>
                         <button class="tab-btn" style="background:var(--incorrect); color:white; border:none; margin-right:10px;" onclick="clearRevision()">🗑️ Clear All</button>
@@ -471,7 +470,6 @@
                     const m = Math.floor(elapsed / 60), s = elapsed % 60;
                     document.getElementById('statTimer').innerText = `Time: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
                     
-                    // WPM Logic (Words Per Minute) - approx 5 chars per word
                     const mins = elapsed / 60;
                     const words = totalTypedCount / 5;
                     const wpm = mins > 0 ? Math.round(words / mins) : 0;
@@ -529,7 +527,6 @@
             resetTimer();
         }
 
-        // Clear Revision Logic
         function clearRevision() {
             if (confirm("Are you sure you want to delete all revision words?")) {
                 revisionWords = [];
@@ -776,7 +773,7 @@
                     activeSpeakingQ = q;
                     document.getElementById('activeQText').innerText = `${idx + 1}. ${q}`;
                     
-                    document.getElementById('aiEvaluation').innerHTML = "Click 'Evaluate' to check your recorded answer, or 'Sample' to see expert examples. <br><br><small style='color:var(--accent-red);'>Note: You must enter your Google AI Studio API Key in the top right box for Live AI to work.</small>";
+                    document.getElementById('aiEvaluation').innerHTML = "Click 'Evaluate' to check your recorded answer, or 'Sample' to see expert examples. <br><br><small style='color:var(--accent-red);'>Note: You must enter your Google AI Studio API Key in the top navigation bar for Live AI to work.</small>";
                     document.getElementById('audioPlayback').style.display = 'none';
                     document.getElementById('speechTranscript').innerText = 'Speak into your microphone...';
                     
@@ -862,7 +859,7 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration (Fixed API version to 1.5-flash)
+        // Live Gemini Integration (Fixed API version to 2.5-flash)
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
@@ -871,7 +868,8 @@
             }
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+                // Fixed API Version
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
