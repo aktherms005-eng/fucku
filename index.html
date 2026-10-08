@@ -60,9 +60,7 @@
         .tab-btn.rev-badge { border-color: var(--accent-red); color: var(--accent-red); }
         .tab-btn.rev-badge.active { background: var(--accent-red); color: #ffffff; }
 
-        .action-btns { 
-            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
-        }
+        .action-btns { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
         .api-input {
             padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
@@ -75,7 +73,7 @@
             background: var(--card-inner); border: 1px solid var(--border-color);
             color: var(--text-main); padding: 8px 14px; border-radius: 10px;
             cursor: pointer; font-size: 0.8rem; font-weight: 600;
-            transition: all 0.2s;
+            transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
         }
         .control-btn:hover { border-color: var(--primary); }
 
@@ -120,7 +118,7 @@
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 1rem; color: var(--primary); }
 
-        /* Essays Screen & Split View */
+        /* General Layouts (Essays & Stories) */
         .essay-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: var(--shadow);
@@ -209,9 +207,10 @@
                 <button class="tab-btn active" id="tabTyping" onclick="showTab('typing')">⌨️ Spelling</button>
                 <button class="tab-btn rev-badge" id="tabRev" onclick="showTab('revision')">⭐ Revision (<span id="revCount">0</span>)</button>
                 <button class="tab-btn" id="tabEssays" onclick="showTab('essays')">📚 100 Essays</button>
+                <button class="tab-btn" id="tabStory" onclick="showTab('story')">📖 1001 Nights</button>
                 <button class="tab-btn" id="tabSpeaking" onclick="showTab('speaking')">🎙️ Speaking</button>
-                <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 Vocab PDF</button>
-                <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 Listening PDF</button>
+                <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 Vocab</button>
+                <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 Listening</button>
             </div>
             
             <div class="action-btns">
@@ -257,7 +256,7 @@
             </div>
         </div>
 
-        <!-- 3. ESSAYS (Split View Added) -->
+        <!-- 3. ESSAYS -->
         <div id="sec-essays" class="content-section">
             <div style="display:flex; gap:12px; margin-bottom:20px;">
                 <input type="text" id="essaySearch" placeholder="Search 100 essays by topic or keyword..." style="flex:1; padding:12px 18px; border-radius:12px; border:2px solid var(--border-color); font-size:1rem; font-weight:500;" oninput="filterEssays()">
@@ -266,7 +265,16 @@
             <div id="essayListContainer"></div>
         </div>
 
-        <!-- 4. SPEAKING -->
+        <!-- 4. STORY (1001 NIGHTS) -->
+        <div id="sec-story" class="content-section">
+            <div style="display:flex; gap:12px; margin-bottom:20px;">
+                <input type="text" id="storySearch" placeholder="Search 1001 Nights tales..." style="flex:1; padding:12px 18px; border-radius:12px; border:2px solid var(--border-color); font-size:1rem; font-weight:500;" oninput="filterStory()">
+                <div style="display:flex; align-items:center; padding:0 20px; background:var(--primary); border-radius:12px; font-weight:700; color:#fff;" id="storyBadge">Tales</div>
+            </div>
+            <div id="storyListContainer"></div>
+        </div>
+
+        <!-- 5. SPEAKING -->
         <div id="sec-speaking" class="content-section">
             <div class="speaking-layout">
                 <div class="speaking-q-list">
@@ -309,7 +317,7 @@
             </div>
         </div>
 
-        <!-- 5. PDF 1 -->
+        <!-- 6. PDF 1 -->
         <div id="sec-pdf1" class="content-section">
             <div class="essay-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -324,7 +332,7 @@
             </div>
         </div>
 
-        <!-- 6. PDF 2 -->
+        <!-- 7. PDF 2 -->
         <div id="sec-pdf2" class="content-section">
             <div class="essay-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -359,6 +367,8 @@
     <!-- External Linked Datasets -->
     <script src="essays.js"></script>
     <script src="pdf_data.js"></script>
+    <!-- Add story.js here when you create it for the rest of the tales -->
+    <script src="story.js"></script>
 
     <!-- Main Controller Logic -->
     <script>
@@ -409,6 +419,24 @@
             { title: "★ Tricky 3: Vowel Traps", words: ["independent", "persistent", "subsequent", "consequent", "preceding", "proceeding", "definition", "definitely", "separate", "privilege", "occurrence", "independent", "guarantee", "maintenance", "recommendation"] },
             { title: "★ Tricky 4: Numbers & Misc", words: ["fourteen", "forty", "ninety", "twelfth", "millimetre", "kilometre", "temperature", "percentage", "frequency", "quantity", "straight", "height", "length", "width"] }
         ];
+
+        // 1001 Nights Sample Data
+        const defaultStoryData = [
+            {
+                id: 1,
+                topic: "Foreword",
+                question: "Foreword by Mary Gaitskill",
+                answer: "One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil; it's about powerful slaves and foolish demons, secret spirits hidden in jars; it's about truth living in the treacherous heart like an abiding and holy law waiting to be revealed in the words of a story told by a porter, a tailor, a concubine or lady-all through the lips of the lady Shahrazad to an enraged, cuckolded king on a revenge mission against woman-kind. If she stops telling stories, he will kill her like every other woman he sleeps with."
+            },
+            {
+                id: 2,
+                topic: "Tale 1",
+                question: "Shahrayar and Shahrazad",
+                answer: "A long, long time ago lived two Kings who were brothers. The elder, King Shahrayar, ruled India and Indochina. The younger, Shahzaman, ruled Samarkand. Shahrayar was so powerful and strong that even savage animals feared him; but at the same time, he was fair, caring and kind to his people-just as the eyelid protects the eye. And they, in turn, were loyal, obeyed him blindly, and adored him."
+            }
+        ];
+        // If story.js is present it will use that, otherwise falls back to sample
+        const finalStoryData = (typeof storyData !== 'undefined' && storyData.length > 0) ? storyData : defaultStoryData;
 
         const sessionsData = rawSpelling.map(s => ({ title: s.title, text: s.words.join(' ') }));
 
@@ -575,68 +603,16 @@
             }
         }
 
-        // --- 100 ESSAYS SPLIT VIEW RENDER & TRANSLATE ---
-        function initEssays() {
-            const list = document.getElementById('essayListContainer');
-            list.innerHTML = '';
-            if (typeof essaysData === 'undefined' || essaysData.length === 0) {
-                list.innerHTML = '<p style="color:var(--text-muted);">Please check if essays.js is present.</p>';
-                return;
-            }
-            essaysData.forEach(e => {
-                const card = document.createElement('div');
-                card.className = 'essay-card';
-                card.innerHTML = `
-                    <div class="essay-card-header">
-                        <span class="essay-topic">${e.topic}</span>
-                        <div>
-                            <button class="control-btn" data-trans="0" onclick="translateEssay(${e.id}, this)">🌐 Translate to Bangla</button>
-                            <span style="font-weight:800; margin-left:10px; color:var(--primary);">Essay #${e.id}</span>
-                        </div>
-                    </div>
-                    <div class="essay-q-box">${e.question}</div>
-                    
-                    <!-- SPLIT VIEW GRID -->
-                    <div class="split-grid" id="grid_${e.id}">
-                        <div class="split-col plain" id="col_en_${e.id}">
-                            <div style="font-weight:800; color:var(--primary); margin-bottom:12px; display:none;" id="title_en_${e.id}">🇬🇧 English Original</div>
-                            <div class="essay-ans-box" id="ans_en_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
-                        </div>
-                        
-                        <div class="split-col" id="col_bn_${e.id}" style="display:none; border-color: var(--correct);">
-                            <div style="font-weight:800; color:var(--correct); margin-bottom:12px;">🇧🇩 Bengali Translation</div>
-                            <div class="essay-ans-box" id="ans_bn_${e.id}" onmouseup="triggerSelection(event)"></div>
-                        </div>
-                    </div>
-
-                    <div style="display:flex; justify-content:flex-end;">
-                        <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadEssayToTyping(${e.id})">⌨️ Practice Typing</button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-            document.getElementById('essayBadge').innerText = `${essaysData.length} Essays`;
-        }
-
-        function filterEssays() {
-            const q = document.getElementById('essaySearch').value.toLowerCase().trim();
-            document.querySelectorAll('.essay-card').forEach((c, idx) => {
-                const ed = essaysData[idx];
-                const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
-                c.style.display = match ? 'block' : 'none';
-            });
-        }
-
-        async function translateEssay(id, btn) {
-            const grid = document.getElementById(`grid_${id}`);
-            const colEn = document.getElementById(`col_en_${id}`);
-            const colBn = document.getElementById(`col_bn_${id}`);
-            const titleEn = document.getElementById(`title_en_${id}`);
-            const ansBn = document.getElementById(`ans_bn_${id}`);
-            const orig = document.getElementById(`ans_en_${id}`).getAttribute('data-orig');
+        // --- DYNAMIC TRANSLATION RENDERER ---
+        async function translateContent(type, id, btn) {
+            const grid = document.getElementById(`grid_${type}_${id}`);
+            const colEn = document.getElementById(`col_en_${type}_${id}`);
+            const colBn = document.getElementById(`col_bn_${type}_${id}`);
+            const titleEn = document.getElementById(`title_en_${type}_${id}`);
+            const ansBn = document.getElementById(`ans_bn_${type}_${id}`);
+            const orig = document.getElementById(`ans_en_${type}_${id}`).getAttribute('data-orig');
 
             if (btn.getAttribute('data-trans') === '1') {
-                // HIDE TRANSLATION (Revert to Single Column)
                 grid.classList.remove('active');
                 colBn.style.display = 'none';
                 titleEn.style.display = 'none';
@@ -644,7 +620,6 @@
                 btn.innerHTML = "🌐 Translate to Bangla";
                 btn.setAttribute('data-trans', '0');
             } else {
-                // SHOW TRANSLATION (Split View)
                 grid.classList.add('active');
                 colBn.style.display = 'block';
                 titleEn.style.display = 'block';
@@ -668,7 +643,6 @@
                     alert('Translation failed. Check connection.');
                     btn.innerHTML = "🌐 Translate to Bangla";
                     
-                    // Revert UI if fail
                     grid.classList.remove('active');
                     colBn.style.display = 'none';
                     titleEn.style.display = 'none';
@@ -677,10 +651,8 @@
             }
         }
 
-        function loadEssayToTyping(id) {
-            const e = essaysData.find(item => item.id === id);
-            if (!e) return;
-            const words = e.answer.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
+        function loadTextToTyping(rawText) {
+            const words = rawText.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
             showTab('typing');
             currentText = words.join(' ');
             const disp = document.getElementById('textDisplay');
@@ -691,6 +663,112 @@
             });
             if (charSpans[0]) charSpans[0].classList.add('active');
             resetTimer();
+        }
+
+        // --- 100 ESSAYS ---
+        function initEssays() {
+            const list = document.getElementById('essayListContainer');
+            list.innerHTML = '';
+            if (typeof essaysData === 'undefined' || essaysData.length === 0) {
+                list.innerHTML = '<p style="color:var(--text-muted);">Please check if essays.js is present.</p>';
+                return;
+            }
+            essaysData.forEach(e => {
+                const card = document.createElement('div');
+                card.className = 'essay-card';
+                card.innerHTML = `
+                    <div class="essay-card-header">
+                        <span class="essay-topic">${e.topic}</span>
+                        <div>
+                            <button class="control-btn" data-trans="0" onclick="translateContent('essay', ${e.id}, this)">🌐 Translate to Bangla</button>
+                            <span style="font-weight:800; margin-left:10px; color:var(--primary);">Essay #${e.id}</span>
+                        </div>
+                    </div>
+                    <div class="essay-q-box">${e.question}</div>
+                    
+                    <div class="split-grid" id="grid_essay_${e.id}">
+                        <div class="split-col plain" id="col_en_essay_${e.id}">
+                            <div style="font-weight:800; color:var(--primary); margin-bottom:12px; display:none;" id="title_en_essay_${e.id}">🇬🇧 English Original</div>
+                            <div class="essay-ans-box" id="ans_en_essay_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+                        </div>
+                        <div class="split-col" id="col_bn_essay_${e.id}" style="display:none; border-color: var(--correct);">
+                            <div style="font-weight:800; color:var(--correct); margin-bottom:12px;">🇧🇩 Bengali Translation</div>
+                            <div class="essay-ans-box" id="ans_bn_essay_${e.id}" onmouseup="triggerSelection(event)"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadEssayToTyping(${e.id})">⌨️ Practice Typing</button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+            document.getElementById('essayBadge').innerText = `${essaysData.length} Essays`;
+        }
+
+        function filterEssays() {
+            const q = document.getElementById('essaySearch').value.toLowerCase().trim();
+            document.querySelectorAll('#sec-essays .essay-card').forEach((c, idx) => {
+                const ed = essaysData[idx];
+                const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
+                c.style.display = match ? 'block' : 'none';
+            });
+        }
+
+        function loadEssayToTyping(id) {
+            const e = essaysData.find(item => item.id === id);
+            if (e) loadTextToTyping(e.answer);
+        }
+
+        // --- 1001 NIGHTS STORY ---
+        function initStory() {
+            const list = document.getElementById('storyListContainer');
+            list.innerHTML = '';
+            
+            finalStoryData.forEach(e => {
+                const card = document.createElement('div');
+                card.className = 'essay-card';
+                card.innerHTML = `
+                    <div class="essay-card-header">
+                        <span class="essay-topic" style="background:var(--weak-color); color:#fff;">${e.topic}</span>
+                        <div>
+                            <button class="control-btn" data-trans="0" onclick="translateContent('story', ${e.id}, this)">🌐 Translate to Bangla</button>
+                            <span style="font-weight:800; margin-left:10px; color:var(--primary);">Chapter #${e.id}</span>
+                        </div>
+                    </div>
+                    <div class="essay-q-box" style="border-left-color:var(--weak-color);">${e.question}</div>
+                    
+                    <div class="split-grid" id="grid_story_${e.id}">
+                        <div class="split-col plain" id="col_en_story_${e.id}">
+                            <div style="font-weight:800; color:var(--primary); margin-bottom:12px; display:none;" id="title_en_story_${e.id}">🇬🇧 English Original</div>
+                            <div class="essay-ans-box" id="ans_en_story_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+                        </div>
+                        <div class="split-col" id="col_bn_story_${e.id}" style="display:none; border-color: var(--correct);">
+                            <div style="font-weight:800; color:var(--correct); margin-bottom:12px;">🇧🇩 Bengali Translation</div>
+                            <div class="essay-ans-box" id="ans_bn_story_${e.id}" onmouseup="triggerSelection(event)"></div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadStoryToTyping(${e.id})">⌨️ Practice Typing</button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function filterStory() {
+            const q = document.getElementById('storySearch').value.toLowerCase().trim();
+            document.querySelectorAll('#sec-story .essay-card').forEach((c, idx) => {
+                const ed = finalStoryData[idx];
+                const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
+                c.style.display = match ? 'block' : 'none';
+            });
+        }
+
+        function loadStoryToTyping(id) {
+            const e = finalStoryData.find(item => item.id === id);
+            if (e) loadTextToTyping(e.answer);
         }
 
         // --- POPOVER SELECTION ---
@@ -935,7 +1013,7 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration (Fixed API version to 3.8-flash)
+        // Live Gemini Integration
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
@@ -944,8 +1022,7 @@
             }
 
             try {
-                // Fixed API Version to gemini-3.8-flash
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -1053,6 +1130,11 @@
                 document.getElementById('pageTitle').innerText = "100 Band 9 Essays & Vocabulary Engine";
                 document.getElementById('pageDesc').innerText = "Double-click text for UK audio & Bengali definition, highlight or translate";
                 initEssays();
+            } else if (t === 'story') {
+                document.getElementById('tabStory').classList.add('active');
+                document.getElementById('pageTitle').innerText = "1001 Nights - Reading & Typing";
+                document.getElementById('pageDesc').innerText = "Read, translate, or type the classic tales of Arabian Nights.";
+                initStory();
             } else if (t === 'speaking') {
                 document.getElementById('tabSpeaking').classList.add('active');
                 document.getElementById('pageTitle').innerText = "IELTS Speaking Practice (200 Questions)";
