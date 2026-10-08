@@ -47,7 +47,7 @@
             box-shadow: var(--shadow); border: 1px solid var(--border-color);
         }
 
-        .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+        .nav-tabs { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
 
         .tab-btn {
             background: var(--card-inner); border: 1px solid var(--border-color);
@@ -60,12 +60,24 @@
         .tab-btn.rev-badge { border-color: var(--accent-red); color: var(--accent-red); }
         .tab-btn.rev-badge.active { background: var(--accent-red); color: #ffffff; }
 
+        .action-btns { 
+            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+        }
+
         .api-input {
             padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
-            font-size: 0.8rem; width: 250px; background: var(--card-inner); outline: none;
+            font-size: 0.8rem; width: 200px; background: var(--card-inner); outline: none;
             transition: border-color 0.2s;
         }
         .api-input:focus { border-color: var(--primary); }
+
+        .control-btn {
+            background: var(--card-inner); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 8px 14px; border-radius: 10px;
+            cursor: pointer; font-size: 0.8rem; font-weight: 600;
+            transition: all 0.2s;
+        }
+        .control-btn:hover { border-color: var(--primary); }
 
         header { text-align: center; margin-bottom: 25px; }
         h1 { margin: 0 0 6px 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary); }
@@ -192,12 +204,12 @@
                 <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 PDF 1: Vocab</button>
                 <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 PDF 2: Listening</button>
             </div>
-            <div style="display:flex; gap:10px; align-items:center;">
-                <!-- Gemini API Key Input -->
-                <input type="password" id="geminiApiKey" class="api-input" placeholder="Enter Gemini API Key here..." onchange="saveApiKey()">
+            
+            <div class="action-btns">
+                <input type="password" id="geminiApiKey" class="api-input" placeholder="Enter Gemini API Key here..." title="Enter your Gemini API key from Google AI Studio" onchange="saveApiKey()">
                 
-                <label style="font-size:0.8rem; font-weight:700; color:var(--primary); cursor:pointer; background:var(--card-inner); padding:8px 12px; border-radius:8px; border:1px solid var(--border-color);">
-                    <input type="checkbox" id="soundToggle" checked style="margin-right:5px;">🔊 Sound
+                <label style="font-size:0.8rem; font-weight:700; color:var(--primary); cursor:pointer; background:var(--card-inner); padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); display:flex; align-items:center;">
+                    <input type="checkbox" id="soundToggle" checked style="margin-right:5px;">🔊
                 </label>
             </div>
         </div>
@@ -225,7 +237,10 @@
             <div class="essay-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
                     <h3 style="margin:0; color:var(--primary);">⭐ Difficult Words for Revision</h3>
-                    <button class="tab-btn rev-badge active" onclick="practiceRevision()">Practice Revision Words</button>
+                    <div>
+                        <button class="tab-btn" style="background:var(--incorrect); color:white; border:none; margin-right:10px;" onclick="clearRevision()">🗑️ Clear All</button>
+                        <button class="tab-btn rev-badge active" onclick="practiceRevision()">Practice Revision Words</button>
+                    </div>
                 </div>
                 <div id="revChipsWrap" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
             </div>
@@ -257,8 +272,6 @@
                     <div style="text-align:center; padding:25px; background:var(--card-inner); border-radius:16px; border:2px dashed var(--border-color);">
                         <button class="mic-btn" id="micBtn" onclick="toggleSpeech()">🎙️ Start Speaking & Record</button>
                         <p style="font-size:0.9rem; font-weight:600; color:var(--text-muted); margin:12px 0 0 0;" id="micStatus">Microphone is idle</p>
-                        
-                        <!-- REAL AUDIO PLAYER FOR PLAYBACK -->
                         <audio id="audioPlayback" controls style="display:none;"></audio>
                     </div>
 
@@ -276,7 +289,6 @@
                             </div>
                         </div>
                         
-                        <!-- AI RESULTS BOX -->
                         <div id="aiEvaluation" class="ai-box">
                             Click 'Evaluate' to analyze your recorded answer, or click 'Sample' to see how an expert would answer this. <br><br>
                             <small style="color:var(--accent-red);">Note: Enter your Gemini API Key in the top right box for Live AI to work securely.</small>
@@ -390,7 +402,7 @@
         const sessionsData = rawSpelling.map(s => ({ title: s.title, text: s.words.join(' ') }));
 
         let revisionWords = JSON.parse(localStorage.getItem('ielts_revision_words') || '[]');
-        let currentText = "", charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false;
+        let currentText = "", charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
         
         function initTypingEngine() {
             const grid = document.getElementById('sessionGrid');
@@ -425,7 +437,7 @@
         }
 
         function resetTimer() {
-            clearInterval(timer); startTime = null; isPlaying = false;
+            clearInterval(timer); startTime = null; isPlaying = false; totalTypedCount = 0;
             document.getElementById('statTimer').innerText = "Time: 00:00";
             document.getElementById('statWpm').innerText = "WPM: 0";
         }
@@ -458,13 +470,21 @@
                     const elapsed = Math.floor((new Date() - startTime) / 1000);
                     const m = Math.floor(elapsed / 60), s = elapsed % 60;
                     document.getElementById('statTimer').innerText = `Time: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+                    
+                    // WPM Logic (Words Per Minute) - approx 5 chars per word
+                    const mins = elapsed / 60;
+                    const words = totalTypedCount / 5;
+                    const wpm = mins > 0 ? Math.round(words / mins) : 0;
+                    document.getElementById('statWpm').innerText = `WPM: ${wpm}`;
                 }, 1000);
             }
 
             const exp = currentText[curIdx];
             charSpans[curIdx].classList.remove('active');
+            
             if (ch === exp) {
                 charSpans[curIdx].classList.add('correct');
+                totalTypedCount++;
                 playTick();
             } else {
                 charSpans[curIdx].classList.add('incorrect');
@@ -507,6 +527,15 @@
             });
             if (charSpans[0]) charSpans[0].classList.add('active');
             resetTimer();
+        }
+
+        // Clear Revision Logic
+        function clearRevision() {
+            if (confirm("Are you sure you want to delete all revision words?")) {
+                revisionWords = [];
+                localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+                updateRevUI();
+            }
         }
 
         // --- 100 ESSAYS & POST TRANSLATE ---
@@ -557,7 +586,6 @@
             } else {
                 btn.innerText = "⏳ Translating...";
                 try {
-                    // Using POST ensures full translation
                     const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -766,7 +794,7 @@
             });
         }
 
-        // Audio Recorder Code
+        // Audio Recorder Code - Set to UK English
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
 
         async function toggleSpeech() {
@@ -788,11 +816,14 @@
                         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                         const audioUrl = URL.createObjectURL(audioBlob);
                         audioPlayback.src = audioUrl;
-                        audioPlayback.style.display = 'block'; // Make Player Visible!
+                        audioPlayback.style.display = 'block'; 
                     };
 
                     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    recog = new SR(); recog.continuous = true; recog.interimResults = true; recog.lang = 'en-US';
+                    recog = new SR(); recog.continuous = true; recog.interimResults = true; 
+                    
+                    // Force British English for better IELTS accent recognition
+                    recog.lang = 'en-GB'; 
                     
                     out.innerText = '';
                     audioPlayback.style.display = 'none';
@@ -831,18 +862,16 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration
+        // Live Gemini Integration (Fixed API version to 1.5-flash)
         async function fetchGeminiData(promptText) {
             let key = document.getElementById('geminiApiKey').value.trim();
             if (!key) {
-                key = prompt("Please enter your free Gemini API Key from Google AI Studio to use Live AI features:");
-                if (!key) return null;
-                document.getElementById('geminiApiKey').value = key;
-                saveApiKey();
+                alert("Please enter your free Gemini API Key in the top navigation bar to use Live AI.");
+                return null;
             }
 
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${key}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
@@ -876,7 +905,7 @@
 
             const aiResponse = await fetchGeminiData(prompt);
             if (aiResponse) {
-                box.innerHTML = aiResponse.replace(/```html|```/g, ''); // Strip markdown
+                box.innerHTML = aiResponse.replace(/```html|```/g, ''); 
             } else {
                 box.innerHTML = "Failed to load evaluation. Check API key.";
             }
@@ -963,8 +992,6 @@
                 renderP2();
             }
         }
-
-        function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
         // Run Init
         initTypingEngine();
