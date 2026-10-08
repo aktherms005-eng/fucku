@@ -163,11 +163,11 @@
         .ai-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; }
         audio { width: 100%; margin-top: 15px; border-radius: 8px; height: 45px; }
 
-        /* Updated Floating Tooltip - Smaller and Neater */
+        /* Updated Minimal Floating Tooltip */
         .floating-popover {
             position: fixed; display: none; z-index: 1000;
             background: var(--card-bg); color: var(--text-main); border: 2px solid var(--primary);
-            border-radius: 12px; padding: 12px 14px; width: 260px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            border-radius: 12px; padding: 12px 14px; width: 230px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
         }
         .popover-header {
             display: flex; justify-content: space-between; align-items: center; 
@@ -188,7 +188,7 @@
         }
         .popover-btn {
             border: none; border-radius: 8px; padding: 8px; width: 100%; 
-            font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 6px; transition: 0.2s;
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 0; transition: 0.2s;
         }
 
         /* PDF Table */
@@ -369,7 +369,7 @@
         </div>
     </div>
 
-    <!-- Updated Floating Interactive Popover -->
+    <!-- Minimal Floating Interactive Popover -->
     <div class="floating-popover" id="floatPop">
         <button onclick="closePop()" style="position:absolute; right:8px; top:8px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1rem; font-weight:bold;">✕</button>
         <div class="popover-header">
@@ -381,8 +381,7 @@
         </div>
         <div id="popIpa" class="popover-ipa">/pronunciation/</div>
         <div id="popMeaning" class="popover-meaning">বাংলা অর্থ</div>
-        <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff;">⭐ Add to Revision List</button>
-        <a href="#" target="_blank" id="popGoogleLink" class="popover-btn" style="display:block; text-align:center; background:var(--primary); color:#fff; text-decoration:none;">🌐 Open in Google Translate</a>
+        <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff; margin-bottom:0;">⭐ Add to Revision List</button>
     </div>
 
     <!-- External Linked Datasets -->
@@ -447,12 +446,6 @@
                 topic: "Foreword",
                 question: "Foreword by Mary Gaitskill",
                 answer: "One Thousand and One Nights is about worlds underground, where jewels are embedded in darkness and a beautiful woman may love a devil; it's about powerful slaves and foolish demons, secret spirits hidden in jars; it's about truth living in the treacherous heart like an abiding and holy law waiting to be revealed in the words of a story told by a porter, a tailor, a concubine or lady-all through the lips of the lady Shahrazad to an enraged, cuckolded king on a revenge mission against woman-kind. If she stops telling stories, he will kill her like every other woman he sleeps with."
-            },
-            {
-                id: 2,
-                topic: "Tale 1",
-                question: "Shahrayar and Shahrazad",
-                answer: "A long, long time ago lived two Kings who were brothers. The elder, King Shahrayar, ruled India and Indochina. The younger, Shahzaman, ruled Samarkand. Shahrayar was so powerful and strong that even savage animals feared him; but at the same time, he was fair, caring and kind to his people-just as the eyelid protects the eye. And they, in turn, were loyal, obeyed him blindly, and adored him."
             }
         ];
         // If story.js is present it will use that, otherwise falls back to sample
@@ -802,7 +795,6 @@
                 currentRange = sel.getRangeAt(0).cloneRange();
                 const pop = document.getElementById('floatPop');
                 document.getElementById('popWord').innerText = text.length > 22 ? text.substring(0, 20) + '...' : text;
-                document.getElementById('popGoogleLink').href = `https://translate.google.com/?sl=en&tl=bn&text=${encodeURIComponent(text)}&op=translate`;
 
                 const clean = text.toLowerCase().replace(/[^a-zA-Z]/g, '');
                 let foundMatch = false;
@@ -840,7 +832,7 @@
                 }
 
                 let x = e.clientX + 10, y = e.clientY + 15;
-                if (x + 320 > window.innerWidth) x = window.innerWidth - 330;
+                if (x + 250 > window.innerWidth) x = window.innerWidth - 260;
                 pop.style.left = `${x}px`; pop.style.top = `${y}px`; pop.style.display = 'block';
 
                 if (document.getElementById('soundToggle').checked && !text.includes(' ') && text.length < 18) playUK(text);
