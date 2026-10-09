@@ -118,19 +118,21 @@
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 18px; border-top: 1px solid var(--border-color); font-size: 1rem; color: var(--primary); }
 
-        /* General Layouts (Essays & Stories) */
+        /* Accordion Layout for Essays and Stories */
         .essay-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow);
         }
-        .essay-card-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .essay-topic { background: var(--error-bg); color: var(--accent-red); font-size: 0.8rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; text-transform: uppercase; }
-        .essay-q-box { background: var(--card-inner); border-left: 5px solid var(--primary); padding: 14px 18px; border-radius: 10px; margin-top: 12px; margin-bottom: 12px; font-weight: 700; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+        .essay-topic { background: var(--error-bg); color: var(--accent-red); font-size: 0.8rem; font-weight: 700; padding: 5px 12px; border-radius: 8px; text-transform: uppercase; display: inline-block; margin-bottom: 8px; }
+        .essay-q-box { 
+            background: var(--card-inner); border-left: 5px solid var(--primary); padding: 14px 18px; border-radius: 10px; 
+            font-weight: 700; font-size: 1.05rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; 
+        }
         .essay-q-box:hover { background: #eff6ff; }
         
         /* Collapsible Body */
-        .story-body-wrap { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
-        .story-body-wrap.open { display: block; }
+        .body-wrap { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
+        .body-wrap.open { display: block; }
 
         .split-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
         .split-grid.active { grid-template-columns: 1fr 1fr; }
@@ -312,7 +314,7 @@
             </div>
         </div>
 
-        <!-- 3. ESSAYS -->
+        <!-- 3. ESSAYS (Accordion List View Added) -->
         <div id="sec-essays" class="content-section">
             <div style="display:flex; gap:12px; margin-bottom:20px;">
                 <input type="text" id="essaySearch" placeholder="Search 100 essays by topic or keyword..." style="flex:1; padding:12px 18px; border-radius:12px; border:2px solid var(--border-color); font-size:1rem; font-weight:500;" oninput="filterEssays()">
@@ -321,7 +323,7 @@
             <div id="essayListContainer"></div>
         </div>
 
-        <!-- 4. STORY (1001 NIGHTS) - Accordion / List View -->
+        <!-- 4. STORY (1001 NIGHTS) -->
         <div id="sec-story" class="content-section">
             <div style="display:flex; gap:12px; margin-bottom:20px;">
                 <input type="text" id="storySearch" placeholder="Search 1001 Nights tales..." style="flex:1; padding:12px 18px; border-radius:12px; border:2px solid var(--border-color); font-size:1rem; font-weight:500;" oninput="filterStory()">
@@ -720,9 +722,9 @@
             resetTimer();
         }
 
-        // --- ACCORDION TOGGLE FOR STORY ---
-        function toggleStoryAccordion(id) {
-            const wrap = document.getElementById(`body_story_${id}`);
+        // --- ACCORDION TOGGLE FOR ESSAYS & STORIES ---
+        function toggleAccordion(id) {
+            const wrap = document.getElementById(`body_${id}`);
             wrap.classList.toggle('open');
         }
 
@@ -753,7 +755,7 @@
             document.getElementById('readingModalContent').classList.toggle('dark');
         }
 
-        // --- 100 ESSAYS ---
+        // --- 100 ESSAYS (Accordion List View) ---
         function initEssays() {
             const list = document.getElementById('essayListContainer');
             list.innerHTML = '';
@@ -765,29 +767,32 @@
                 const card = document.createElement('div');
                 card.className = 'essay-card';
                 card.innerHTML = `
-                    <div class="essay-card-header">
-                        <span class="essay-topic">${e.topic}</span>
-                        <div>
+                    <span class="essay-topic">${e.topic}</span>
+                    <div class="essay-q-box" onclick="toggleAccordion('essay_${e.id}')">
+                        <span>Essay #${e.id}: ${e.question}</span>
+                        <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
+                    </div>
+                    
+                    <div class="body-wrap" id="body_essay_${e.id}">
+                        <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:15px;">
                             <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('Essay #${e.id} - ${e.topic}', 'ans_en_essay_${e.id}')">📖 Read Focus</button>
                             <button class="control-btn" data-trans="0" onclick="translateContent('essay', ${e.id}, this)">🌐 Translate to Bangla</button>
-                            <span style="font-weight:800; margin-left:10px; color:var(--primary);">Essay #${e.id}</span>
                         </div>
-                    </div>
-                    <div class="essay-q-box">${e.question}</div>
-                    
-                    <div class="split-grid" id="grid_essay_${e.id}">
-                        <div class="split-col plain" id="col_en_essay_${e.id}">
-                            <div style="font-weight:800; color:var(--primary); margin-bottom:12px; display:none;" id="title_en_essay_${e.id}">🇬🇧 English Original</div>
-                            <div class="essay-ans-box" id="ans_en_essay_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+                        
+                        <div class="split-grid" id="grid_essay_${e.id}">
+                            <div class="split-col plain" id="col_en_essay_${e.id}">
+                                <div style="font-weight:800; color:var(--primary); margin-bottom:12px; display:none;" id="title_en_essay_${e.id}">🇬🇧 English Original</div>
+                                <div class="essay-ans-box" id="ans_en_essay_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+                            </div>
+                            <div class="split-col" id="col_bn_essay_${e.id}" style="display:none; border-color: var(--correct);">
+                                <div style="font-weight:800; color:var(--correct); margin-bottom:12px;">🇧🇩 Bengali Translation</div>
+                                <div class="essay-ans-box" id="ans_bn_essay_${e.id}" onmouseup="triggerSelection(event)"></div>
+                            </div>
                         </div>
-                        <div class="split-col" id="col_bn_essay_${e.id}" style="display:none; border-color: var(--correct);">
-                            <div style="font-weight:800; color:var(--correct); margin-bottom:12px;">🇧🇩 Bengali Translation</div>
-                            <div class="essay-ans-box" id="ans_bn_essay_${e.id}" onmouseup="triggerSelection(event)"></div>
-                        </div>
-                    </div>
 
-                    <div style="display:flex; justify-content:flex-end;">
-                        <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadEssayToTyping(${e.id})">⌨️ Practice Typing</button>
+                        <div style="display:flex; justify-content:flex-end; margin-top:15px;">
+                            <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadEssayToTyping(${e.id})">⌨️ Practice Typing</button>
+                        </div>
                     </div>
                 `;
                 list.appendChild(card);
@@ -818,16 +823,14 @@
                 const card = document.createElement('div');
                 card.className = 'essay-card';
                 card.innerHTML = `
-                    <div class="essay-topic" style="background:var(--weak-color); color:#fff; display:inline-block; margin-bottom:8px;">${e.topic}</div>
+                    <div class="essay-topic" style="background:var(--weak-color); color:#fff;">${e.topic}</div>
                     
-                    <!-- Clickable Header / Accordion Title -->
-                    <div class="essay-q-box" onclick="toggleStoryAccordion(${e.id})">
+                    <div class="essay-q-box" style="border-left-color:var(--weak-color);" onclick="toggleAccordion('story_${e.id}')">
                         <span>Chapter #${e.id}: ${e.question}</span>
-                        <span style="font-size: 1.2rem; color:var(--primary);">▼</span>
+                        <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
                     </div>
                     
-                    <!-- Collapsible Body -->
-                    <div class="story-body-wrap" id="body_story_${e.id}">
+                    <div class="body-wrap" id="body_story_${e.id}">
                         <div style="display:flex; justify-content:flex-end; gap:10px; margin-bottom:15px;">
                             <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('${e.topic} - ${e.question}', 'ans_en_story_${e.id}')">📖 Read Focus</button>
                             <button class="control-btn" data-trans="0" onclick="translateContent('story', ${e.id}, this)">🌐 Translate to Bangla</button>
