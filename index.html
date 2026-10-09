@@ -28,6 +28,17 @@
             --scale-factor: 1rem;
         }
 
+        /* Dark Mode Colors */
+        body.dark-mode {
+            --bg-color: #111827;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --card-bg: #1f2937;
+            --card-inner: #374151;
+            --border-color: #4b5563;
+            --error-bg: #7f1d1d;
+        }
+
         body {
             margin: 0; padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -38,6 +49,7 @@
             font-size: var(--scale-factor);
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .container { width: 98%; max-width: 1450px; margin: 10px auto; box-sizing: border-box; padding: 0 5px; }
@@ -70,12 +82,12 @@
             cursor: pointer; font-size: calc(0.78rem * var(--scale-factor) / 1rem); font-weight: 600;
         }
 
-        /* Global Font Resize Toolbar */
-        .global-font-bar {
-            display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-bottom: 8px; background: var(--card-bg); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-color);
+        /* Toolbar for Font size & Dark Mode */
+        .utility-bar {
+            display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; background: var(--card-bg); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-color);
         }
-        .global-font-bar button {
-            background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 3px 12px; font-weight: bold; cursor: pointer; color: var(--primary); font-size: 0.95rem;
+        .utility-bar button {
+            background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; font-weight: bold; cursor: pointer; color: var(--primary); font-size: 0.85rem;
         }
 
         header { text-align: center; margin-bottom: 15px; }
@@ -148,6 +160,7 @@
         .speaking-q-list { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px; max-height: 500px; overflow-y: auto; box-shadow: var(--shadow); box-sizing: border-box; }
         .speaking-card { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; font-size: calc(0.9rem * var(--scale-factor) / 1rem); font-weight: 500; word-break: break-word; }
         .speaking-card.active { border-color: var(--primary); background: #eff6ff; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); }
+        body.dark-mode .speaking-card.active { background: #1e3a8a; color: #93c5fd; }
         
         .speaking-panel { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); box-sizing: border-box; }
         
@@ -224,11 +237,12 @@
     </script>
 
     <div class="container">
-        <!-- Global Font Resizer Toolbar -->
-        <div class="global-font-bar">
+        <!-- Utility Toolbar (Font Size & Dark Mode) -->
+        <div class="utility-bar">
             <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Text Size:</span>
             <button onclick="changeGlobalFontSize(1)">A+</button>
             <button onclick="changeGlobalFontSize(-1)">A-</button>
+            <button onclick="toggleDarkMode()" id="darkModeBtn" style="margin-left: 10px;">🌙 Night Mode</button>
         </div>
 
         <!-- Top Nav -->
@@ -250,7 +264,7 @@
 
         <header>
             <h1 id="pageTitle">IELTS Spelling Practice Meter</h1>
-            <p class="desc" id="pageDesc">Type words naturally. Use Backspace to correct mistakes.</p>
+            <p class="desc" id="pageDesc">Listen to the word first, then type it naturally.</p>
         </header>
 
         <!-- 1. TYPING -->
@@ -414,6 +428,22 @@
             document.documentElement.style.setProperty('--scale-factor', globalFontSize + 'rem');
         }
 
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('darkModeBtn').innerText = isDark ? '☀️ Light Mode' : '🌙 Night Mode';
+            localStorage.setItem('ielts_dark_mode', isDark ? '1' : '0');
+        }
+
+        // Restore Dark Mode preference on load
+        if (localStorage.getItem('ielts_dark_mode') === '1') {
+            document.body.classList.add('dark-mode');
+            window.addEventListener('DOMContentLoaded', () => {
+                const btn = document.getElementById('darkModeBtn');
+                if(btn) btn.innerText = '☀️ Light Mode';
+            });
+        }
+
         const rawSpelling = [
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
             { title: "2. Money Matters", words: ["cash", "debit", "credit card", "cheque", "in advance", "annual fee", "monthly membership", "interest rate", "deposit", "tuition fees", "poverty", "bank statement", "money management", "current account", "student account", "withdraw", "low-risk investment", "mortgage", "grace period", "budget deficit", "retail voucher", "coupon", "counterfeit money", "public money", "tax payers' money", "debt", "interest-free credit", "purchase", "partial refund", "annuity", "non-refundable", "MasterCard", "Visa", "distribution costs", "income", "finance department", "family finances", "duty-free store"] },
@@ -490,7 +520,7 @@
             setupCurrentWord();
         }
 
-        // টাইপিং লজিক: তালিকা যেমন আছে তেমনই থাকবে, কিন্তু একটি শব্দ টাইপ শেষ করে স্পেস (space) দিলে পরের শব্দ নিজে নিজে উচ্চারণ হবে
+        // টাইপিং লজিক: তালিকা যেমন আছে তেমনই থাকবে, প্রথম শব্দ বা পরের শব্দ টাইপ করার আগেই উচ্চারণ করবে
         function setupCurrentWord() {
             if (currentWordIndex >= currentWordsList.length) {
                 clearInterval(timer);
@@ -500,7 +530,7 @@
 
             currentText = currentWordsList[currentWordIndex];
             
-            // শুরুতেই বর্তমান শব্দটি উচ্চারণ করবে
+            // শুরুতেই বর্তমান শব্দটি উচ্চারণ করবে (যাতে শুনে টাইপ করা যায়)
             playUK(currentText);
 
             const disp = document.getElementById('textDisplay');
@@ -542,12 +572,11 @@
             } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
                 handleTypedChar(e.key);
             } else if (e.key === ' ' || e.key === 'Enter') {
-                // স্পেস বা এন্টার চাপলে যদি বর্তমান শব্দ টাইপ শেষ হয়ে থাকে, তবে পরের শব্দে যাবে
                 if (curIdx >= currentText.length) {
                     e.preventDefault();
                     lastWordTyped = currentText;
                     currentWordIndex++;
-                    setupCurrentWord();
+                    setupCurrentWord(); // স্পেস দেওয়ার পর পরের শব্দে গিয়ে সাথে সাথেই উচ্চারণ করবে
                 }
             }
         });
@@ -584,7 +613,6 @@
             if (curIdx < currentText.length) {
                 charSpans[curIdx].classList.add('active');
             } else {
-                // শব্দ টাইপ শেষ, এবার স্পেস দিলেই বা অটো পরের শব্দে যাবে
                 lastWordTyped = currentText;
             }
         }
