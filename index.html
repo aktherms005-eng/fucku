@@ -461,18 +461,16 @@
         ];
         const finalStoryData = (typeof storyData !== 'undefined' && storyData.length > 0) ? storyData : defaultStoryData;
 
-        const sessionsData = rawSpelling.map(s => ({ title: s.title, text: s.words.join(' ') }));
-
         let revisionWords = JSON.parse(localStorage.getItem('ielts_revision_words') || '[]');
-        let currentText = "", charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
-        let lastWordTyped = "";
-        let currentSessionWords = [];
+        let currentWordsList = [];
         let currentWordIndex = 0;
-        
+        let charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
+        let lastWordTyped = "";
+
         function initTypingEngine() {
             const grid = document.getElementById('sessionGrid');
             grid.innerHTML = '';
-            sessionsData.forEach((s, idx) => {
+            rawSpelling.forEach((s, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'session-btn';
                 btn.innerText = s.title;
@@ -487,22 +485,22 @@
             document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
-            currentSessionWords = rawSpelling[idx].words;
+            currentWordsList = [...rawSpelling[idx].words];
             currentWordIndex = 0;
-            loadNextWord();
+            setupCurrentWord();
         }
 
-        // টাইপিং প্র্যাকটিসের নতুন লজিক: আগে শব্দ উচ্চারণ হবে, তারপর টাইপ শুরু হবে
-        function loadNextWord() {
-            if (currentWordIndex >= currentSessionWords.length) {
+        // টাইপিং লজিক: তালিকা যেমন আছে তেমনই থাকবে, কিন্তু একটি শব্দ টাইপ শেষ করে স্পেস (space) দিলে পরের শব্দ নিজে নিজে উচ্চারণ হবে
+        function setupCurrentWord() {
+            if (currentWordIndex >= currentWordsList.length) {
                 clearInterval(timer);
                 document.getElementById('textDisplay').innerText = "Session completed successfully!";
                 return;
             }
 
-            currentText = currentSessionWords[currentWordIndex];
+            currentText = currentWordsList[currentWordIndex];
             
-            // প্রথমে শব্দটি উচ্চারণ করবে
+            // শুরুতেই বর্তমান শব্দটি উচ্চারণ করবে
             playUK(currentText);
 
             const disp = document.getElementById('textDisplay');
@@ -543,11 +541,19 @@
                 }
             } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
                 handleTypedChar(e.key);
+            } else if (e.key === ' ' || e.key === 'Enter') {
+                // স্পেস বা এন্টার চাপলে যদি বর্তমান শব্দ টাইপ শেষ হয়ে থাকে, তবে পরের শব্দে যাবে
+                if (curIdx >= currentText.length) {
+                    e.preventDefault();
+                    lastWordTyped = currentText;
+                    currentWordIndex++;
+                    setupCurrentWord();
+                }
             }
         });
 
         function handleTypedChar(ch) {
-            if (curIdx >= charSpans.length) return;
+            if (curIdx >= currentText.length) return;
             if (!isPlaying) {
                 isPlaying = true; startTime = new Date();
                 timer = setInterval(() => {
@@ -575,15 +581,11 @@
             }
 
             curIdx++;
-            if (curIdx < charSpans.length) {
+            if (curIdx < currentText.length) {
                 charSpans[curIdx].classList.add('active');
             } else {
-                // একটি শব্দ টাইপ শেষ হলে পরের শব্দে যাওয়ার আগে উচ্চারণ করবে
+                // শব্দ টাইপ শেষ, এবার স্পেস দিলেই বা অটো পরের শব্দে যাবে
                 lastWordTyped = currentText;
-                currentWordIndex++;
-                setTimeout(() => {
-                    loadNextWord();
-                }, 400);
             }
         }
 
@@ -614,9 +616,9 @@
         function practiceRevision() {
             if (revisionWords.length === 0) { alert('No revision words available.'); return; }
             showTab('typing');
-            currentSessionWords = [...revisionWords];
+            currentWordsList = [...revisionWords];
             currentWordIndex = 0;
-            loadNextWord();
+            setupCurrentWord();
         }
 
         function clearRevision() {
@@ -678,9 +680,9 @@
         function loadTextToTyping(rawText) {
             const words = rawText.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
             showTab('typing');
-            currentSessionWords = words;
+            currentWordsList = words;
             currentWordIndex = 0;
-            loadNextWord();
+            setupCurrentWord();
         }
 
         // --- ACCORDION TOGGLE FOR ESSAYS & STORIES ---
@@ -1163,7 +1165,7 @@
             if (t === 'typing') {
                 document.getElementById('tabTyping').classList.add('active');
                 document.getElementById('pageTitle').innerText = "IELTS Spelling Practice Meter";
-                document.getElementById('pageDesc').innerText = "Type words naturally. Use Backspace to correct mistakes.";
+                document.getElementById('pageDesc').innerText = "Listen to the word first, then type it naturally.";
             } else if (t === 'revision') {
                 document.getElementById('tabRev').classList.add('active');
                 updateRevUI();
