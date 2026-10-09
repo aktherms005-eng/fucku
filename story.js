@@ -153,7 +153,248 @@ Shahrazad was overjoyed. She began. “It is said, oh wise and happy King, that 
         id: 2,
         topic: "Tale 2",
         question: "The Fisherman and the Jinni",
-        answer: `It is said, oh wise and happy King, that a very poor sherman who swore by Almighty God that he would only cast his net three times each day, went down to the sea late one afternoon as usual, waited until he saw the moon shining above him, and then threw his net very carefully into the water. He sat there for a time, and then, when he pulled on his net and felt that it had grown heavy, he sang to himself:        “Glide over to me, my magni cent sh        And slither into my waiting net        So that someone asleep on his soft silken bed        Will awaken and buy you with his silver bread.” He opened his net and there, to his horror, found a dead donkey. “A donkey?” he cried out. “My wretched luck. You send me a donkey when you know that my family and I are starved out of our brains?” He managed to free it from his net with one hand while pinching his nose with the other to block out the horrible smell. He cast his net carefully into the sea again, waited for it to sink, tugged on it and to his amazement felt that the net was even heavier than the rst time. It was so heavy he had to climb back on to the shore, drive a stake into the ground, and tie the rope of the net to the stake. Then he hauled with all his might until he managed to pull the net up out of the sea.But instead of an abundance of sh jumping and playing in the net he found a broken, rusty wooden chest lled with sand. He shouted in a loud voice, “A chest? Is this how you compensate my work? My labour? Or are you telling me that the key to my good fortune lies inside this co n?” He kicked the chest as hard as he could, but then managed to recover his patience, and washed out his net once again. When dawn was about to break the sherman prayed, raising his hands and lifting his eyes to heaven in supplication. “Oh God, I beg of you, have pity on me, I have no other trade and I have sworn that I shall only cast my net three times. This is my last attempt, because I believe that my fortune has been decided and this will be my fate.” He cast his net, put his hand on his heart and waited, murmuring to himself, “Let us hope that the third time will be lucky.” At last he hauled the net ashore and to his amazement found a large brass jar inside, long-necked and sealed with a lid. “I’ll sell it in the copper market and buy some wheat,” he said to himself. He tried to lift it but it was too heavy and so he shook it, trying to tell what was inside. He examined the lead seal of the lid, on which words were engraved, and then took his knife and slowly eased it open. He tilted the jar to one side but nothing came out, which puzzled him, since the jar was so heavy. He plunged his hand into the jar, but it was empty. Suddenly a column of smoke began to pour out, covering the ground and the sea and moving higher and higher up into the sky until it reached the clouds. The sherman peered up into the sky as the smoke turned to a black fog and formed the shape of a huge jinni, his head reaching to the sky and his feet planted on the sand. The sherman wanted to run away, but remained frozen to the spot, as the jinni’s head became like a tomb, his eyes like two lanterns, his nostrils like two trumpets, his ears as large as an elephant’s, his mouth a frightening cave with teeth like gravestones and two fangs like a pair of pincers. The sherman shook with fear, his teeth rattled in his mouth, his knees knocked and his feet remained nailed to the ground.But the jinni cried out, “Oh Suleiman, Suleiman, the mighty prophet of God, forgive me and pardon me. I promise that I have learned my lesson. I’ll never disobey you again and I am now your trusted servant.” Hearing the jinni’s plea and seeing how he trembled, the sherman gathered his courage and asked him, “What are you saying? The prophet Suleiman died one thousand, eight hundred years ago. Eons have passed. Who are you? And why were you in that jar?” “Be glad, be very glad,” the jinni replied. “Oh! My happy day has come at last,” the sherman said to himself, overjoyed. “Be glad that I am going to kill you,” the jinni added. “Kill me? What have I done other than to haul you up from the bottom of the sea and release you from that jar?” “Hurry up and make a wish,” the jinni told him. Hearing this, the sherman’s face lit up and he said, “This is what I love to hear! Just give me a second to think what I should ask of you.” But the jinni said, “Tell me how you wish to die. I promise you that I will ful l your desire.” “Why me?” the sherman shrieked. “What have I done to you, you ungrateful creature? Let me tell you that until this day I never believed the proverb ‘Beware those you help.’ ” But the jinni said to him, “Let me tell you my story. I’m sure that then you’ll understand why I must put you to death.” The sherman said, “Please be assured, jinni, that I shall never try to understand why you are going to kill me!” Enraged, the jinni shouted, “Then you can be assured, sherman, that I will not be so generous as to ask you how you would like to die.” “Hurry up then, and tell me your story,” the sherman said. “Be quick, for my soul has dropped to my feet in fright.” The jinni began his story. “I am one of the rebellious jinnis who disobeyed God. I was dragged before the prophet Suleiman who asked me to submit and surrender to him. When I declined heimprisoned me in that jar and sealed it with the name of the Almighty and Magni cent. Then he gave the jar to one of the obedient jinnis, who carried me and threw me in the sea. Before I had completed two hundred years inside that wretched jar I swore an oath that if someone were to release me I would make him rich. But nothing happened and I remained trapped in the jar. After another two hundred years had passed I vowed to myself in my loudest voice, in the hope that the waves would carry my pleas, that whosoever should release me from my prison would receive all the treasures of the Earth. But still no one came to my rescue and another hundred years passed and another and another and I remained, cooped up in the same position in that jar. I found myself screaming and raving and shouting and declaring to the whole world and to myself that whosoever set me free I would subject to the worst death imaginable and then you arrived, and released me from the jar. And so now I am obliged to ful l my promise.” The sherman nearly fainted, but he pleaded with the jinni, “Forgive me, jinni, for setting you free. I was only trying to sh, so that my wife and children will not die of hunger. Jinni, if you forgive me, then God will forgive you; if you strike me, then God will strike you down.” But the jinni interrupted the sherman, saying, “I must kill you, it is the best reward that I can grant you for setting me free. Now hurry up and choose the manner of your death.” The sherman thought to himself, “I am a human being; God has given me reason and made me superior to this jinni. I must use my cunning to defeat his demonic wiles and barbarism.” He turned to the jinni, saying, “Jinni, do with me what you will, kill me in any way you wish.” But just as the jinni took one giant step towards him, the sherman said quickly, “Jinni, before I die, I should like to ask you something.” “Go ahead and ask then.” “Tell me, in the name of the Almighty, were you really inside that jar? Are you sure you weren’t playing a trick on me?” “Of course I was inside it!”“But how? This jar is not big enough for even one of your giant feet.” “So you don’t believe me?” said the jinni. “No, to be perfectly honest, I don’t,” the sherman replied. “I’ll never believe it unless I see it with my own eyes.” But a rooster crowed, dawn broke and Shahrazad fell silent, sighing to herself. “Oh King!” her sister, Dunyazad, said from under the bed. “What a beautiful and amazing story!” “If the King spares me and lets me live, then I shall tell you tomorrow night what became of the sherman and the jinni,” said Shahrazad. “I shall let her live and hear the rest of the story tomorrow night and then I shall kill her,” Shahrayar said to himself. Shahrazad held her breath with great anguish and fear, awaiting the King’s verdict, as if the sword might fall upon her neck at any moment, while Dunyazad peeked out from beneath the bed, panting and panicking. This moment seemed to stretch out into a century, but nally Shahrayar left his bedroom, without calling for his Vizier, the father of Shahrazad and Dunyazad, to order him to have his daughter put to death. Instead he went and sat on his throne, to order and forbid, and the two sisters clung to each other, embracing and weeping, hardly able to believe that their plan had worked, even for one night. Dunyazad touched her sister’s face, amazed that she was still alive. When the Vizier realised that his daughter would not be killed that day he shouted for joy and kissed the ground. When night fell over the palace once more, Shahrayar entered his bedchamber, and climbed into his bed. Shahrazad climbed in next to him and the King caressed her and made love to her, while Dunyazad waited patiently under the bed. When the commotion above her subsided, she cleared her throat and spoke into the darkness. “Sister, if you are not asleep, can you tell us what became of the sherman and the jinni?” “If the King wishes to hear it,” was Shahrazad’s reply.“Go ahead,” said the King. And Shahrazad answered, “With the greatest pleasure.” I heard, oh happy King, that the sherman answered, “I will never believe that you were inside that jar until I see it with my own two eyes.” So the jinni shook himself until he once again became smoke which rose into the air and stretched out over the sea and the ground. Then it gathered itself and entered the jar little by little and when the last drifts of smoke disappeared within, the jinni called out, “Do you believe me now, you stubborn sherman?” Quick as a ash the sherman clamped the lead seal over the mouth of the jar and shouted, “Now, you wretched jinni, how do you wish to die?” Realising that the sherman had tricked him, the jinni struggled to get out. When he found that he was trapped, he called, “But sherman, I was joking when I told you that I wanted to kill you!” “You’re lying,” said the sherman, and he began to roll the jar towards the water’s edge. “Stop, sherman, stop! What are you going to do with me?” “I am going to throw you deep into the sea, and build a hut right here on this spot, lest another sherman comes along and hauls you out. I want you to remain imprisoned in the darkness of the jar for ever, until Doomsday.” The jinni was silent for a moment, and then he spoke in the softest of voices, “I beg you, sherman, not to do that.” “Didn’t I myself plead with you again and again, telling you to spare me so that God would spare you, or destroy me and be destroyed yourself? But you refused.” “Release me,” the jinni begged him, “and I promise that I shall leave you in peace.” “Listen, jinni, I love my life and it was enough to have nearly lost it the rst time I saved you.” “Open the jar and I promise to reward you beyond your wildest dreams.”“I don’t believe your promises. They’re all lies, because your situation and mine is like that of King Yunan and the sage Duban,” said the sherman. “What is that story?” And so the sherman began. There was once a King called Yunan, who su ered from leprosy which no one could cure, until a sage rid him of the disease without giving him one drop of medicine or applying a single trace of ointment. The King rewarded this sage, who had made his skin healthy and pure once more. He showered him with gifts and money and presented him with a special robe, studded with precious gems, of the kind worn only by the King’s Vizier. When he discovered this, the Vizier feared the King would prefer the sage and appoint him as his counsellor and con dant. So the jealous Vizier advised the King to beware the sage, saying, “He might cause you such great harm that it leads to your death.” The King was sure that his Vizier was jealous, and he reminded him that the sage had cured his terrible leprosy. But the Vizier said, “Indeed, Your Majesty, the way he cured you was exactly what raised my suspicions. I was horri ed when he cured you by magic—he didn’t even touch you! It came to me that we couldn’t trust this man not to harm the King in this strange way.” The King was convinced and he summoned the sage and said to him, “I wish to save myself from your grasp, and so I have decided to have you put to death.” The sage was astonished. “But what have I done, Your Majesty, other than doing a good deed in curing you? I don’t understand why you would reward me by cutting o my head.” “You have indeed cured my illness, sage, with nothing but magic. You might just as easily kill me with magic.”“Spare me, Your Majesty, and God shall spare you. Destroy me and God shall destroy you,” the sage pleaded. The sherman stopped the story, saying, “Jinni, you have heard how the sage Duban pleaded with King Yunan. Do you remember how I pleaded with you to spare me?” “Yes, I remember, sherman, go on with your story: I can’t bear being back in here.” And so the sherman continued his story. When the sage realised his end had come, he said to the King, “Let me go to my house before you kill me, so that I may prepare my burial. I should like also to present you with my most precious book, so that you may keep it safe with your great treasures. For this book is the secret of secrets. It is unique; it is miraculous; for if you strike o my head and then open the book at page six and read three lines from the left, my head will speak to you! Yes, it will answer all of your questions.” The King was amazed. “Wonder of wonders! Go home and fetch the book at once!” The sage came before the King bearing an old book and pleaded for his life one last time. “For God’s sake, Your Majesty, spare me and God shall spare you; destroy me and God shall destroy you.” “Spare you?” answered the excited King. “But I cannot wait to hear your head talk.” Then the King ordered the executioner to cut o the head of the sage. The severed head opened its eyes and asked the King to open the book. The King did as he was told, but the pages of the book were stuck together, and so he moistened his nger with his tongue, opened the rst page, then wetted his nger again and again until he had reached page six. When he saw that no words appeared upon the page, the King said, “Sage, I see nothing written on page six.” The head answered, “Open more pages.” The King turned page after page, wetting his nger with his tongue each time, until he began to feel dizzy, and shook andswayed, as he heard the head saying, “This is your end, you brutal, unjust, oppressive King.” And the King knew that he had been poisoned by the book, as he fell from his throne, dead. “Jinni,” the sherman called to the jar. “Do you see that if the King had allowed the sage to live then he too would have lived? As for you, if you had answered my pleas and stopped insisting upon killing me, then I would have spared your life. Now, I seek revenge, and I shall hurl you to the bottom of the sea.” The jinni cried out, “I know that I was unjust and cruel, but forgive me, for forgiveness is a trait of the noblest men on this Earth. Revenge should never be the solution, for it leads to injustice. Remember the proverb: ‘Be kind to him who wrongs you.’ I beg you, my friend, do not do what Imama did to Atika.” The sherman was curious. “Tell me this story of Imama and Atika.” “Not now,” said the jinni. “I can barely breathe in this accursed jar. Fisherman, I swear that if you will set me free I will leave you in peace, but only after I have made you rich, rich beyond your wildest dreams!” “You sound as though you’ve learned compassion,” the sherman replied. “But do you swear, by the Almighty, that if I let you out you will not kill me?” “I swear by the Almighty’s name that I shall not harm you and I shall leave you alone.” The sherman opened his mouth to speak, but the jinni quickly added, “And I shall make you rich beyond your wildest dreams.” Hearing those last words, the sherman broke open the seal, hesitated, and then put it in his pocket. The smoke poured from the jar and began to rise, until it covered the sea and the sky. It gathered into a fog and then the jinni once again formed. Realising that he was again free, the jinni gave the jar a powerful kick that sent it ying far out into the sea. Seeing this, the sherman trembled and pissed himself, mumbling, “This is a bad omen.”He called out, “Jinni, you promised me, even swore an oath in the Almighty’s name, not to betray me. Don’t forget what the sage told King Yunan: ‘Spare me and God shall spare you.’ ” The jinni laughed. “Get your net and follow me, my friend.” They walked together and climbed a mountain, the sherman all the while marvelling at the di erence in size between him and the jinni and amused to now be walking alongside this vast creature which had been locked in a jar. They went down into a valley and stopped by a lake, which the sherman had never seen before. “Fisherman, why don’t you cast your net and let us see what will happen?” said the jinni. The sherman reluctantly did what he was told. How would he become rich beyond his wildest dreams by catching sh? The net shook violently and the sherman struggled to haul it in, but the jinni pushed him gently to one side and pulled the net in with one nger. The net was lled with many strange, brilliantly coloured sh. Although the sherman was captivated by the shapes and colours of these sh, he couldn’t help but say to the jinni, “I have never seen sh such as these before and I am sure that the people at the sh market will be amazed by them and I shall sell them all. But pardon me, jinni, if I ask you a question. How am I going to become rich beyond my wildest dreams for the rest of my life, as you have promised?” The jinni laughed, saying, “Well look, you have plenty of sh and of course you will sell them for double or triple the price.” Before the sherman could open his mouth to object, he saw that the sh had ceased to breathe and become hard as stones, glittering and shining. “Hey, sherman,” said the jinni, “your catch is the jewels of the sea after all.” The sherman bent over the net and saw rubies and emeralds and pearls and coral and many other precious gems he had never before laid eyes upon. “Hey, sherman!”The sherman stared at the jinni, his mouth hanging open, still not believing what he saw. “Yes?” “I shall miss you!” The jinni kicked the ground with his foot, whereupon it opened, swallowing him. “I shall miss you, too!” the sherman called. “Farewell!” Shahrazad fell silent, and Dunyazad spoke up from beneath the bed. “What a beautiful and extraordinary story, my sister!” “It is indeed,” said Shahrazad. “But what is this tale, when compared to that of the sherman’s brother, the porter, and his ordeal with the three ladies?” “Come on then, my sister, tell it to us, especially since it’s still the middle of the night,” said Dunyazad with great excitement. “But it is a long tale, which I will never nish by dawn. As you know, His Majesty the King is allowing me to live only until rst light. To start a story and not survive to nish it would be the same as taking you both in a boat out into the middle of the sea, and then leaving you there without oars. But, if the King wishes to hear the story of the sherman’s brother, the porter, and the three ladies, and is willing to postpone the hour of my death, then I am ready to tell it to you with great enthusiasm.” “Why not?” King Shahrayar thought to himself. “I will die from boredom if I must now lie here and wait for the dawn. And besides, I am eager to hear a new tale from Shahrazad, for she is a formidable storyteller. I nd that I am becoming quite addicted to her stories. I shall let her live a little longer, and hear this new one.” “Come on, Shahrazad,” he said, “tell us the tale of the sherman’s brother, the porter, and the three ladies.” And so, in the still of the night, Shahrazad began …`
+        answer: `It is said, oh wise and happy King, that a very poor fisherman who swore by Almighty God that he would only cast his net three times each day, went down to the sea late one afternoon as usual, waited until he saw the moon shining above him, and then threw his net very carefully into the water. He sat there for a time, and then, when he pulled on his net and felt that it had grown heavy, he sang to himself:
+
+“Glide over to me, my magnificent fish
+And slither into my waiting net
+So that someone asleep on his soft silken bed
+Will awaken and buy you with his silver bread.”
+
+He opened his net and there, to his horror, found a dead donkey. 
+
+“A donkey?” he cried out. “My wretched luck. You send me a donkey when you know that my family and I are starved out of our brains?” 
+
+He managed to free it from his net with one hand while pinching his nose with the other to block out the horrible smell.
+
+He cast his net carefully into the sea again, waited for it to sink, tugged on it and to his amazement felt that the net was even heavier than the first time. It was so heavy he had to climb back on to the shore, drive a stake into the ground, and tie the rope of the net to the stake. Then he hauled with all his might until he managed to pull the net up out of the sea.
+
+But instead of an abundance of fish jumping and playing in the net he found a broken, rusty wooden chest filled with sand. He shouted in a loud voice: 
+
+“A chest? Is this how you compensate my work? My labour? Or are you telling me that the key to my good fortune lies inside this coffin?”
+
+He kicked the chest as hard as he could, but then managed to recover his patience, and washed out his net once again.
+
+When dawn was about to break the fisherman prayed, raising his hands and lifting his eyes to heaven in supplication: 
+
+“Oh God, I beg of you, have pity on me, I have no other trade and I have sworn that I shall only cast my net three times. This is my last attempt, because I believe that my fortune has been decided and this will be my fate.”
+
+He cast his net, put his hand on his heart and waited, murmuring to himself, “Let us hope that the third time will be lucky.”
+
+At last he hauled the net ashore and to his amazement found a large brass jar inside, long-necked and sealed with a lid. 
+
+“I’ll sell it in the copper market and buy some wheat,” he said to himself.
+
+He tried to lift it but it was too heavy and so he shook it, trying to tell what was inside. He examined the lead seal of the lid, on which words were engraved, and then took his knife and slowly eased it open. He tilted the jar to one side but nothing came out, which puzzled him, since the jar was so heavy. He plunged his hand into the jar, but it was empty. 
+
+Suddenly a column of smoke began to pour out, covering the ground and the sea and moving higher and higher up into the sky until it reached the clouds. The fisherman peered up into the sky as the smoke turned to a black fog and formed the shape of a huge jinni, his head reaching to the sky and his feet planted on the sand. The fisherman wanted to run away, but remained frozen to the spot, as the jinni’s head became like a tomb, his eyes like two lanterns, his nostrils like two trumpets, his ears as large as an elephant’s, his mouth a frightening cave with teeth like gravestones and two fangs like a pair of pincers. The fisherman shook with fear, his teeth rattled in his mouth, his knees knocked and his feet remained nailed to the ground.
+
+But the jinni cried out: 
+“Oh Suleiman, Suleiman, the mighty prophet of God, forgive me and pardon me. I promise that I have learned my lesson. I’ll never disobey you again and I am now your trusted servant.”
+
+Hearing the jinni’s plea and seeing how he trembled, the fisherman gathered his courage and asked him: 
+“What are you saying? The prophet Suleiman died one thousand, eight hundred years ago. Eons have passed. Who are you? And why were you in that jar?”
+
+“Be glad, be very glad,” the jinni replied.
+
+“Oh! My happy day has come at last,” the fisherman said to himself, overjoyed.
+
+“Be glad that I am going to kill you,” the jinni added.
+
+“Kill me? What have I done other than to haul you up from the bottom of the sea and release you from that jar?”
+
+“Hurry up and make a wish,” the jinni told him.
+
+Hearing this, the fisherman’s face lit up and he said, “This is what I love to hear! Just give me a second to think what I should ask of you.”
+
+But the jinni said, “Tell me how you wish to die. I promise you that I will fulfil your desire.”
+
+“Why me?” the fisherman shrieked. “What have I done to you, you ungrateful creature? Let me tell you that until this day I never believed the proverb ‘Beware those you help.’”
+
+But the jinni said to him, “Let me tell you my story. I’m sure that then you’ll understand why I must put you to death.”
+
+The fisherman said, “Please be assured, jinni, that I shall never try to understand why you are going to kill me!”
+
+Enraged, the jinni shouted, “Then you can be assured, fisherman, that I will not be so generous as to ask you how you would like to die.”
+
+“Hurry up then, and tell me your story,” the fisherman said. “Be quick, for my soul has dropped to my feet in fright.”
+
+The jinni began his story. 
+“I am one of the rebellious jinnis who disobeyed God. I was dragged before the prophet Suleiman who asked me to submit and surrender to him. When I declined he imprisoned me in that jar and sealed it with the name of the Almighty and Magnificent. Then he gave the jar to one of the obedient jinnis, who carried me and threw me in the sea. Before I had completed two hundred years inside that wretched jar I swore an oath that if someone were to release me I would make him rich. But nothing happened and I remained trapped in the jar. After another two hundred years had passed I vowed to myself in my loudest voice, in the hope that the waves would carry my pleas, that whosoever should release me from my prison would receive all the treasures of the Earth. But still no one came to my rescue and another hundred years passed and another and another and I remained, cooped up in the same position in that jar. I found myself screaming and raving and shouting and declaring to the whole world and to myself that whosoever set me free I would subject to the worst death imaginable—and then you arrived, and released me from the jar. And so now I am obliged to fulfil my promise.”
+
+The fisherman nearly fainted, but he pleaded with the jinni: 
+“Forgive me, jinni, for setting you free. I was only trying to fish, so that my wife and children will not die of hunger. Jinni, if you forgive me, then God will forgive you; if you strike me, then God will strike you down.”
+
+But the jinni interrupted the fisherman, saying, “I must kill you, it is the best reward that I can grant you for setting me free. Now hurry up and choose the manner of your death.”
+
+The fisherman thought to himself, “I am a human being; God has given me reason and made me superior to this jinni. I must use my cunning to defeat his demonic wiles and barbarism.”
+
+He turned to the jinni, saying, “Jinni, do with me what you will, kill me in any way you wish.”
+
+But just as the jinni took one giant step towards him, the fisherman said quickly, “Jinni, before I die, I should like to ask you something.”
+
+“Go ahead and ask then.”
+
+“Tell me, in the name of the Almighty, were you really inside that jar? Are you sure you weren’t playing a trick on me?”
+
+“Of course I was inside it!”
+
+“But how? This jar is not big enough for even one of your giant feet.”
+
+“So you don’t believe me?” said the jinni.
+
+“No, to be perfectly honest, I don’t,” the fisherman replied. “I’ll never believe it unless I see it with my own eyes.”
+
+But a rooster crowed, dawn broke and Shahrazad fell silent, sighing to herself. 
+
+“Oh King!” her sister, Dunyazad, said from under the bed. “What a beautiful and amazing story!”
+
+“If the King spares me and lets me live, then I shall tell you tomorrow night what became of the fisherman and the jinni,” said Shahrazad.
+
+“I shall let her live and hear the rest of the story tomorrow night and then I shall kill her,” Shahrayar said to himself.
+
+Shahrazad held her breath with great anguish and fear, awaiting the King’s verdict, as if the sword might fall upon her neck at any moment, while Dunyazad peeked out from beneath the bed, panting and panicking. This moment seemed to stretch out into a century, but finally Shahrayar left his bedroom, without calling for his Vizier, the father of Shahrazad and Dunyazad, to order him to have his daughter put to death. Instead he went and sat on his throne, to order and forbid, and the two sisters clung to each other, embracing and weeping, hardly able to believe that their plan had worked, even for one night. Dunyazad touched her sister’s face, amazed that she was still alive. When the Vizier realised that his daughter would not be killed that day he shouted for joy and kissed the ground.
+
+When night fell over the palace once more, Shahrayar entered his bedchamber, and climbed into his bed. Shahrazad climbed in next to him and the King caressed her and made love to her, while Dunyazad waited patiently under the bed. When the commotion above her subsided, she cleared her throat and spoke into the darkness.
+
+“Sister, if you are not asleep, can you tell us what became of the fisherman and the jinni?”
+
+“If the King wishes to hear it,” was Shahrazad’s reply.
+
+“Go ahead,” said the King.
+
+And Shahrazad answered, “With the greatest pleasure.”
+
+I heard, oh happy King, that the fisherman answered, “I will never believe that you were inside that jar until I see it with my own two eyes.”
+
+So the jinni shook himself until he once again became smoke which rose into the air and stretched out over the sea and the ground. Then it gathered itself and entered the jar little by little and when the last drifts of smoke disappeared within, the jinni called out: 
+“Do you believe me now, you stubborn fisherman?”
+
+Quick as a flash the fisherman clamped the lead seal over the mouth of the jar and shouted, “Now, you wretched jinni, how do you wish to die?”
+
+Realising that the fisherman had tricked him, the jinni struggled to get out. When he found that he was trapped, he called: 
+“But fisherman, I was joking when I told you that I wanted to kill you!”
+
+“You’re lying,” said the fisherman, and he began to roll the jar towards the water’s edge.
+
+“Stop, fisherman, stop! What are you going to do with me?”
+
+“I am going to throw you deep into the sea, and build a hut right here on this spot, lest another fisherman comes along and hauls you out. I want you to remain imprisoned in the darkness of the jar for ever, until Doomsday.”
+
+The jinni was silent for a moment, and then he spoke in the softest of voices: 
+“I beg you, fisherman, not to do that.”
+
+“Didn’t I myself plead with you again and again, telling you to spare me so that God would spare you, or destroy me and be destroyed yourself? But you refused.”
+
+“Release me,” the jinni begged him, “and I promise that I shall leave you in peace.”
+
+“Listen, jinni, I love my life and it was enough to have nearly lost it the first time I saved you.”
+
+“Open the jar and I promise to reward you beyond your wildest dreams.”
+
+“I don’t believe your promises. They’re all lies, because your situation and mine is like that of King Yunan and the sage Duban,” said the fisherman.
+
+“What is that story?”
+
+And so the fisherman began.
+
+There was once a King called Yunan, who suffered from leprosy which no one could cure, until a sage rid him of the disease without giving him one drop of medicine or applying a single trace of ointment. The King rewarded this sage, who had made his skin healthy and pure once more. He showered him with gifts and money and presented him with a special robe, studded with precious gems, of the kind worn only by the King’s Vizier. When he discovered this, the Vizier feared the King would prefer the sage and appoint him as his counsellor and confidant. So the jealous Vizier advised the King to beware the sage, saying, “He might cause you such great harm that it leads to your death.”
+
+The King was sure that his Vizier was jealous, and he reminded him that the sage had cured his terrible leprosy.
+
+But the Vizier said, “Indeed, Your Majesty, the way he cured you was exactly what raised my suspicions. I was horrified when he cured you by magic—he didn’t even touch you! It came to me that we couldn’t trust this man not to harm the King in this strange way.”
+
+The King was convinced and he summoned the sage and said to him, “I wish to save myself from your grasp, and so I have decided to have you put to death.”
+
+The sage was astonished. “But what have I done, Your Majesty, other than doing a good deed in curing you? I don’t understand why you would reward me by cutting off my head.”
+
+“You have indeed cured my illness, sage, with nothing but magic. You might just as easily kill me with magic.”
+
+“Spare me, Your Majesty, and God shall spare you. Destroy me and God shall destroy you,” the sage pleaded.
+
+The fisherman stopped the story, saying, “Jinni, you have heard how the sage Duban pleaded with King Yunan. Do you remember how I pleaded with you to spare me?”
+
+“Yes, I remember, fisherman, go on with your story: I can’t bear being back in here.”
+
+And so the fisherman continued his story.
+
+When the sage realised his end had come, he said to the King, “Let me go to my house before you kill me, so that I may prepare my burial. I should like also to present you with my most precious book, so that you may keep it safe with your great treasures. For this book is the secret of secrets. It is unique; it is miraculous; for if you strike off my head and then open the book at page six and read three lines from the left, my head will speak to you! Yes, it will answer all of your questions.”
+
+The King was amazed. “Wonder of wonders! Go home and fetch the book at once!”
+
+The sage came before the King bearing an old book and pleaded for his life one last time. “For God’s sake, Your Majesty, spare me and God shall spare you; destroy me and God shall destroy you.”
+
+“Spare you?” answered the excited King. “But I cannot wait to hear your head talk.”
+
+Then the King ordered the executioner to cut off the head of the sage. The severed head opened its eyes and asked the King to open the book.
+
+The King did as he was told, but the pages of the book were stuck together, and so he moistened his finger with his tongue, opened the first page, then wetted his finger again and again until he had reached page six. When he saw that no words appeared upon the page, the King said, “Sage, I see nothing written on page six.”
+
+The head answered, “Open more pages.”
+
+The King turned page after page, wetting his finger with his tongue each time, until he began to feel dizzy, and shook and swayed, as he heard the head saying, “This is your end, you brutal, unjust, oppressive King.”
+
+And the King knew that he had been poisoned by the book, as he fell from his throne, dead.
+
+“Jinni,” the fisherman called to the jar. “Do you see that if the King had allowed the sage to live then he too would have lived? As for you, if you had answered my pleas and stopped insisting upon killing me, then I would have spared your life. Now, I seek revenge, and I shall hurl you to the bottom of the sea.”
+
+The jinni cried out, “I know that I was unjust and cruel, but forgive me, for forgiveness is a trait of the noblest men on this Earth. Revenge should never be the solution, for it leads to injustice. Remember the proverb: ‘Be kind to him who wrongs you.’ I beg you, my friend, do not do what Imama did to Atika.”
+
+The fisherman was curious. “Tell me this story of Imama and Atika.”
+
+“Not now,” said the jinni. “I can barely breathe in this accursed jar. Fisherman, I swear that if you will set me free I will leave you in peace, but only after I have made you rich, rich beyond your wildest dreams!”
+
+“You sound as though you’ve learned compassion,” the fisherman replied. “But do you swear, by the Almighty, that if I let you out you will not kill me?”
+
+“I swear by the Almighty’s name that I shall not harm you and I shall leave you alone.”
+
+The fisherman opened his mouth to speak, but the jinni quickly added, “And I shall make you rich beyond your wildest dreams.”
+
+Hearing those last words, the fisherman broke open the seal, hesitated, and then put it in his pocket. The smoke poured from the jar and began to rise, until it covered the sea and the sky. It gathered into a fog and then the jinni once again formed. Realising that he was again free, the jinni gave the jar a powerful kick that sent it flying far out into the sea. Seeing this, the fisherman trembled and pissed himself, mumbling, “This is a bad omen.”
+
+He called out, “Jinni, you promised me, even swore an oath in the Almighty’s name, not to betray me. Don’t forget what the sage told King Yunan: ‘Spare me and God shall spare you.’ ”
+
+The jinni laughed. “Get your net and follow me, my friend.”
+
+They walked together and climbed a mountain, the fisherman all the while marvelling at the difference in size between him and the jinni and amused to now be walking alongside this vast creature which had been locked in a jar. They went down into a valley and stopped by a lake, which the fisherman had never seen before. 
+
+“Fisherman, why don’t you cast your net and let us see what will happen?” said the jinni.
+
+The fisherman reluctantly did what he was told. How would he become rich beyond his wildest dreams by catching fish? The net shook violently and the fisherman struggled to haul it in, but the jinni pushed him gently to one side and pulled the net in with one finger.
+
+The net was filled with many strange, brilliantly coloured fish. Although the fisherman was captivated by the shapes and colours of these fish, he couldn’t help but say to the jinni, “I have never seen fish such as these before and I am sure that the people at the fish market will be amazed by them and I shall sell them all. But pardon me, jinni, if I ask you a question. How am I going to become rich beyond my wildest dreams for the rest of my life, as you have promised?”
+
+The jinni laughed, saying, “Well look, you have plenty of fish and of course you will sell them for double or triple the price.”
+
+Before the fisherman could open his mouth to object, he saw that the fish had ceased to breathe and become hard as stones, glittering and shining.
+
+“Hey, fisherman,” said the jinni, “your catch is the jewels of the sea after all.”
+
+The fisherman bent over the net and saw rubies and emeralds and pearls and coral and many other precious gems he had never before laid eyes upon.
+
+“Hey, fisherman!”
+
+The fisherman stared at the jinni, his mouth hanging open, still not believing what he saw.
+
+“Yes?”
+
+“I shall miss you!” The jinni kicked the ground with his foot, whereupon it opened, swallowing him.
+
+“I shall miss you, too!” the fisherman called. “Farewell!”
+
+Shahrazad fell silent, and Dunyazad spoke up from beneath the bed. 
+“What a beautiful and extraordinary story, my sister!”
+
+“It is indeed,” said Shahrazad. “But what is this tale, when compared to that of the fisherman’s brother, the porter, and his ordeal with the three ladies?”
+
+“Come on then, my sister, tell it to us, especially since it’s still the middle of the night,” said Dunyazad with great excitement.
+
+“But it is a long tale, which I will never finish by dawn. As you know, His Majesty the King is allowing me to live only until first light. To start a story and not survive to finish it would be the same as taking you both in a boat out into the middle of the sea, and then leaving you there without oars. But, if the King wishes to hear the story of the fisherman’s brother, the porter, and the three ladies, and is willing to postpone the hour of my death, then I am ready to tell it to you with great enthusiasm.”
+
+“Why not?” King Shahrayar thought to himself. “I will die from boredom if I must now lie here and wait for the dawn. And besides, I am eager to hear a new tale from Shahrazad, for she is a formidable storyteller. I find that I am becoming quite addicted to her stories. I shall let her live a little longer, and hear this new one.”
+
+“Come on, Shahrazad,” he said, “tell us the tale of the fisherman’s brother, the porter, and the three ladies.”
+
+And so, in the still of the night, Shahrazad began …`
     },
     {
         id: 3,
