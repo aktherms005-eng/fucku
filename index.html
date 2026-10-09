@@ -118,13 +118,13 @@
             margin-bottom: 15px; box-shadow: var(--shadow); box-sizing: border-box;
         }
         .text-display {
-            font-size: calc(1.3rem * var(--scale-factor) / 1rem); line-height: 2.1; color: var(--text-muted);
-            max-height: 280px; overflow-y: auto; white-space: pre-wrap;
-            user-select: text; word-spacing: 3px; word-break: break-word;
+            font-size: calc(1.3rem * var(--scale-factor) / 1rem); line-height: 2.3; color: var(--text-muted);
+            max-height: 320px; overflow-y: auto; white-space: pre-wrap;
+            user-select: text; word-spacing: 6px; word-break: break-word;
         }
         .text-display span.correct { color: var(--correct); font-weight: 700; }
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 3px; }
-        .text-display span.active { border-bottom: 2px solid var(--accent-red); color: var(--text-main); }
+        .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); }
 
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: calc(0.9rem * var(--scale-factor) / 1rem); color: var(--primary); }
@@ -264,7 +264,7 @@
 
         <header>
             <h1 id="pageTitle">IELTS Spelling Practice Meter</h1>
-            <p class="desc" id="pageDesc">Listen to the word first, then type it naturally.</p>
+            <p class="desc" id="pageDesc">Type words naturally. Use Backspace to correct mistakes.</p>
         </header>
 
         <!-- 1. TYPING -->
@@ -273,7 +273,7 @@
             
             <div class="typing-area" id="typingArea" tabindex="0">
                 <div style="display:flex; justify-content:flex-end; margin-bottom: 8px;">
-                    <button class="control-btn" onclick="repeatLastWord()" style="background:var(--primary); color:white; border:none; padding:4px 10px; font-size:0.8rem;">🔊 Repeat Word</button>
+                    <button class="control-btn" onclick="repeatCurrentWord()" style="background:var(--primary); color:white; border:none; padding:4px 10px; font-size:0.8rem;">🔊 Repeat Word</button>
                 </div>
                 
                 <div class="text-display" id="textDisplay">Select a category above to begin typing...</div>
@@ -435,7 +435,6 @@
             localStorage.setItem('ielts_dark_mode', isDark ? '1' : '0');
         }
 
-        // Restore Dark Mode preference on load
         if (localStorage.getItem('ielts_dark_mode') === '1') {
             document.body.classList.add('dark-mode');
             window.addEventListener('DOMContentLoaded', () => {
@@ -511,41 +510,48 @@
             updateRevUI();
         }
 
+        // পুরো তালিকার শব্দগুলো একসাথে প্যারাগ্রাফের মতো দেখাবে
         function loadSession(idx, btn) {
             document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
 
             currentWordsList = [...rawSpelling[idx].words];
             currentWordIndex = 0;
-            setupCurrentWord();
+            renderFullListDisplay();
+            resetTimer();
         }
 
-        // টাইপিং লজিক: তালিকা যেমন আছে তেমনই থাকবে, প্রথম শব্দ বা পরের শব্দ টাইপ করার আগেই উচ্চারণ করবে
-        function setupCurrentWord() {
-            if (currentWordIndex >= currentWordsList.length) {
-                clearInterval(timer);
-                document.getElementById('textDisplay').innerText = "Session completed successfully!";
-                return;
-            }
-
-            currentText = currentWordsList[currentWordIndex];
-            
-            // শুরুতেই বর্তমান শব্দটি উচ্চারণ করবে (যাতে শুনে টাইপ করা যায়)
-            playUK(currentText);
-
+        // পুরো লিস্ট রেন্ডার করা এবং প্রথম শব্দ উচ্চারণ করা
+        function renderFullListDisplay() {
             const disp = document.getElementById('textDisplay');
-            disp.innerHTML = ''; 
-            charSpans = []; 
+            disp.innerHTML = '';
+            charSpans = [];
             curIdx = 0;
 
-            currentText.split('').forEach(ch => {
-                const sp = document.createElement('span');
-                sp.innerText = ch;
-                disp.appendChild(sp);
-                charSpans.push(sp);
+            let charIndexGlobal = 0;
+            currentWordsList.forEach((w, wIdx) => {
+                for (let i = 0; i < w.length; i++) {
+                    const sp = document.createElement('span');
+                    sp.innerText = w[i];
+                    disp.appendChild(sp);
+                    charSpans.push({ span: sp, wordIdx: wIdx });
+                }
+                if (wIdx < currentWordsList.length - 1) {
+                    const sp = document.createElement('span');
+                    sp.innerText = ' ';
+                    disp.appendChild(sp);
+                    charSpans.push({ span: sp, wordIdx: wIdx });
+                }
             });
-            if (charSpans[0]) charSpans[0].classList.add('active');
-            if (currentWordIndex === 0) resetTimer();
+
+            if (charSpans.length > 0) {
+                charSpans[0].span.classList.add('active');
+            }
+            
+            // প্র্যাকটিস শুরু হওয়ার আগে প্রথম শব্দ উচ্চারণ করবে
+            if (currentWordsList.length > 0) {
+                playUK(currentWordsList[0]);
+            }
         }
 
         function resetTimer() {
@@ -563,26 +569,19 @@
             if (e.key === 'Backspace') {
                 e.preventDefault();
                 if (curIdx > 0) {
-                    charSpans[curIdx].classList.remove('active');
+                    charSpans[curIdx].span.classList.remove('active');
                     curIdx--;
-                    charSpans[curIdx].classList.remove('correct', 'incorrect');
-                    charSpans[curIdx].classList.add('active');
+                    charSpans[curIdx].span.classList.remove('correct', 'incorrect');
+                    charSpans[curIdx].span.classList.add('active');
                     playTick(); 
                 }
             } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
                 handleTypedChar(e.key);
-            } else if (e.key === ' ' || e.key === 'Enter') {
-                if (curIdx >= currentText.length) {
-                    e.preventDefault();
-                    lastWordTyped = currentText;
-                    currentWordIndex++;
-                    setupCurrentWord(); // স্পেস দেওয়ার পর পরের শব্দে গিয়ে সাথে সাথেই উচ্চারণ করবে
-                }
             }
         });
 
         function handleTypedChar(ch) {
-            if (curIdx >= currentText.length) return;
+            if (curIdx >= charSpans.length) return;
             if (!isPlaying) {
                 isPlaying = true; startTime = new Date();
                 timer = setInterval(() => {
@@ -597,31 +596,43 @@
                 }, 1000);
             }
 
-            const exp = currentText[curIdx];
-            charSpans[curIdx].classList.remove('active');
+            const currentObj = charSpans[curIdx];
+            const exp = currentObj.span.innerText;
+            currentObj.span.classList.remove('active');
             
+            const activeWordIndexBefore = currentObj.wordIdx;
+
             if (ch === exp) {
-                charSpans[curIdx].classList.add('correct');
+                currentObj.span.classList.add('correct');
                 totalTypedCount++;
                 playTick();
             } else {
-                charSpans[curIdx].classList.add('incorrect');
+                currentObj.span.classList.add('incorrect');
                 playError();
             }
 
             curIdx++;
-            if (curIdx < currentText.length) {
-                charSpans[curIdx].classList.add('active');
+            if (curIdx < charSpans.length) {
+                const nextObj = charSpans[curIdx];
+                nextObj.span.classList.add('active');
+
+                // যদি স্পেস (space) পার হয়ে পরের শব্দে চলে যায়, তবে সাথে সাথেই পরের শব্দ উচ্চারণ করবে
+                if (nextObj.wordIdx !== activeWordIndexBefore) {
+                    playUK(currentWordsList[nextObj.wordIdx]);
+                }
             } else {
-                lastWordTyped = currentText;
+                clearInterval(timer);
+                alert('Session completed successfully!');
             }
         }
 
-        function repeatLastWord() {
-            if (currentText && currentText.trim().length > 0) {
-                playUK(currentText.trim());
-            } else {
-                alert("No active word to repeat!");
+        function repeatCurrentWord() {
+            // বর্তমানে যে শব্দটিতে কার্সর আছে সেটি পুনরায় উচ্চারণ করবে
+            if (charSpans[curIdx]) {
+                const wIdx = charSpans[curIdx].wordIdx;
+                playUK(currentWordsList[wIdx]);
+            } else if (currentWordsList.length > 0) {
+                playUK(currentWordsList[0]);
             }
         }
 
@@ -645,8 +656,7 @@
             if (revisionWords.length === 0) { alert('No revision words available.'); return; }
             showTab('typing');
             currentWordsList = [...revisionWords];
-            currentWordIndex = 0;
-            setupCurrentWord();
+            renderFullListDisplay();
         }
 
         function clearRevision() {
@@ -709,8 +719,7 @@
             const words = rawText.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
             showTab('typing');
             currentWordsList = words;
-            currentWordIndex = 0;
-            setupCurrentWord();
+            renderFullListDisplay();
         }
 
         // --- ACCORDION TOGGLE FOR ESSAYS & STORIES ---
