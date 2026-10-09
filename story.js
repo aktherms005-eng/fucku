@@ -87,7 +87,67 @@ Shahrayar almost cried out, like a lion fatally wounded by an arrow to the eye. 
 
 And then, like an insane gardener, he severed every other head and body, as if he was chopping every stem in the garden, leaving the heads to fall and roll into the earth. Seeing that no head was left on its body, Shahrayar threw his sword on to the ground, took off his stained robe and walked with heavy steps until he reached a rock, sat on it and rested his head in his hands. 
 
-The next day Shahrayar stood at the heart of his palace and`
+The next day Shahrayar stood at the heart of his palace and decreed a new law. “I, Shahrayar, shall each night marry a virgin, kissed only by her mother. I shall kill her the following morning and thereby protect myself from the cunning and deceit of women, for there is not a single chaste woman on the face of this earth!”
+
+Shahrayar sat upon his throne and ordered his Vizier (the father of Shahrazad and Dunyazad) to find him a wife among the daughters of the princes of his lands. As soon as the Vizier found him a princess, Shahrayar spent the night with her, deflowered her, and then when dawn broke ordered his Vizier to put her to death. The Vizier did as he was told. The next night he took the daughter of one of his army officers, slept with her and sent her to her death the following morning. On the third night it was the turn of the daughter of a merchant.
+
+Soon, many girls had perished, and their families mourned their losses, amidst growing anger and stirrings of revolt, praying to the creator who hears and answers prayers to strike King Shahrayar down with a fatal disease. But the bloodbath continued, night after night. 
+
+Then one day Shahrazad, the elder daughter of the Vizier, a woman of great intelligence and refinement, went to her father and said, in the presence of her younger sister Dunyazad: “Father, I want you to marry me to King Shahrayar, so that I may either succeed in saving the girls of the kingdom, or perish and die like them.”
+
+The Vizier couldn’t believe his ears. She was so wise, so intelligent, so learned, versed in the great texts of philosophy, medicine, literature, poetry and history, and so delicate of bearing and graceful of manners. He said to her, “Foolish one, are you not aware that if I give you to the King he will sleep with you for one night only and then have me put you to death in the morning? And are you not aware that I shall have to carry out his wishes, since I am unable to disobey him?”
+
+But Shahrazad was not to be deterred. “Father, you must offer me to him, even if it will result in my death.”
+
+The Vizier sought to understand her motivation, in order that he might discover how to change her mind. “What has possessed you that you wish to endanger your life in this way?”
+
+“You must give me to him, father,” Shahrazad answered.
+
+The Vizier, unable to comprehend his daughter’s foolishness, grew furious with rage and shouted, “He who misbehaves ends up in trouble and he who considers not the end of the world is not his own friend. I am afraid that you will meet the same fate as that of the bird who encountered a group of apes.”
+
+Shahrazad asked, “Father, tell me what happened to the bird and the group of apes.”
+
+And so the Vizier said, “A bunch of apes mistook a passing firefly for an ember. They threw wood on it and huffed and puffed, trying to ignite it. A bird tried to tell them it was a firefly, but the apes ignored the bird. A man, who was passing, said, ‘Listen, bird, you cannot endeavour to bring into line something which has been forever wayward, or to enlighten those who cannot see, so listen to what I am telling you.’ But the stubborn bird wouldn’t give up, until one of the apes smote the bird to the ground, killing it.”
+
+But Shahrazad said to her father, “Your tale will not change my mind, and if you do not take me to the King, I will go to him in secret myself, and tell him that you refused to give me to one such as him, and that you would begrudge your Master one such as me.”
+
+The Vizier appealed to her one last time. “Must you really do this, my beloved daughter?”
+
+And Shahrazad answered, “Yes, father, it is final.”
+
+The Vizier said, “Always remember that I offer advice only out of love and compassion for you.”
+
+“I know, my beloved father,” she replied.
+
+So the agonised Vizier forced himself to go before the King, who asked, “Have you brought me what I want?”
+
+The Vizier kissed the ground before his sovereign and replied, “My daughter Shahrazad.”
+
+And the King, astonished and bewildered, said, “Vizier, but how, when you know more than anyone else what will be the fate of your daughter tomorrow morning, and that if you refuse to put her to death, I will, by God, the creator of heaven, put you to death as well!”
+
+The Vizier replied, “I tried to explain to her, but in vain, she is determined to come and be with you tonight.”
+
+King Shahrayar, astonished but delighted, ordered his Vizier, “Then go and prepare her and bring her to me early in the evening!”
+
+The Vizier went back to Shahrazad and asked her to ready herself. Then, leaving her, he said, “May God not deprive me of you.”
+
+Shahrazad called to her younger sister Dunyazad, saying, “Beloved sister, listen to what I am telling you very carefully. I am going as you know to King Shahrayar tonight and I plan to send for you. When the King has finished with me, I want you to plead with me, and say, ‘Sister, since you’re not sleepy, tell us a story, so that we may pass the waking part of this night.’ Then I shall tell you a tale in the hope that it will engage the King fully, keep me alive, and cease his actions, thereby saving both my own life and those of all the girls who remain in the kingdom.”
+
+Soon afterwards, the Vizier came to collect Shahrazad, saying to her once again before he departed, “I pray to God not to deprive me of you.”
+
+Shahrazad was taken to Shahrayar’s quarters, where the King led her at once to his enormous, terrible bed. He began to undo her dress, which had many tiny buttons. Shahrazad wept and the King asked her, “Why are you crying, Shahrazad?”
+
+“I weep for my younger sister Dunyazad and so I should like to say farewell to her before daybreak.”
+
+The King sent for Shahrazad’s sister. Dunyazad hurried into the chamber and the two girls embraced. Then Dunyazad climbed under the King’s bed and waited while Shahrayar deflowered her older sister and satisfied himself. As the night wore on, Dunyazad cleared her throat and spoke into the silence.
+
+“Sister, tell us one of your lovely stories before I must bid you goodbye, for I do not know what will happen to you tomorrow.”
+
+“If the King gives his permission,” Shahrazad replied.
+
+Shahrayar, lying restless, waiting for dawn to break, welcomed the idea, saying, “Yes, go ahead.”
+
+Shahrazad was overjoyed. She began. “It is said, oh wise and happy King, that a very poor fisherman …”`
     },
     {
         id: 2,
