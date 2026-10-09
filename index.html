@@ -27,6 +27,7 @@
             --highlight-bg: #facc15;
             --shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08);
             --shadow-hover: 0 15px 35px -5px rgba(29, 78, 216, 0.15);
+            --base-font-size: 1rem;
         }
 
         body {
@@ -36,9 +37,11 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex; flex-direction: column; align-items: center;
+            font-size: var(--base-font-size);
         }
 
-        .container { width: 92%; max-width: 1200px; margin: 30px auto; }
+        /* Expanded container width to utilize full screen */
+        .container { width: 96%; max-width: 1450px; margin: 20px auto; }
 
         .top-nav {
             display: flex; justify-content: space-between; align-items: center;
@@ -69,6 +72,14 @@
             transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
         }
         .control-btn:hover { border-color: var(--primary); }
+
+        /* Global Global Font Resize Toolbar */
+        .global-font-bar {
+            display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 15px; background: var(--card-bg); padding: 8px 15px; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+        .global-font-bar button {
+            background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; font-weight: bold; cursor: pointer; color: var(--primary);
+        }
 
         header { text-align: center; margin-bottom: 25px; }
         h1 { margin: 0 0 6px 0; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--primary); }
@@ -138,9 +149,9 @@
         .highlight-mark { background-color: var(--highlight-bg) !important; color: #000 !important; border-radius: 4px; padding: 2px 5px; }
 
         /* Speaking Screen */
-        .speaking-layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 20px; }
+        .speaking-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 20px; }
         @media(max-width: 850px) { .speaking-layout { grid-template-columns: 1fr; } }
-        .speaking-q-list { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; max-height: 700px; overflow-y: auto; box-shadow: var(--shadow); }
+        .speaking-q-list { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; max-height: 750px; overflow-y: auto; box-shadow: var(--shadow); }
         .speaking-card { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; }
         .speaking-card:hover { border-color: var(--primary); }
         .speaking-card.active { border-color: var(--primary); background: #eff6ff; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); }
@@ -153,7 +164,7 @@
         
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(29, 78, 216, 0); } 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); } }
 
-        .sample-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; max-height: 350px; overflow-y: auto; }
+        .sample-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; max-height: 380px; overflow-y: auto; }
         audio { width: 100%; margin-top: 15px; border-radius: 8px; height: 45px; }
 
         /* Minimal Floating Tooltip */
@@ -180,7 +191,7 @@
             padding: 40px 20px; box-sizing: border-box; backdrop-filter: blur(5px);
         }
         .reading-modal-content {
-            background: #fdf6e3; color: #333; max-width: 800px; width: 100%; 
+            background: #fdf6e3; color: #333; max-width: 900px; width: 100%; 
             border-radius: 16px; padding: 40px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); 
             position: relative; transition: background 0.3s, color 0.3s;
         }
@@ -226,6 +237,13 @@
     </script>
 
     <div class="container">
+        <!-- Global Font Resizer Toolbar -->
+        <div class="global-font-bar">
+            <span style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">Text Size:</span>
+            <button onclick="changeGlobalFontSize(1)">A+</button>
+            <button onclick="changeGlobalFontSize(-1)">A-</button>
+        </div>
+
         <!-- Top Nav -->
         <div class="top-nav">
             <div class="nav-tabs">
@@ -298,7 +316,7 @@
             <div id="storyListContainer"></div>
         </div>
 
-        <!-- 5. SPEAKING (With Pre-loaded Sample Answers) -->
+        <!-- 5. SPEAKING (With 200 Questions & Safe Fallback for Missing Samples) -->
         <div id="sec-speaking" class="content-section">
             <div class="speaking-layout">
                 <div class="speaking-q-list">
@@ -401,6 +419,15 @@
 
     <!-- Main Controller Logic -->
     <script>
+        // Global Text Font Resizer (A+/A-)
+        let globalFontSize = 1.0;
+        function changeGlobalFontSize(step) {
+            globalFontSize += (step * 0.08);
+            if(globalFontSize < 0.85) globalFontSize = 0.85;
+            if(globalFontSize > 1.4) globalFontSize = 1.4;
+            document.documentElement.style.setProperty('--base-font-size', globalFontSize + 'rem');
+        }
+
         const rawSpelling = [
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
             { title: "2. Money Matters", words: ["cash", "debit", "credit card", "cheque", "in advance", "annual fee", "monthly membership", "interest rate", "deposit", "tuition fees", "poverty", "bank statement", "money management", "current account", "student account", "withdraw", "low-risk investment", "mortgage", "grace period", "budget deficit", "retail voucher", "coupon", "counterfeit money", "public money", "tax payers' money", "debt", "interest-free credit", "purchase", "partial refund", "annuity", "non-refundable", "MasterCard", "Visa", "distribution costs", "income", "finance department", "family finances", "duty-free store"] },
@@ -907,29 +934,103 @@
             if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
         }
 
-        // --- SPEAKING SECTION (Using speakingData.js for dynamic Q# matching) ---
+        // --- SPEAKING SECTION (Complete 200 Questions with Fallback for Missing Samples) ---
+        const fallbackSpeakingList = [
+            "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
+            "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
+            "Where do you want to see yourself after 10 years in terms of your career?", "Tell me about your best friend at school.", "Do you enjoy studying Accounting? Why or why not?",
+            "What do you like most about your hometown?", "Do you prefer living in a city or a village? Why?", "How often do you meet your best friend?",
+            "What do you usually do together when you meet?", "Do you think having close friends is important? Why?", "What do you study? / Where do you study that?",
+            "Why did you choose that subject?", "Is it a popular subject in your country?", "Do you like that subject?", "Do you get on with your classmates?",
+            "What was your first day like?", "What are the main aspects of your subject?", "Where is your hometown?", "Do you like your hometown?",
+            "Do you often visit your hometown?", "What is your hometown like?", "What is the oldest place in your hometown?", "What is there for a foreigner to do or see in your hometown?",
+            "How could your hometown be improved?", "Has your hometown changed much since you were a child?", "Is there good public transportation in your hometown?",
+            "Do you think your hometown is a good place to bring up children?", "What is your job? / Where do you work?", "Why did you choose that job? / Is it a popular job in your country?",
+            "Do you like your job? / Do you get on well with your colleagues?", "What responsibilities do you have at work?", "If you had the chance, would you change your job?",
+            "Where is your home?", "Do you live in a house or a flat?", "Who do you live with?", "Are there many rooms in your home?", "What is your favourite room?",
+            "How are the walls decorated?", "What would you change about your home?", "Do you plan to live there in the future?", "What facilities are there near your home?",
+            "What is your neighbourhood like?", "Do most people live in houses in your country?", "Are you good at art?", "Did you learn art at school when you were a child?",
+            "What kind of art do you like?", "Is art popular in your country?", "Have you ever been to an art gallery?", "Do you think children can benefit from going to art galleries?",
+            "Do you have a bike?", "How often do you use it?", "How old were you when you learned to ride a bike?", "Do many people in your country use bicycles?",
+            "Do you think using bicycles should be encouraged?", "Did you enjoy your childhood?", "What is your first memory of your childhood?", "Did you have a lot of friends when you were a child?",
+            "What did you enjoy doing as a child?", "Do you think it is better for children to grow up in the city or in the countryside?", "Do you usually celebrate your birthdays?",
+            "How did you celebrate your last birthday?", "Which birthdays are the most important ones in your country?", "Do you think children should celebrate their birthdays with a party?",
+            "Are clothes important to you?", "What kind of clothes do you usually wear?", "Do you ever wear the traditional clothes of your country?", "Where do you usually buy your clothes?",
+            "Have you ever worn a uniform?", "Do most people in your country follow fashion?", "Do you often use a computer?", "How do you usually get online?",
+            "Do you prefer desktops or laptops?", "What do you use your computer for?", "Do you think it is important to learn how to use a computer?", "When do you usually get up in the morning?",
+            "Do you usually have the same routine every day? What is your daily routine?", "Do you ever change your routine?", "Is your routine the same today as it was when you were a child?",
+            "Do you think it is important to have a daily routine?", "Do you often have dreams when you sleep?", "Do you usually remember your dreams?", "Do you think dreams are important to remember?",
+            "Do you ever have daydreams?", "What kind of daydreams do you usually have?", "Do you spend much time with your family?", "Who are you closest to in your family?",
+            "Do you prefer spending time with your family or friends?", "Who is your best friend?", "Are you still friends with people from your childhood?", "Is family important in your country?",
+            "Do you like flowers?", "What's your favourite flower?", "When was the last time you gave someone flowers?", "Do any flowers have a special meaning in your country?",
+            "Why do you think women like flowers more than men?", "What's your favourite food?", "Have you always liked the same food?", "Is there any food you dislike?",
+            "What is a common meal in your country?", "Do you have a healthy diet?", "What do you think of fast food?", "Do you often go out in the evenings?",
+            "What do you like to do when you go out?", "Do you prefer going out alone or with friends?", "How often do you go out on weekends?", "Do you think it's important for people to go out?",
+            "What makes you happy?", "What do you do to stay happy?", "Does your happiness change with time?", "What was the happiest moment in your life?",
+            "Do you think money brings happiness?", "Do you have a hobby?", "What equipment do you need for it?", "Do you think hobbies should be shared with other people?",
+            "Did you have a hobby as a child?", "What hobbies are popular in your country?", "Why do you think people have hobbies?", "How often do you go online?",
+            "What do you use the internet for?", "How do you get online?", "Do you have your own computer?", "What's your favourite website?",
+            "Do you think children should be allowed unsupervised access to the internet?", "What do you usually do in your leisure time?", "Do you prefer to spend your free time alone or with others?",
+            "What did you enjoy doing in your free time when you were a child?", "Do you have enough leisure time now?", "What do you think is the best way to spend leisure time?",
+            "Do you like music?", "What's your favourite type of music?", "Can you sing?", "Did you learn music at school when you were a child?",
+            "If you could learn a musical instrument, what would it be?", "Do you think music is important?", "Do you like your neighbours?", "Are neighbours usually close to each other in your country?",
+            "What is your neighbourhood like?", "Do you think your neighbourhood is a good place for children?", "How could your neighbourhood be improved?",
+            "Do you think it is important to have a good relationship with your neighbours?", "Do you live in a noisy area?", "What kinds of sounds do you hear on a daily basis?",
+            "Where do you go to spend time in peace and quiet?", "Are there any sounds which you think are pleasant?", "Do you have any noisy friends?",
+            "Do you have a pet?", "Do you like animals?", "What's your favourite animal?", "What is a popular pet to have in your country?", "Did you have a pet as a child?",
+            "Why do people have pets?", "Do you like shopping?", "What do you usually buy when you go shopping?", "Do you prefer shopping alone or with others?",
+            "Do you enjoy shopping for clothes?", "Do you think online shopping is popular in your country?", "What are the advantages of shopping online?",
+            "Do you like sports?", "What's your favourite sport?", "Do you watch sport on TV?", "Did you play sport when you were a child?", "Do you think it's important to play sport?",
+            "Why do people like watching sport?", "Do you often watch TV?", "What kind of TV programmes do you like?", "What was your favourite show when you were a child?",
+            "Do you think TV has changed much in the last few years?", "Do you prefer watching TV alone or with your family?", "How often do you watch news on TV?",
+            "How do you usually travel around your city?", "What's your favourite kind of transport?", "Do you prefer public transport or private transport?",
+            "Is public transport popular in your country?", "How could public transport be improved?", "Do you enjoy long journeys?", "Do you like travelling?",
+            "What's the best place you've ever visited?", "How do you usually travel long distances?", "Do you like travelling with family or friends?",
+            "What places would you like to visit in the future?", "Do you prefer travelling to new places or visiting the same places again?",
+            "What's the weather like where you live?", "What's your favourite type of weather?", "What do you usually do in the hot weather?",
+            "Do you prefer dry weather or wet weather?", "Has the weather changed much in your country in recent years?"
+        ];
+
         let activeSpeakingQ = "";
-        let activeQuestionId = 5; // default starting ID
 
         function initSpeaking() {
             const wrap = document.getElementById('speakingCardsWrap');
             wrap.innerHTML = '';
             
-            if (typeof speakingData === 'undefined' || speakingData.length === 0) {
-                wrap.innerHTML = '<p style="padding:10px; color:var(--text-muted);">Please check speaking_data.js</p>';
-                return;
+            // Build full list safely from speakingData or fallback
+            let masterList = [];
+            if (typeof speakingData !== 'undefined' && speakingData.length > 0) {
+                // Map out all available from speakingData
+                masterList = speakingData;
             }
+            
+            // Ensure all 200 questions from fallback are present
+            fallbackSpeakingList.forEach((qText, index) => {
+                const qId = index + 1;
+                const found = masterList.find(item => item.id === qId || item.question.toLowerCase() === qText.toLowerCase());
+                if (!found) {
+                    masterList.push({
+                        id: qId,
+                        question: qText,
+                        b6: "Sample answer is currently being prepared for this question.",
+                        b65: "Sample answer is currently being prepared for this question.",
+                        b7: "Sample answer is currently being prepared for this question."
+                    });
+                }
+            });
 
-            speakingData.forEach((item, idx) => {
+            // Sort by ID
+            masterList.sort((a,b) => a.id - b.id);
+
+            masterList.forEach((item) => {
                 const c = document.createElement('div');
                 c.className = 'speaking-card';
-                if (idx === 0) c.classList.add('active');
+                if (item.id === 5) c.classList.add('active');
                 c.innerText = `${item.id}. ${item.question}`;
                 c.onclick = () => {
                     document.querySelectorAll('.speaking-card').forEach(el => el.classList.remove('active'));
                     c.classList.add('active');
                     activeSpeakingQ = item.question;
-                    activeQuestionId = item.id;
                     document.getElementById('activeQText').innerText = `${item.id}. ${item.question}`;
                     
                     displaySampleAnswers(item);
@@ -941,34 +1042,33 @@
                 wrap.appendChild(c);
             });
 
-            // Set default active item
-            if (speakingData.length > 0) {
-                activeSpeakingQ = speakingData[0].question;
-                activeQuestionId = speakingData[0].id;
-                document.getElementById('activeQText').innerText = `${speakingData[0].id}. ${speakingData[0].question}`;
-                displaySampleAnswers(speakingData[0]);
+            // Default to Q5 or first
+            const defaultItem = masterList.find(i => i.id === 5) || masterList[0];
+            if (defaultItem) {
+                activeSpeakingQ = defaultItem.question;
+                document.getElementById('activeQText').innerText = `${defaultItem.id}. ${defaultItem.question}`;
+                displaySampleAnswers(defaultItem);
             }
         }
 
         function displaySampleAnswers(data) {
             const box = document.getElementById('sampleAnswersBox');
             box.innerHTML = `
-                <strong style="color:var(--correct);">Target Band 6.0:</strong><br>${data.b6}<br><br>
-                <strong style="color:var(--primary);">Target Band 6.5:</strong><br>${data.b65}<br><br>
-                <strong style="color:var(--accent-red);">Target Band 7.0:</strong><br>${data.b7}
+                <strong style="color:var(--correct);">Target Band 6.0:</strong><br>${data.b6 || "Not available"}<br><br>
+                <strong style="color:var(--primary);">Target Band 6.5:</strong><br>${data.b65 || "Not available"}<br><br>
+                <strong style="color:var(--accent-red);">Target Band 7.0:</strong><br>${data.b7 || "Not available"}
             `;
         }
 
         function filterSpeaking() {
             const q = document.getElementById('speakSearch').value.toLowerCase().trim();
-            document.querySelectorAll('.speaking-card').forEach((c, idx) => {
-                const dataItem = speakingData[idx];
-                const match = dataItem.question.toLowerCase().includes(q) || String(dataItem.id).includes(q);
-                c.style.display = match ? 'block' : 'none';
+            document.querySelectorAll('.speaking-card').forEach((c) => {
+                const text = c.innerText.toLowerCase();
+                c.style.display = text.includes(q) ? 'block' : 'none';
             });
         }
 
-        // Audio Recorder Code with Accumulative Transcript (Stops resetting on pause)
+        // Audio Recorder Code with Accumulative Transcript
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
         let finalTranscript = "";
 
