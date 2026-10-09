@@ -1,4 +1,4 @@
-export const storyData = [
+const storyData = [
     {
         id: 1,
         topic: "Tale 1",
