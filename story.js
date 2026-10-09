@@ -1,11 +1,6 @@
 let storyData = [
-
     {
         id: 1,
-        topic: "Tale 1",
-        question: "Shahrayar and Shahrazad",
-        answer: `{
-        id: 3,
         topic: "Tale 1",
         question: "Shahrayar and Shahrazad",
         answer: `A long, long time ago lived two Kings who were brothers. The elder, King Shahrayar, ruled India and Indochina. The younger, Shahzaman, ruled Samarkand. Shahrayar was so powerful and strong that even savage animals feared him; but at the same time, he was fair, caring and kind to his people—just as the eyelid protects the eye. And they, in turn, were loyal, obeyed him blindly, and adored him.
