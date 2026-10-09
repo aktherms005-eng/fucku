@@ -954,7 +954,7 @@
             if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
         }
 
-        // --- SPEAKING SECTION & LIVE GEMINI API ---
+        // --- SPEAKING SECTION & LIVE GEMINI API (Accumulative Speech Transcript Fixed) ---
         const speakingList = [
             "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
             "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
@@ -1044,8 +1044,9 @@
             });
         }
 
-        // Audio Recorder Code
+        // Audio Recorder Code with Accumulative Transcript (Stops resetting on pause)
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
+        let finalTranscript = "";
 
         async function toggleSpeech() {
             const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus'), out = document.getElementById('speechTranscript');
@@ -1070,9 +1071,12 @@
                     };
 
                     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    recog = new SR(); recog.continuous = true; recog.interimResults = true; 
+                    recog = new SR(); 
+                    recog.continuous = true; 
+                    recog.interimResults = true; 
                     recog.lang = 'en-GB'; 
                     
+                    finalTranscript = "";
                     out.innerText = '';
                     audioPlayback.style.display = 'none';
 
@@ -1082,12 +1086,25 @@
                         btn.classList.add('recording');
                         st.innerText = "Listening & Recording..."; 
                     };
+                    
                     recog.onresult = (e) => {
-                        let trans = '';
-                        for (let i = e.resultIndex; i < e.results.length; ++i) trans += e.results[i][0].transcript;
-                        out.innerText = trans;
+                        let interim = '';
+                        for (let i = e.resultIndex; i < e.results.length; ++i) {
+                            if (e.results[i].isFinal) {
+                                finalTranscript += e.results[i][0].transcript + ' ';
+                            } else {
+                                interim += e.results[i][0].transcript;
+                            }
+                        }
+                        out.innerText = finalTranscript + interim;
                     };
+                    
                     recog.onerror = () => { stopRecordingUI(); };
+                    recog.onend = () => {
+                        if (isRec) {
+                            try { recog.start(); } catch(err) {}
+                        }
+                    };
                     
                     mediaRecorder.start();
                     recog.start();
