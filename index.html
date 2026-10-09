@@ -62,13 +62,6 @@
 
         .action-btns { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
 
-        .api-input {
-            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color);
-            font-size: 0.8rem; width: 200px; background: var(--card-inner); outline: none;
-            transition: border-color 0.2s;
-        }
-        .api-input:focus { border-color: var(--primary); }
-
         .control-btn {
             background: var(--card-inner); border: 1px solid var(--border-color);
             color: var(--text-main); padding: 8px 14px; border-radius: 10px;
@@ -130,7 +123,6 @@
         }
         .essay-q-box:hover { background: #eff6ff; }
         
-        /* Collapsible Body - STRICTLY HIDES BY DEFAULT */
         .body-wrap { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border-color); }
         .body-wrap.open { display: block; }
 
@@ -161,13 +153,7 @@
         
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(29, 78, 216, 0); } 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); } }
 
-        /* Gemini AI Buttons */
-        .ai-btn { background: var(--primary-gradient); color: #fff; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: transform 0.2s; }
-        .ai-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(29, 78, 216, 0.3); }
-        .ai-btn.alt { background: var(--accent-red); }
-        .ai-btn.alt:hover { background: var(--accent-red-hover); box-shadow: 0 5px 15px rgba(225, 29, 72, 0.3); }
-
-        .ai-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; }
+        .sample-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; font-size: 0.95rem; line-height: 1.6; max-height: 350px; overflow-y: auto; }
         audio { width: 100%; margin-top: 15px; border-radius: 8px; height: 45px; }
 
         /* Minimal Floating Tooltip */
@@ -180,23 +166,11 @@
             display: flex; justify-content: space-between; align-items: center; 
             border-bottom: 1px solid var(--border-color); padding-bottom: 6px; margin-bottom: 8px;
         }
-        .popover-word {
-            color: var(--primary); font-size: 1rem; font-weight: 800;
-        }
-        .popover-actions button {
-            background: var(--card-inner); border: 1px solid var(--border-color); 
-            border-radius: 6px; padding: 4px 6px; cursor: pointer; font-size: 0.9rem;
-        }
-        .popover-ipa {
-            font-family: monospace; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 4px;
-        }
-        .popover-meaning {
-            color: var(--correct); font-weight: 700; font-size: 0.95rem; margin-bottom: 10px;
-        }
-        .popover-btn {
-            border: none; border-radius: 8px; padding: 8px; width: 100%; 
-            font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 0; transition: 0.2s;
-        }
+        .popover-word { color: var(--primary); font-size: 1rem; font-weight: 800; }
+        .popover-actions button { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 6px; cursor: pointer; font-size: 0.9rem; }
+        .popover-ipa { font-family: monospace; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 4px; }
+        .popover-meaning { color: var(--correct); font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; }
+        .popover-btn { border: none; border-radius: 8px; padding: 8px; width: 100%; font-weight: 700; font-size: 0.85rem; cursor: pointer; margin-bottom: 0; transition: 0.2s; }
 
         /* Reading Mode Modal */
         .reading-modal {
@@ -217,14 +191,9 @@
             font-weight: bold; cursor: pointer; transition: 0.2s;
         }
         .close-reading-btn:hover { background: var(--accent-red-hover); }
-        .reading-controls {
-            display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #ccc; padding-bottom: 15px;
-        }
+        .reading-controls { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
         .reading-modal-content.dark .reading-controls { border-bottom-color: #444; }
-        .reading-controls button {
-            background: rgba(0,0,0,0.05); border: 1px solid #aaa; border-radius: 6px;
-            padding: 6px 12px; cursor: pointer; font-weight: 700; color: inherit; transition: 0.2s;
-        }
+        .reading-controls button { background: rgba(0,0,0,0.05); border: 1px solid #aaa; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: 700; color: inherit; transition: 0.2s; }
         .reading-modal-content.dark .reading-controls button { background: rgba(255,255,255,0.1); border-color: #666; }
         .reading-text { font-size: 1.2rem; line-height: 2; white-space: pre-line; }
 
@@ -239,7 +208,6 @@
     <!-- Audio Synth -->
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
         function playTick() {
             if(!document.getElementById('soundToggle').checked) return;
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
@@ -248,7 +216,6 @@
             gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
             osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.05);
         }
-
         function playError() {
             if(!document.getElementById('soundToggle').checked) return;
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
@@ -272,7 +239,6 @@
             </div>
             
             <div class="action-btns">
-                <input type="password" id="geminiApiKey" class="api-input" placeholder="Gemini API Key..." title="Enter your Gemini API key from Google AI Studio" onchange="saveApiKey()">
                 <label class="control-btn" style="display:flex; align-items:center; gap:5px; margin:0;"><input type="checkbox" id="soundToggle" checked>🔊 Sound</label>
             </div>
         </div>
@@ -332,7 +298,7 @@
             <div id="storyListContainer"></div>
         </div>
 
-        <!-- 5. SPEAKING -->
+        <!-- 5. SPEAKING (With Pre-loaded Sample Answers) -->
         <div id="sec-speaking" class="content-section">
             <div class="speaking-layout">
                 <div class="speaking-q-list">
@@ -358,17 +324,9 @@
                     </div>
 
                     <div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
-                            <label style="font-size:1rem; font-weight:700; color:var(--primary);">🤖 Live Gemini AI Assistant:</label>
-                            <div>
-                                <button class="ai-btn" onclick="evaluateSpeechLive()">✨ Evaluate My Answer</button>
-                                <button class="ai-btn alt" onclick="generateSampleAnswer()">💡 Get Band 6.0/6.5/7.0 Sample</button>
-                            </div>
-                        </div>
-                        
-                        <div id="aiEvaluation" class="ai-box">
-                            Click 'Evaluate' to analyze your recorded answer, or click 'Sample' to see how an expert would answer this. <br><br>
-                            <small style="color:var(--accent-red);">Note: Enter your Gemini API Key in the top right box for Live AI to work securely.</small>
+                        <label style="font-size:1rem; font-weight:700; color:var(--primary);">💡 Expert Sample Answers (Band 6.0 / 6.5 / 7.0):</label>
+                        <div id="sampleAnswersBox" class="sample-box" style="margin-top:8px;">
+                            Select a question from the left to view model answers.
                         </div>
                     </div>
                 </div>
@@ -439,15 +397,10 @@
     <script src="essays.js"></script>
     <script src="pdf_data.js"></script>
     <script src="story.js"></script>
+    <script src="speaking_data.js"></script>
 
     <!-- Main Controller Logic -->
     <script>
-        // API Key Management
-        document.getElementById('geminiApiKey').value = localStorage.getItem('ielts_gemini_key') || '';
-        function saveApiKey() {
-            localStorage.setItem('ielts_gemini_key', document.getElementById('geminiApiKey').value.trim());
-        }
-
         const rawSpelling = [
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
             { title: "2. Money Matters", words: ["cash", "debit", "credit card", "cheque", "in advance", "annual fee", "monthly membership", "interest rate", "deposit", "tuition fees", "poverty", "bank statement", "money management", "current account", "student account", "withdraw", "low-risk investment", "mortgage", "grace period", "budget deficit", "retail voucher", "coupon", "counterfeit money", "public money", "tax payers' money", "debt", "interest-free credit", "purchase", "partial refund", "annuity", "non-refundable", "MasterCard", "Visa", "distribution costs", "income", "finance department", "family finances", "duty-free store"] },
@@ -954,93 +907,64 @@
             if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
         }
 
-        // --- SPEAKING SECTION & LIVE GEMINI API (Accumulative Speech Transcript Fixed) ---
-        const speakingList = [
-            "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
-            "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
-            "Where do you want to see yourself after 10 years in terms of your career?", "Tell me about your best friend at school.", "Do you enjoy studying Accounting? Why or why not?",
-            "What do you like most about your hometown?", "Do you prefer living in a city or a village? Why?", "How often do you meet your best friend?",
-            "What do you usually do together when you meet?", "Do you think having close friends is important? Why?", "What do you study? / Where do you study that?",
-            "Why did you choose that subject?", "Is it a popular subject in your country?", "Do you like that subject?", "Do you get on with your classmates?",
-            "What was your first day like?", "What are the main aspects of your subject?", "Where is your hometown?", "Do you like your hometown?",
-            "Do you often visit your hometown?", "What is your hometown like?", "What is the oldest place in your hometown?", "What is there for a foreigner to do or see in your hometown?",
-            "How could your hometown be improved?", "Has your hometown changed much since you were a child?", "Is there good public transportation in your hometown?",
-            "Do you think your hometown is a good place to bring up children?", "What is your job? / Where do you work?", "Why did you choose that job? / Is it a popular job in your country?",
-            "Do you like your job? / Do you get on well with your colleagues?", "What responsibilities do you have at work?", "If you had the chance, would you change your job?",
-            "Where is your home?", "Do you live in a house or a flat?", "Who do you live with?", "Are there many rooms in your home?", "What is your favourite room?",
-            "How are the walls decorated?", "What would you change about your home?", "Do you plan to live there in the future?", "What facilities are there near your home?",
-            "What is your neighbourhood like?", "Do most people live in houses in your country?", "Are you good at art?", "Did you learn art at school when you were a child?",
-            "What kind of art do you like?", "Is art popular in your country?", "Have you ever been to an art gallery?", "Do you think children can benefit from going to art galleries?",
-            "Do you have a bike?", "How often do you use it?", "How old were you when you learned to ride a bike?", "Do many people in your country use bicycles?",
-            "Do you think using bicycles should be encouraged?", "Did you enjoy your childhood?", "What is your first memory of your childhood?", "Did you have a lot of friends when you were a child?",
-            "What did you enjoy doing as a child?", "Do you think it is better for children to grow up in the city or in the countryside?", "Do you usually celebrate your birthdays?",
-            "How did you celebrate your last birthday?", "Which birthdays are the most important ones in your country?", "Do you think children should celebrate their birthdays with a party?",
-            "Are clothes important to you?", "What kind of clothes do you usually wear?", "Do you ever wear the traditional clothes of your country?", "Where do you usually buy your clothes?",
-            "Have you ever worn a uniform?", "Do most people in your country follow fashion?", "Do you often use a computer?", "How do you usually get online?",
-            "Do you prefer desktops or laptops?", "What do you use your computer for?", "Do you think it is important to learn how to use a computer?", "When do you usually get up in the morning?",
-            "Do you usually have the same routine every day? What is your daily routine?", "Do you ever change your routine?", "Is your routine the same today as it was when you were a child?",
-            "Do you think it is important to have a daily routine?", "Do you often have dreams when you sleep?", "Do you usually remember your dreams?", "Do you think dreams are important to remember?",
-            "Do you ever have daydreams?", "What kind of daydreams do you usually have?", "Do you spend much time with your family?", "Who are you closest to in your family?",
-            "Do you prefer spending time with your family or friends?", "Who is your best friend?", "Are you still friends with people from your childhood?", "Is family important in your country?",
-            "Do you like flowers?", "What's your favourite flower?", "When was the last time you gave someone flowers?", "Do any flowers have a special meaning in your country?",
-            "Why do you think women like flowers more than men?", "What's your favourite food?", "Have you always liked the same food?", "Is there any food you dislike?",
-            "What is a common meal in your country?", "Do you have a healthy diet?", "What do you think of fast food?", "Do you often go out in the evenings?",
-            "What do you like to do when you go out?", "Do you prefer going out alone or with friends?", "How often do you go out on weekends?", "Do you think it's important for people to go out?",
-            "What makes you happy?", "What do you do to stay happy?", "Does your happiness change with time?", "What was the happiest moment in your life?",
-            "Do you think money brings happiness?", "Do you have a hobby?", "What equipment do you need for it?", "Do you think hobbies should be shared with other people?",
-            "Did you have a hobby as a child?", "What hobbies are popular in your country?", "Why do you think people have hobbies?", "How often do you go online?",
-            "What do you use the internet for?", "How do you get online?", "Do you have your own computer?", "What's your favourite website?",
-            "Do you think children should be allowed unsupervised access to the internet?", "What do you usually do in your leisure time?", "Do you prefer to spend your free time alone or with others?",
-            "What did you enjoy doing in your free time when you were a child?", "Do you have enough leisure time now?", "What do you think is the best way to spend leisure time?",
-            "Do you like music?", "What's your favourite type of music?", "Can you sing?", "Did you learn music at school when you were a child?",
-            "If you could learn a musical instrument, what would it be?", "Do you think music is important?", "Do you like your neighbours?", "Are neighbours usually close to each other in your country?",
-            "What is your neighbourhood like?", "Do you think your neighbourhood is a good place for children?", "How could your neighbourhood be improved?",
-            "Do you think it is important to have a good relationship with your neighbours?", "Do you live in a noisy area?", "What kinds of sounds do you hear on a daily basis?",
-            "Where do you go to spend time in peace and quiet?", "Are there any sounds which you think are pleasant?", "Do you have any noisy friends?",
-            "Do you have a pet?", "Do you like animals?", "What's your favourite animal?", "What is a popular pet to have in your country?", "Did you have a pet as a child?",
-            "Why do people have pets?", "Do you like shopping?", "What do you usually buy when you go shopping?", "Do you prefer shopping alone or with others?",
-            "Do you enjoy shopping for clothes?", "Do you think online shopping is popular in your country?", "What are the advantages of shopping online?",
-            "Do you like sports?", "What's your favourite sport?", "Do you watch sport on TV?", "Did you play sport when you were a child?", "Do you think it's important to play sport?",
-            "Why do people like watching sport?", "Do you often watch TV?", "What kind of TV programmes do you like?", "What was your favourite show when you were a child?",
-            "Do you think TV has changed much in the last few years?", "Do you prefer watching TV alone or with your family?", "How often do you watch news on TV?",
-            "How do you usually travel around your city?", "What's your favourite kind of transport?", "Do you prefer public transport or private transport?",
-            "Is public transport popular in your country?", "How could public transport be improved?", "Do you enjoy long journeys?", "Do you like travelling?",
-            "What's the best place you've ever visited?", "How do you usually travel long distances?", "Do you like travelling with family or friends?",
-            "What places would you like to visit in the future?", "Do you prefer travelling to new places or visiting the same places again?",
-            "What's the weather like where you live?", "What's your favourite type of weather?", "What do you usually do in the hot weather?",
-            "Do you prefer dry weather or wet weather?", "Has the weather changed much in your country in recent years?"
-        ];
-
-        let activeSpeakingQ = speakingList[0];
+        // --- SPEAKING SECTION (Using speakingData.js for dynamic Q# matching) ---
+        let activeSpeakingQ = "";
+        let activeQuestionId = 5; // default starting ID
 
         function initSpeaking() {
             const wrap = document.getElementById('speakingCardsWrap');
             wrap.innerHTML = '';
-            speakingList.forEach((q, idx) => {
+            
+            if (typeof speakingData === 'undefined' || speakingData.length === 0) {
+                wrap.innerHTML = '<p style="padding:10px; color:var(--text-muted);">Please check speaking_data.js</p>';
+                return;
+            }
+
+            speakingData.forEach((item, idx) => {
                 const c = document.createElement('div');
                 c.className = 'speaking-card';
-                c.innerText = `${idx + 1}. ${q}`;
+                if (idx === 0) c.classList.add('active');
+                c.innerText = `${item.id}. ${item.question}`;
                 c.onclick = () => {
                     document.querySelectorAll('.speaking-card').forEach(el => el.classList.remove('active'));
                     c.classList.add('active');
-                    activeSpeakingQ = q;
-                    document.getElementById('activeQText').innerText = `${idx + 1}. ${q}`;
+                    activeSpeakingQ = item.question;
+                    activeQuestionId = item.id;
+                    document.getElementById('activeQText').innerText = `${item.id}. ${item.question}`;
                     
-                    document.getElementById('aiEvaluation').innerHTML = "Click 'Evaluate' to check your recorded answer, or 'Sample' to see expert examples. <br><br><small style='color:var(--accent-red);'>Note: You must enter your Google AI Studio API Key in the top navigation bar for Live AI to work.</small>";
+                    displaySampleAnswers(item);
                     document.getElementById('audioPlayback').style.display = 'none';
                     document.getElementById('speechTranscript').innerText = 'Speak into your microphone...';
                     
-                    if(document.getElementById('soundToggle').checked) playUK(q);
+                    if(document.getElementById('soundToggle').checked) playUK(item.question);
                 };
                 wrap.appendChild(c);
             });
-            document.getElementById('activeQText').innerText = `1. ${speakingList[0]}`;
+
+            // Set default active item
+            if (speakingData.length > 0) {
+                activeSpeakingQ = speakingData[0].question;
+                activeQuestionId = speakingData[0].id;
+                document.getElementById('activeQText').innerText = `${speakingData[0].id}. ${speakingData[0].question}`;
+                displaySampleAnswers(speakingData[0]);
+            }
+        }
+
+        function displaySampleAnswers(data) {
+            const box = document.getElementById('sampleAnswersBox');
+            box.innerHTML = `
+                <strong style="color:var(--correct);">Target Band 6.0:</strong><br>${data.b6}<br><br>
+                <strong style="color:var(--primary);">Target Band 6.5:</strong><br>${data.b65}<br><br>
+                <strong style="color:var(--accent-red);">Target Band 7.0:</strong><br>${data.b7}
+            `;
         }
 
         function filterSpeaking() {
             const q = document.getElementById('speakSearch').value.toLowerCase().trim();
             document.querySelectorAll('.speaking-card').forEach((c, idx) => {
-                c.style.display = speakingList[idx].toLowerCase().includes(q) ? 'block' : 'none';
+                const dataItem = speakingData[idx];
+                const match = dataItem.question.toLowerCase().includes(q) || String(dataItem.id).includes(q);
+                c.style.display = match ? 'block' : 'none';
             });
         }
 
@@ -1127,78 +1051,6 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // Live Gemini Integration
-        async function fetchGeminiData(promptText) {
-            let key = document.getElementById('geminiApiKey').value.trim();
-            if (!key) {
-                alert("Please enter your free Gemini API Key in the top navigation bar to use Live AI.");
-                return null;
-            }
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${key}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                });
-                const data = await res.json();
-                if(data.error) {
-                    alert("API Error: " + data.error.message);
-                    return null;
-                }
-                return data.candidates[0].content.parts[0].text;
-            } catch (e) {
-                alert("Network error connecting to Gemini. Please check your internet or API key.");
-                return null;
-            }
-        }
-
-        async function evaluateSpeechLive() {
-            const text = document.getElementById('speechTranscript').innerText.trim();
-            const box = document.getElementById('aiEvaluation');
-            if (!text || text.includes('Speak into your microphone')) { alert('Please record your answer first.'); return; }
-            
-            box.innerHTML = "<em>Analyzing your spoken answer with Live Gemini AI... Please wait...</em>";
-            
-            const prompt = `Act as an expert IELTS examiner. Evaluate the following spoken answer for the question: "${activeSpeakingQ}". Answer: "${text}". 
-            Format your response strictly in HTML like this:
-            <strong style="color:#059669; font-size:1.1rem;">📊 Estimated IELTS Band: [Score]</strong><br>
-            <strong style="color:#1d4ed8;">🔍 Feedback:</strong><br>
-            • <b>Fluency:</b> [Feedback]<br>
-            • <b>Grammar & Lexical Resource:</b> [Feedback]<br>
-            • <b>Improvements:</b> [How to improve]`;
-
-            const aiResponse = await fetchGeminiData(prompt);
-            if (aiResponse) {
-                box.innerHTML = aiResponse.replace(/```html|```/g, ''); 
-            } else {
-                box.innerHTML = "Failed to load evaluation. Check API key.";
-            }
-        }
-
-        async function generateSampleAnswer() {
-            const box = document.getElementById('aiEvaluation');
-            box.innerHTML = "<em>Generating Band 6.0, 6.5, and 7.0 Sample Answers with Live Gemini AI... Please wait...</em>";
-            
-            const prompt = `Write an expert IELTS speaking sample answer for the question: "${activeSpeakingQ}". 
-            Provide three natural spoken answers targeting Band 6.0, 6.5, and 7.0. 
-            Format strictly in HTML like this:
-            <div style="font-weight:bold; color:#ea580c; margin-bottom:8px;">💡 Live Gemini Sample Answers</div>
-            <strong style="color:#059669;">Target Band 6.0:</strong><br>
-            "[Insert natural and simple answer here]"<br><br>
-            <strong style="color:#1d4ed8;">Target Band 6.5:</strong><br>
-            "[Insert slightly better answer with good flow here]"<br><br>
-            <strong style="color:#e11d48;">Target Band 7.0:</strong><br>
-            "[Insert advanced answer with great vocabulary here]"`;
-
-            const aiResponse = await fetchGeminiData(prompt);
-            if (aiResponse) {
-                box.innerHTML = aiResponse.replace(/```html|```/g, '');
-            } else {
-                box.innerHTML = "Failed to load sample answers. Check API key.";
-            }
-        }
-
         // --- PDF VIEWERS LOGIC ---
         let p1Idx = 0, p2Idx = 0;
         function renderP1() {
@@ -1251,8 +1103,8 @@
                 initStory();
             } else if (t === 'speaking') {
                 document.getElementById('tabSpeaking').classList.add('active');
-                document.getElementById('pageTitle').innerText = "IELTS Speaking Practice (200 Questions)";
-                document.getElementById('pageDesc').innerText = "Record answers and evaluate your speech using Live Gemini AI";
+                document.getElementById('pageTitle').innerText = "IELTS Speaking Practice (Model Answers)";
+                document.getElementById('pageDesc').innerText = "Practice speaking questions and view expert Band 6.0 / 6.5 / 7.0 sample answers";
                 initSpeaking();
             } else if (t === 'pdf1') {
                 document.getElementById('tabPdf1').classList.add('active');
