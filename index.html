@@ -124,7 +124,7 @@
         }
         .text-display span.correct { color: var(--correct); font-weight: 700; }
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 3px; }
-        .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); }
+        .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); background: rgba(29, 78, 216, 0.1); }
 
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: calc(0.9rem * var(--scale-factor) / 1rem); color: var(--primary); }
@@ -339,7 +339,7 @@
 
                     <div>
                         <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">📝 Your Spoken Transcript:</label>
-                        <div id="speechTranscript" style="background:#fff; border:1px solid var(--border-color); border-radius:10px; padding:14px; min-height:70px; font-size:1rem; margin-top:6px; word-break:break-word;">Speak into your microphone to generate text...</div>
+                        <div id="speechTranscript" style="background:#fff; border:1px solid var(--border-color); border-radius:10px; padding:14px; min-height:70px; font-size:1rem; margin-top:6px; word-break:break-word; color: #111827;">Speak into your microphone to generate text...</div>
                     </div>
 
                     <div>
@@ -492,9 +492,8 @@
 
         let revisionWords = JSON.parse(localStorage.getItem('ielts_revision_words') || '[]');
         let currentWordsList = [];
-        let currentWordIndex = 0;
         let charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
-        let lastWordTyped = "";
+        let lastWordSpokenIndex = -1;
 
         function initTypingEngine() {
             const grid = document.getElementById('sessionGrid');
@@ -516,7 +515,7 @@
             if (btn) btn.classList.add('active');
 
             currentWordsList = [...rawSpelling[idx].words];
-            currentWordIndex = 0;
+            lastWordSpokenIndex = -1;
             renderFullListDisplay();
             resetTimer();
         }
@@ -528,7 +527,6 @@
             charSpans = [];
             curIdx = 0;
 
-            let charIndexGlobal = 0;
             currentWordsList.forEach((w, wIdx) => {
                 for (let i = 0; i < w.length; i++) {
                     const sp = document.createElement('span');
@@ -550,6 +548,7 @@
             
             // প্র্যাকটিস শুরু হওয়ার আগে প্রথম শব্দ উচ্চারণ করবে
             if (currentWordsList.length > 0) {
+                lastWordSpokenIndex = 0;
                 playUK(currentWordsList[0]);
             }
         }
@@ -616,8 +615,9 @@
                 const nextObj = charSpans[curIdx];
                 nextObj.span.classList.add('active');
 
-                // যদি স্পেস (space) পার হয়ে পরের শব্দে চলে যায়, তবে সাথে সাথেই পরের শব্দ উচ্চারণ করবে
-                if (nextObj.wordIdx !== activeWordIndexBefore) {
+                // যদি স্পেস (space) পার হয়ে পরের শব্দে চলে যায়, তবে সাথে সাথেই পরের নতুন শব্দ উচ্চারণ করবে
+                if (nextObj.wordIdx !== activeWordIndexBefore && nextObj.wordIdx !== lastWordSpokenIndex) {
+                    lastWordSpokenIndex = nextObj.wordIdx;
                     playUK(currentWordsList[nextObj.wordIdx]);
                 }
             } else {
@@ -627,7 +627,6 @@
         }
 
         function repeatCurrentWord() {
-            // বর্তমানে যে শব্দটিতে কার্সর আছে সেটি পুনরায় উচ্চারণ করবে
             if (charSpans[curIdx]) {
                 const wIdx = charSpans[curIdx].wordIdx;
                 playUK(currentWordsList[wIdx]);
@@ -656,6 +655,7 @@
             if (revisionWords.length === 0) { alert('No revision words available.'); return; }
             showTab('typing');
             currentWordsList = [...revisionWords];
+            lastWordSpokenIndex = -1;
             renderFullListDisplay();
         }
 
@@ -719,6 +719,7 @@
             const words = rawText.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
             showTab('typing');
             currentWordsList = words;
+            lastWordSpokenIndex = -1;
             renderFullListDisplay();
         }
 
@@ -747,7 +748,7 @@
         function changeReadingFontSize(step) {
             currentReadingFontSize += (step * 0.1);
             if(currentReadingFontSize < 0.8) currentReadingFontSize = 0.8;
-            if(currentReadingFontSize > 2.5) currentReadingFontSize = 2.5;
+            if(currentReadingFontSize > 2.5) currentReadingFontSize > 2.5;
             document.getElementById('readingBody').style.fontSize = currentReadingFontSize + 'rem';
         }
         
@@ -1083,7 +1084,7 @@
             });
         }
 
-        // Audio Recorder Code with Accumulative Transcript
+        // Robust Mobile & Desktop Voice Recorder with Real-time Speech Recognition
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
         let finalTranscript = "";
 
@@ -1092,8 +1093,9 @@
             const audioPlayback = document.getElementById('audioPlayback');
 
             if (!isRec) {
-                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                    alert('Speech Recognition is not supported on this browser. Use Google Chrome.');
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    alert('Speech Recognition is not supported on this browser/device. Please use Google Chrome or Safari.');
                     return;
                 }
                 try {
@@ -1109,8 +1111,7 @@
                         audioPlayback.style.display = 'block'; 
                     };
 
-                    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-                    recog = new SR(); 
+                    recog = new SpeechRecognition(); 
                     recog.continuous = true; 
                     recog.interimResults = true; 
                     recog.lang = 'en-GB'; 
@@ -1138,7 +1139,10 @@
                         out.innerText = finalTranscript + interim;
                     };
                     
-                    recog.onerror = () => { stopRecordingUI(); };
+                    recog.onerror = (event) => {
+                        console.error('Speech recognition error', event.error);
+                    };
+                    
                     recog.onend = () => {
                         if (isRec) {
                             try { recog.start(); } catch(err) {}
@@ -1148,11 +1152,19 @@
                     mediaRecorder.start();
                     recog.start();
 
-                } catch (err) { alert("Microphone access denied."); }
+                } catch (err) { 
+                    alert("Microphone access denied or not supported on this view. Please allow mic permissions."); 
+                }
             } else {
-                if (recog) recog.stop();
-                if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-                if (micStream) micStream.getTracks().forEach(track => track.stop());
+                if (recog) {
+                    try { recog.stop(); } catch(e){}
+                }
+                if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                    try { mediaRecorder.stop(); } catch(e){}
+                }
+                if (micStream) {
+                    micStream.getTracks().forEach(track => track.stop());
+                }
                 stopRecordingUI();
             }
         }
