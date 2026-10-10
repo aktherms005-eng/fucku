@@ -113,9 +113,9 @@
         .session-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
 
         .typing-area {
-            background: var(--card-bg); padding: 16px; border-radius: 16px;
+            background: var(--card-bg); padding: 20px; border-radius: 16px;
             border: 1px solid var(--primary); position: relative;
-            margin-bottom: 15px; box-shadow: var(--shadow); box-sizing: border-box;
+            margin-bottom: 15px; box-shadow: var(--shadow); box-sizing: border-box; cursor: text;
         }
         .text-display {
             font-size: calc(1.3rem * var(--scale-factor) / 1rem); line-height: 2.3; color: var(--text-muted);
@@ -509,6 +509,7 @@
             updateRevUI();
         }
 
+        // পুরো তালিকার শব্দগুলো একসাথে প্যারাগ্রাফের মতো দেখাবে
         function loadSession(idx, btn) {
             document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -531,7 +532,7 @@
                     const sp = document.createElement('span');
                     sp.innerText = w[i];
                     disp.appendChild(sp);
-                    charSpans.push({ span: sp, wordIdx: wIdx, charInWord: i });
+                    charSpans.push({ span: sp, wordIdx: wIdx, charInWord: i, isChar: true });
                 }
                 if (wIdx < currentWordsList.length - 1) {
                     const sp = document.createElement('span');
@@ -573,6 +574,28 @@
                     charSpans[curIdx].span.classList.add('active');
                     playTick(); 
                 }
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                // যদি কার্সর স্পেস-এর উপর থাকে, তবেই স্পেস গ্র্যান্ট করবে
+                if (curIdx < charSpans.length && charSpans[curIdx].isSpace) {
+                    const currentObj = charSpans[curIdx];
+                    currentObj.span.classList.remove('active');
+                    currentObj.span.classList.add('correct');
+                    curIdx++;
+                    if (curIdx < charSpans.length) {
+                        const nextObj = charSpans[curIdx];
+                        nextObj.span.classList.add('active');
+                        // পরের শব্দ উচ্চারণ করবে
+                        if (nextObj.wordIdx !== lastSpokenWordIdx) {
+                            lastSpokenWordIdx = nextObj.wordIdx;
+                            playUK(currentWordsList[nextObj.wordIdx]);
+                        }
+                    }
+                    playTick();
+                } else {
+                    // ভুল জায়গায় স্পেস চাপলে এরর সাউন্ড করবে, কিন্তু পজিশন বদলাবে না
+                    playError();
+                }
             } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
                 handleTypedChar(e.key);
             }
@@ -580,6 +603,14 @@
 
         function handleTypedChar(ch) {
             if (curIdx >= charSpans.length) return;
+            const currentObj = charSpans[curIdx];
+
+            // যদি ইউজার অক্ষর টাইপ করার কথা কিন্তু কার্সর স্পেস-এ থাকে, তবে টাইপ করতে দেব না
+            if (currentObj.isSpace) {
+                playError();
+                return;
+            }
+
             if (!isPlaying) {
                 isPlaying = true; startTime = new Date();
                 timer = setInterval(() => {
@@ -594,50 +625,27 @@
                 }, 1000);
             }
 
-            const currentObj = charSpans[curIdx];
-            
-            // যদি কার্সর স্পেস-এর উপর থাকে এবং ইউজার স্পেস টাইপ করে
-            if (currentObj.isSpace) {
-                if (ch === ' ') {
-                    currentObj.span.classList.add('correct');
-                    curIdx++;
-                    if (curIdx < charSpans.length) {
-                        const nextObj = charSpans[curIdx];
-                        nextObj.span.classList.add('active');
-                        // পরের শব্দ উচ্চারণ করবে
-                        if (nextObj.wordIdx !== lastSpokenWordIdx) {
-                            lastSpokenWordIdx = nextObj.wordIdx;
-                            playUK(currentWordsList[nextObj.wordIdx]);
-                        }
-                    }
-                    playTick();
-                } else {
-                    currentObj.span.classList.add('incorrect');
-                    playError();
-                }
-                return;
-            }
-
-            // সাধারণ অক্ষরের জন্য
             const exp = currentObj.span.innerText;
             currentObj.span.classList.remove('active');
 
-            if (ch === exp) {
+            if (ch.toLowerCase() === exp.toLowerCase()) {
                 currentObj.span.classList.add('correct');
                 totalTypedCount++;
                 playTick();
+                curIdx++;
+                if (curIdx < charSpans.length) {
+                    charSpans[curIdx].span.classList.add('active');
+                } else {
+                    clearInterval(timer);
+                    alert('Session completed successfully!');
+                }
             } else {
                 currentObj.span.classList.add('incorrect');
                 playError();
-            }
-
-            curIdx++;
-            if (curIdx < charSpans.length) {
-                const nextObj = charSpans[curIdx];
-                nextObj.span.classList.add('active');
-            } else {
-                clearInterval(timer);
-                alert('Session completed successfully!');
+                curIdx++;
+                if (curIdx < charSpans.length) {
+                    charSpans[curIdx].span.classList.add('active');
+                }
             }
         }
 
@@ -1249,6 +1257,7 @@
                 document.getElementById('pageDesc').innerText = "Practice speaking questions and view expert Band 6.0 / 6.5 / 7.0 sample answers";
                 initSpeaking();
             } else if (t === 'pdf1') {
+                document.getElementById('pdf1').classList.add('active'); // fallback
                 document.getElementById('tabPdf1').classList.add('active');
                 renderP1();
             } else if (t === 'pdf2') {
