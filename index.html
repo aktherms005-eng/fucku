@@ -212,6 +212,8 @@
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: calc(0.9rem * var(--scale-factor) / 1rem); }
         .pdf-table th, .pdf-table td { border: 1px solid var(--border-color); padding: 10px; text-align: left; word-break: break-word; }
         .pdf-table th { background: var(--primary); color: #fff; font-weight: 700; }
+        .add-rev-btn { background: var(--primary); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 6px; }
+        .add-rev-btn:hover { background: var(--primary-hover); }
     </style>
 </head>
 <body>
@@ -509,7 +511,6 @@
             updateRevUI();
         }
 
-        // পুরো তালিকার শব্দগুলো একসাথে প্যারাগ্রাফের মতো দেখাবে
         function loadSession(idx, btn) {
             document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
             if (btn) btn.classList.add('active');
@@ -520,7 +521,6 @@
             resetTimer();
         }
 
-        // পুরো লিস্ট রেন্ডার করা এবং প্রথম শব্দ উচ্চারণ করা
         function renderFullListDisplay() {
             const disp = document.getElementById('textDisplay');
             disp.innerHTML = '';
@@ -546,7 +546,6 @@
                 charSpans[0].span.classList.add('active');
             }
             
-            // প্র্যাকটিস শুরু হওয়ার আগে প্রথম শব্দ উচ্চারণ করবে
             if (currentWordsList.length > 0) {
                 lastSpokenWordIdx = 0;
                 playUK(currentWordsList[0]);
@@ -576,7 +575,6 @@
                 }
             } else if (e.key === ' ') {
                 e.preventDefault();
-                // যদি কার্সর স্পেস-এর উপর থাকে, তবেই স্পেস গ্র্যান্ট করবে
                 if (curIdx < charSpans.length && charSpans[curIdx].isSpace) {
                     const currentObj = charSpans[curIdx];
                     currentObj.span.classList.remove('active');
@@ -585,7 +583,6 @@
                     if (curIdx < charSpans.length) {
                         const nextObj = charSpans[curIdx];
                         nextObj.span.classList.add('active');
-                        // পরের শব্দ উচ্চারণ করবে
                         if (nextObj.wordIdx !== lastSpokenWordIdx) {
                             lastSpokenWordIdx = nextObj.wordIdx;
                             playUK(currentWordsList[nextObj.wordIdx]);
@@ -593,7 +590,6 @@
                     }
                     playTick();
                 } else {
-                    // ভুল জায়গায় স্পেস চাপলে এরর সাউন্ড করবে, কিন্তু পজিশন বদলাবে না
                     playError();
                 }
             } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
@@ -605,7 +601,6 @@
             if (curIdx >= charSpans.length) return;
             const currentObj = charSpans[curIdx];
 
-            // যদি ইউজার অক্ষর টাইপ করার কথা কিন্তু কার্সর স্পেস-এ থাকে, তবে টাইপ করতে দেব না
             if (currentObj.isSpace) {
                 playError();
                 return;
@@ -668,10 +663,28 @@
             }
             revisionWords.forEach(w => {
                 const ch = document.createElement('span');
-                ch.style = "background:var(--card-inner); border:1px solid var(--weak-color); padding:6px 14px; border-radius:10px; font-weight:700; color:var(--primary);";
-                ch.innerText = w;
+                ch.style = "background:var(--card-inner); border:1px solid var(--weak-color); padding:6px 14px; border-radius:10px; font-weight:700; color:var(--primary); display:inline-flex; align-items:center; gap:6px;";
+                ch.innerHTML = `${w} <button onclick="removeRevWord('${w}')" style="background:none;border:none;color:var(--accent-red);cursor:pointer;font-weight:bold;">×</button>`;
                 wrap.appendChild(ch);
             });
+        }
+
+        function removeRevWord(w) {
+            revisionWords = revisionWords.filter(item => item !== w);
+            localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+            updateRevUI();
+        }
+
+        function addWordToRevision(word) {
+            const clean = word.trim();
+            if (clean && !revisionWords.includes(clean)) {
+                revisionWords.push(clean);
+                localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+                updateRevUI();
+                alert(`Added "${clean}" to Revision!`);
+            } else {
+                alert(`"${clean}" is already in Revision.`);
+            }
         }
 
         function practiceRevision() {
@@ -895,7 +908,7 @@
             if (e) loadTextToTyping(e.answer);
         }
 
-        // --- POPOVER SELECTION ---
+        // --- POPOVER SELECTION & PDF HIGHLIGHT TO REVISION ---
         let currentSelectedText = "", currentRange = null;
 
         function triggerSelection(e) {
@@ -963,10 +976,8 @@
         }
         function addPopWordToRev() {
             const clean = currentSelectedText.trim();
-            if (clean && !revisionWords.includes(clean)) {
-                revisionWords.push(clean);
-                localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
-                updateRevUI(); alert(`Added "${clean}" to Revision!`);
+            if (clean) {
+                addWordToRevision(clean);
             }
             closePop();
         }
@@ -1201,13 +1212,20 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // --- PDF VIEWERS LOGIC ---
+        // --- PDF VIEWERS LOGIC WITH REVISION ADD BUTTON ---
         let p1Idx = 0, p2Idx = 0;
         function renderP1() {
             if (typeof pdf1Data === 'undefined' || pdf1Data.length === 0) return;
             const data = pdf1Data[p1Idx] || [];
-            let h = `<table class="pdf-table"><thead><tr><th>Word / Phrase</th><th>Pronunciation Guide</th><th>Bangla Meaning</th></tr></thead><tbody>`;
-            data.forEach(r => { h += `<tr><td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear pronunciation">🔊 ${r.w}</strong></td><td><code>${r.ipa}</code></td><td>${r.bn}</td></tr>`; });
+            let h = `<table class="pdf-table"><thead><tr><th>Word / Phrase</th><th>Pronunciation Guide</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
+            data.forEach(r => { 
+                h += `<tr>
+                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
+                    <td><code>${r.ipa}</code></td>
+                    <td>${r.bn}</td>
+                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
+                </tr>`; 
+            });
             h += `</tbody></table>`;
             document.getElementById('pdf1TableArea').innerHTML = h;
             document.getElementById('pdf1PageText').innerText = `Page ${p1Idx + 1} / ${pdf1Data.length}`;
@@ -1218,8 +1236,15 @@
         function renderP2() {
             if (typeof pdf2Data === 'undefined' || pdf2Data.length === 0) return;
             const data = pdf2Data[p2Idx] || [];
-            let h = `<table class="pdf-table"><thead><tr><th>Listening Word</th><th>Pronunciation</th><th>Bangla Meaning</th></tr></thead><tbody>`;
-            data.forEach(r => { h += `<tr><td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear pronunciation">🔊 ${r.w}</strong></td><td><code>${r.ipa}</code></td><td>${r.bn}</td></tr>`; });
+            let h = `<table class="pdf-table"><thead><tr><th>Listening Word</th><th>Pronunciation</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
+            data.forEach(r => { 
+                h += `<tr>
+                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
+                    <td><code>${r.ipa}</code></td>
+                    <td>${r.bn}</td>
+                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
+                </tr>`; 
+            });
             h += `</tbody></table>`;
             document.getElementById('pdf2TableArea').innerHTML = h;
             document.getElementById('pdf2PageText').innerText = `Page ${p2Idx + 1} / ${pdf2Data.length}`;
@@ -1257,7 +1282,6 @@
                 document.getElementById('pageDesc').innerText = "Practice speaking questions and view expert Band 6.0 / 6.5 / 7.0 sample answers";
                 initSpeaking();
             } else if (t === 'pdf1') {
-                document.getElementById('pdf1').classList.add('active'); // fallback
                 document.getElementById('tabPdf1').classList.add('active');
                 renderP1();
             } else if (t === 'pdf2') {
