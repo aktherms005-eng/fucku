@@ -126,7 +126,7 @@
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 3px; }
         .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); background: rgba(29, 78, 216, 0.1); }
 
-        .hidden-input { position: absolute; opacity: 0; pointer-events: none; }
+        .hidden-input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: calc(0.9rem * var(--scale-factor) / 1rem); color: var(--primary); }
 
         /* Accordion Layout for Essays and Stories */
@@ -273,7 +273,7 @@
         <div id="sec-typing" class="content-section active">
             <div class="session-grid" id="sessionGrid"></div>
             
-            <div class="typing-area" id="typingArea" tabindex="0">
+            <div class="typing-area" id="typingArea" onclick="focusHiddenInput()">
                 <div style="display:flex; justify-content:flex-end; margin-bottom: 8px;">
                     <button class="control-btn" onclick="repeatCurrentWord()" style="background:var(--primary); color:white; border:none; padding:4px 10px; font-size:0.8rem;">🔊 Repeat Word</button>
                 </div>
@@ -497,6 +497,17 @@
         let charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
         let lastSpokenWordIdx = -1;
 
+        function focusHiddenInput() {
+            const input = document.getElementById('hiddenInput');
+            if (input) input.focus();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            focusHiddenInput();
+            initTypingEngine();
+            updateRevUI();
+        });
+
         function initTypingEngine() {
             const grid = document.getElementById('sessionGrid');
             grid.innerHTML = '';
@@ -508,7 +519,6 @@
                 grid.appendChild(btn);
             });
             loadSession(0);
-            updateRevUI();
         }
 
         function loadSession(idx, btn) {
@@ -519,6 +529,7 @@
             lastSpokenWordIdx = -1;
             renderFullListDisplay();
             resetTimer();
+            focusHiddenInput();
         }
 
         function renderFullListDisplay() {
@@ -558,44 +569,50 @@
             document.getElementById('statWpm').innerText = "WPM: 0";
         }
 
-        document.getElementById('typingArea').addEventListener('click', () => { document.getElementById('hiddenInput').focus(); });
+        const hiddenInput = document.getElementById('hiddenInput');
 
-        window.addEventListener('keydown', (e) => {
-            const activeSec = document.querySelector('.content-section.active');
-            if (!activeSec || activeSec.id !== 'sec-typing') return;
+        if (hiddenInput) {
+            hiddenInput.addEventListener('keydown', (e) => {
+                const activeSec = document.querySelector('.content-section.active');
+                if (!activeSec || activeSec.id !== 'sec-typing') return;
 
-            if (e.key === 'Backspace') {
-                e.preventDefault();
-                if (curIdx > 0) {
-                    charSpans[curIdx].span.classList.remove('active');
-                    curIdx--;
-                    charSpans[curIdx].span.classList.remove('correct', 'incorrect');
-                    charSpans[curIdx].span.classList.add('active');
-                    playTick(); 
-                }
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                if (curIdx < charSpans.length && charSpans[curIdx].isSpace) {
-                    const currentObj = charSpans[curIdx];
-                    currentObj.span.classList.remove('active');
-                    currentObj.span.classList.add('correct');
-                    curIdx++;
-                    if (curIdx < charSpans.length) {
-                        const nextObj = charSpans[curIdx];
-                        nextObj.span.classList.add('active');
-                        if (nextObj.wordIdx !== lastSpokenWordIdx) {
-                            lastSpokenWordIdx = nextObj.wordIdx;
-                            playUK(currentWordsList[nextObj.wordIdx]);
-                        }
+                if (e.key === 'Backspace') {
+                    e.preventDefault();
+                    if (curIdx > 0) {
+                        charSpans[curIdx].span.classList.remove('active');
+                        curIdx--;
+                        charSpans[curIdx].span.classList.remove('correct', 'incorrect');
+                        charSpans[curIdx].span.classList.add('active');
+                        playTick(); 
                     }
-                    playTick();
-                } else {
-                    playError();
+                } else if (e.key === ' ') {
+                    e.preventDefault();
+                    if (curIdx < charSpans.length && charSpans[curIdx].isSpace) {
+                        const currentObj = charSpans[curIdx];
+                        currentObj.span.classList.remove('active');
+                        currentObj.span.classList.add('correct');
+                        curIdx++;
+                        if (curIdx < charSpans.length) {
+                            const nextObj = charSpans[curIdx];
+                            nextObj.span.classList.add('active');
+                            if (nextObj.wordIdx !== lastSpokenWordIdx) {
+                                lastSpokenWordIdx = nextObj.wordIdx;
+                                playUK(currentWordsList[nextObj.wordIdx]);
+                            }
+                        }
+                        playTick();
+                    } else {
+                        playError();
+                    }
+                } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                    handleTypedChar(e.key);
                 }
-            } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-                handleTypedChar(e.key);
-            }
-        });
+            });
+
+            hiddenInput.addEventListener('input', (e) => {
+                e.target.value = '';
+            });
+        }
 
         function handleTypedChar(ch) {
             if (curIdx >= charSpans.length) return;
@@ -651,6 +668,7 @@
             } else if (currentWordsList.length > 0) {
                 playUK(currentWordsList[0]);
             }
+            focusHiddenInput();
         }
 
         function updateRevUI() {
@@ -693,6 +711,7 @@
             currentWordsList = [...revisionWords];
             lastSpokenWordIdx = -1;
             renderFullListDisplay();
+            focusHiddenInput();
         }
 
         function clearRevision() {
@@ -703,7 +722,6 @@
             }
         }
 
-        // --- DYNAMIC TRANSLATION RENDERER ---
         async function translateContent(type, id, btn) {
             const grid = document.getElementById(`grid_${type}_${id}`);
             const colEn = document.getElementById(`col_en_${type}_${id}`);
@@ -757,15 +775,14 @@
             currentWordsList = words;
             lastSpokenWordIdx = -1;
             renderFullListDisplay();
+            focusHiddenInput();
         }
 
-        // --- ACCORDION TOGGLE FOR ESSAYS & STORIES ---
         function toggleAccordion(id) {
             const wrap = document.getElementById(`body_${id}`);
             wrap.classList.toggle('open');
         }
 
-        // --- READING MODE LOGIC ---
         let currentReadingFontSize = 1.2;
         
         function openReadingMode(title, contentId) {
@@ -792,7 +809,6 @@
             document.getElementById('readingModalContent').classList.toggle('dark');
         }
 
-        // --- 100 ESSAYS (Accordion List View) ---
         function initEssays() {
             const list = document.getElementById('essayListContainer');
             list.innerHTML = '';
@@ -851,7 +867,6 @@
             if (e) loadTextToTyping(e.answer);
         }
 
-        // --- 1001 NIGHTS STORY (Accordion List View) ---
         function initStory() {
             const list = document.getElementById('storyListContainer');
             list.innerHTML = '';
@@ -908,7 +923,6 @@
             if (e) loadTextToTyping(e.answer);
         }
 
-        // --- POPOVER SELECTION & PDF HIGHLIGHT TO REVISION ---
         let currentSelectedText = "", currentRange = null;
 
         function triggerSelection(e) {
@@ -989,7 +1003,6 @@
             if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
         }
 
-        // --- SPEAKING SECTION ---
         const fallbackSpeakingList = [
             "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
             "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
@@ -1118,7 +1131,6 @@
             });
         }
 
-        // Robust Mobile & Desktop Voice Recorder with Real-time Speech Recognition
         let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
         let finalTranscript = "";
 
@@ -1212,7 +1224,6 @@
             st.innerText = "Recorded! Play back your audio below.";
         }
 
-        // --- PDF VIEWERS LOGIC WITH REVISION ADD BUTTON ---
         let p1Idx = 0, p2Idx = 0;
         function renderP1() {
             if (typeof pdf1Data === 'undefined' || pdf1Data.length === 0) return;
@@ -1252,7 +1263,6 @@
         function prevPdf2() { if (p2Idx > 0) { p2Idx--; renderP2(); } }
         function nextPdf2() { if (p2Idx < pdf2Data.length - 1) { p2Idx++; renderP2(); } }
 
-        // --- NAVIGATION ---
         function showTab(t) {
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1263,6 +1273,7 @@
                 document.getElementById('tabTyping').classList.add('active');
                 document.getElementById('pageTitle').innerText = "IELTS Spelling Practice Meter";
                 document.getElementById('pageDesc').innerText = "Listen to the word first, then type it naturally.";
+                focusHiddenInput();
             } else if (t === 'revision') {
                 document.getElementById('tabRev').classList.add('active');
                 updateRevUI();
@@ -1289,9 +1300,6 @@
                 renderP2();
             }
         }
-
-        // Run Init
-        initTypingEngine();
     </script>
 </body>
 </html>
