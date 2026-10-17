@@ -1,900 +1,2651 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>IELTS Complete Master Portal</title>
+
     <style>
+
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+
+
         :root {
+
             --bg-color: #f4f7f6; 
+
             --text-main: #111827; 
+
             --text-muted: #4b5563;
+
             --primary: #1d4ed8; 
+
             --primary-hover: #1e40af;
+
             --primary-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+
             --accent-red: #e11d48; 
+
             --accent-red-hover: #be123c;
+
             --correct: #059669;
+
             --incorrect: #e11d48;
+
             --card-bg: #ffffff; 
+
             --card-inner: #f8fafc;
+
             --border-color: #cbd5e1;
+
             --error-bg: #fee2e2;
+
             --weak-color: #ea580c;
+
             --highlight-bg: #facc15;
+
             --shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08);
+
             --scale-factor: 1rem;
+
         }
+
+
 
         /* Dark Mode Colors */
+
         body.dark-mode {
+
             --bg-color: #111827;
+
             --text-main: #f9fafb;
+
             --text-muted: #9ca3af;
+
             --card-bg: #1f2937;
+
             --card-inner: #374151;
+
             --border-color: #4b5563;
+
             --error-bg: #7f1d1d;
+
         }
 
+
+
         body {
+
             margin: 0; padding: 0;
+
             font-family: 'Plus Jakarta Sans', sans-serif;
+
             background-color: var(--bg-color);
+
             color: var(--text-main);
+
             min-height: 100vh;
+
             display: flex; flex-direction: column; align-items: center;
+
             font-size: var(--scale-factor);
+
             overflow-x: hidden;
+
             -webkit-text-size-adjust: 100%;
+
             transition: background-color 0.3s, color 0.3s;
+
         }
+
+
 
         .container { width: 98%; max-width: 1450px; margin: 10px auto; box-sizing: border-box; padding: 0 5px; }
 
+
+
         .top-nav {
+
             display: flex; justify-content: space-between; align-items: center;
+
             flex-wrap: wrap; gap: 10px; margin-bottom: 15px;
+
             background: var(--card-bg); padding: 10px 14px; border-radius: 14px;
+
             box-shadow: var(--shadow); border: 1px solid var(--border-color);
+
         }
+
+
 
         .nav-tabs { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
 
+
+
         .tab-btn {
+
             background: var(--card-inner); border: 1px solid var(--border-color);
+
             color: var(--primary); padding: 8px 12px; border-radius: 10px;
+
             cursor: pointer; font-size: calc(0.8rem * var(--scale-factor) / 1rem); font-weight: 700;
+
             transition: all 0.2s ease;
+
         }
+
         .tab-btn:hover { border-color: var(--primary); }
+
         .tab-btn.active { background: var(--primary-gradient); color: #ffffff; border-color: transparent; }
+
         .tab-btn.rev-badge { border-color: var(--accent-red); color: var(--accent-red); }
+
         .tab-btn.rev-badge.active { background: var(--accent-red); color: #ffffff; }
+
+
 
         .action-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
+
+
         .control-btn {
+
             background: var(--card-inner); border: 1px solid var(--border-color);
+
             color: var(--text-main); padding: 6px 10px; border-radius: 8px;
+
             cursor: pointer; font-size: calc(0.78rem * var(--scale-factor) / 1rem); font-weight: 600;
+
         }
+
+
 
         .utility-bar {
+
             display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; background: var(--card-bg); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-color);
+
         }
+
         .utility-bar button {
+
             background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 10px; font-weight: bold; cursor: pointer; color: var(--primary); font-size: 0.85rem;
+
         }
+
+
 
         header { text-align: center; margin-bottom: 15px; }
+
         h1 { margin: 0 0 4px 0; font-size: calc(1.6rem * var(--scale-factor) / 1rem); font-weight: 800; color: var(--primary); }
+
         p.desc { margin: 0; color: var(--text-muted); font-size: calc(0.85rem * var(--scale-factor) / 1rem); }
 
+
+
         .content-section { display: none; width: 100%; box-sizing: border-box; }
+
         .content-section.active { display: block; }
 
+
+
         .session-grid {
+
             display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+
             gap: 8px; max-height: 160px; overflow-y: auto; padding: 10px;
+
             border: 1px solid var(--border-color); border-radius: 14px;
+
             background: var(--card-bg); margin-bottom: 15px; box-shadow: var(--shadow);
+
         }
+
         .session-btn {
+
             background: var(--card-inner); border: 1px solid var(--border-color);
+
             color: var(--text-main); padding: 8px 10px; border-radius: 8px;
+
             cursor: pointer; font-size: calc(0.8rem * var(--scale-factor) / 1rem); text-align: left; font-weight: 600;
+
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+
         }
+
         .session-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
 
+
+
         .typing-area {
+
             background: var(--card-bg); padding: 20px; border-radius: 16px;
+
             border: 1px solid var(--primary); position: relative;
+
             margin-bottom: 15px; box-shadow: var(--shadow); box-sizing: border-box; cursor: text;
+
         }
+
         .text-display {
+
             font-size: calc(1.3rem * var(--scale-factor) / 1rem); line-height: 2.3; color: var(--text-muted);
+
             max-height: 320px; overflow-y: auto; white-space: pre-wrap;
+
             user-select: text; word-spacing: 6px; word-break: break-word;
+
         }
+
         .text-display span.correct { color: var(--correct); font-weight: 700; }
+
         .text-display span.incorrect { color: var(--incorrect); background: var(--error-bg); border-radius: 3px; }
+
         .text-display span.active { border-bottom: 3px solid var(--accent-red); color: var(--text-main); background: rgba(29, 78, 216, 0.1); }
 
+
+
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: calc(0.9rem * var(--scale-factor) / 1rem); color: var(--primary); }
 
+
+
         .essay-card {
+
             background: var(--card-bg); border: 1px solid var(--border-color);
+
             border-radius: 14px; padding: 15px; margin-bottom: 12px; box-shadow: var(--shadow); box-sizing: border-box;
+
         }
+
         .essay-topic { background: var(--error-bg); color: var(--accent-red); font-size: calc(0.75rem * var(--scale-factor) / 1rem); font-weight: 700; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; display: inline-block; margin-bottom: 6px; }
+
         .essay-q-box { 
+
             background: var(--card-inner); border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 8px; 
+
             font-weight: 700; font-size: calc(1rem * var(--scale-factor) / 1rem); cursor: pointer; display: flex; justify-content: space-between; align-items: center; word-break: break-word;
+
         }
+
         
+
         .body-wrap { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color); }
+
         .body-wrap.open { display: block; }
 
+
+
         .split-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px; }
+
         .split-grid.active { grid-template-columns: 1fr 1fr; }
+
         @media(max-width: 900px) { .split-grid.active { grid-template-columns: 1fr; } }
+
         
+
         .split-col { border-radius: 10px; box-sizing: border-box; }
+
         .split-col.plain { background: transparent; padding: 0; border: none; }
+
         .split-col:not(.plain) { background: var(--card-inner); padding: 15px; border: 1px solid var(--border-color); }
+
         
+
         .essay-ans-box { font-size: calc(0.95rem * var(--scale-factor) / 1rem); line-height: 1.8; white-space: pre-line; user-select: text; word-break: break-word; }
+
         .highlight-mark { background-color: var(--highlight-bg) !important; color: #000 !important; border-radius: 3px; padding: 2px 4px; }
 
+
+
         .speaking-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 15px; }
+
         @media(max-width: 900px) { .speaking-layout { grid-template-columns: 1fr; } }
+
         .speaking-q-list { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px; max-height: 500px; overflow-y: auto; box-shadow: var(--shadow); box-sizing: border-box; }
+
         .speaking-card { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; font-size: calc(0.9rem * var(--scale-factor) / 1rem); font-weight: 500; word-break: break-word; }
+
         .speaking-card.active { border-color: var(--primary); background: #eff6ff; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); }
+
         body.dark-mode .speaking-card.active { background: #1e3a8a; color: #93c5fd; }
+
         
+
         .speaking-panel { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); box-sizing: border-box; }
+
         
+
         .mic-btn { background: var(--accent-red); color: #fff; border: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: calc(0.95rem * var(--scale-factor) / 1rem); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; justify-content: center;}
+
         .mic-btn.recording { background: var(--primary); animation: pulse 1.5s infinite; }
+
         
+
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); } 70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); } 100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); } }
 
+
+
         .sample-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; font-size: calc(0.9rem * var(--scale-factor) / 1rem); line-height: 1.6; max-height: 280px; overflow-y: auto; word-break: break-word; }
+
         audio { width: 100%; margin-top: 10px; border-radius: 6px; height: 40px; }
 
+
+
         .floating-popover {
+
             position: fixed; display: none; z-index: 3000;
+
             background: var(--card-bg); color: var(--text-main); border: 2px solid var(--primary);
+
             border-radius: 10px; padding: 10px; width: 210px; box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+
         }
+
         .popover-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-bottom: 6px; }
+
         .popover-word { color: var(--primary); font-size: 0.95rem; font-weight: 800; }
+
         .popover-actions button { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 6px; padding: 3px 6px; cursor: pointer; font-size: 0.8rem; }
+
         .popover-ipa { font-family: monospace; color: var(--text-muted); font-size: 0.75rem; margin-bottom: 4px; }
+
         .popover-meaning { color: var(--correct); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
+
         .popover-btn { border: none; border-radius: 6px; padding: 6px; width: 100%; font-weight: 700; font-size: 0.8rem; cursor: pointer; margin-bottom: 0; }
 
+
+
         .reading-modal {
+
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
             background: rgba(0,0,0,0.85); z-index: 2000; display: none;
+
             justify-content: center; align-items: flex-start; overflow-y: auto;
+
             padding: 10px; box-sizing: border-box; backdrop-filter: blur(5px);
+
         }
+
         .reading-modal-content {
+
             background: #fdf6e3; color: #333; max-width: 900px; width: 100%; 
+
             border-radius: 14px; padding: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); 
+
             position: relative; box-sizing: border-box; margin-top: 15px;
+
         }
+
         .reading-modal-content.dark { background: #1e1e1e; color: #ddd; }
+
         .close-reading-btn {
+
             position: absolute; top: 12px; right: 12px; background: var(--accent-red);
+
             color: #fff; border: none; border-radius: 6px; padding: 5px 12px;
+
             font-weight: bold; cursor: pointer; font-size: 0.85rem;
+
         }
+
         .reading-controls { display: flex; gap: 8px; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px; flex-wrap: wrap; }
+
         .reading-modal-content.dark .reading-controls { border-bottom-color: #444; }
+
         .reading-controls button { background: rgba(0,0,0,0.05); border: 1px solid #aaa; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-weight: 700; color: inherit; font-size: 0.85rem; }
+
         .reading-text { font-size: calc(1.1rem * var(--scale-factor) / 1rem); line-height: 1.8; white-space: pre-line; word-break: break-word; }
 
+
+
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: calc(0.9rem * var(--scale-factor) / 1rem); }
+
         .pdf-table th, .pdf-table td { border: 1px solid var(--border-color); padding: 10px; text-align: left; word-break: break-word; }
+
         .pdf-table th { background: var(--primary); color: #fff; font-weight: 700; }
+
         .add-rev-btn { background: var(--primary); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; margin-left: 6px; }
+
         .add-rev-btn:hover { background: var(--primary-hover); }
+
     </style>
+
 </head>
+
 <body>
 
+
+
     <script>
+
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
         function playTick() {
+
             if(!document.getElementById('soundToggle').checked) return;
+
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+
             osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+
             osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.05);
+
             gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+
             osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+
         }
+
         function playError() {
+
             if(!document.getElementById('soundToggle').checked) return;
+
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+
             osc.type = 'square'; osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+
             gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
             osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.15);
+
         }
+
     </script>
 
+
+
     <div class="container">
+
         <div class="utility-bar">
+
             <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Text Size:</span>
+
             <button onclick="changeGlobalFontSize(1)">A+</button>
+
             <button onclick="changeGlobalFontSize(-1)">A-</button>
+
             <button onclick="toggleDarkMode()" id="darkModeBtn" style="margin-left: 10px;">🌙 Night Mode</button>
+
         </div>
+
+
 
         <div class="top-nav">
+
             <div class="nav-tabs">
+
                 <button class="tab-btn active" id="tabTyping" onclick="showTab('typing')">⌨️ Spelling</button>
+
                 <button class="tab-btn rev-badge" id="tabRev" onclick="showTab('revision')">⭐ Revision (<span id="revCount">0</span>)</button>
+
                 <button class="tab-btn" id="tabEssays" onclick="showTab('essays')">📚 100 Essays</button>
+
                 <button class="tab-btn" id="tabStory" onclick="showTab('story')">📖 1001 Nights</button>
+
                 <button class="tab-btn" id="tabSpeaking" onclick="showTab('speaking')">🎙️ Speaking</button>
+
                 <button class="tab-btn" id="tabPdf1" onclick="showTab('pdf1')">📄 Vocab</button>
+
                 <button class="tab-btn" id="tabPdf2" onclick="showTab('pdf2')">📄 Listening</button>
+
             </div>
+
             
+
             <div class="action-btns">
+
                 <label class="control-btn" style="display:flex; align-items:center; gap:4px; margin:0;"><input type="checkbox" id="soundToggle" checked>🔊 Sound</label>
+
             </div>
+
         </div>
+
+
 
         <header>
+
             <h1 id="pageTitle">IELTS Spelling Practice Meter</h1>
+
             <p class="desc" id="pageDesc">Type words naturally. Use Backspace to correct mistakes.</p>
+
         </header>
 
+
+
         <!-- 1. TYPING -->
+
         <div id="sec-typing" class="content-section active">
+
             <div class="session-grid" id="sessionGrid"></div>
+
             
+
             <div class="typing-area" id="typingArea" onclick="focusHiddenInput()">
+
                 <div style="display:flex; justify-content:flex-end; margin-bottom: 8px;">
+
                     <button class="control-btn" onclick="repeatCurrentWord()" style="background:var(--primary); color:white; border:none; padding:4px 10px; font-size:0.8rem;">🔊 Repeat Word</button>
+
                 </div>
+
                 
+
                 <div class="text-display" id="textDisplay">Select a category above to begin typing...</div>
+
                 <div class="live-stats">
+
                     <div id="statTimer">Time: 00:00</div>
+
                     <div id="statWpm">WPM: 0</div>
+
                 </div>
+
                 <input type="text" class="hidden-input" id="hiddenInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+
             </div>
+
         </div>
+
+
 
         <!-- 2. REVISION -->
+
         <div id="sec-revision" class="content-section">
+
             <div class="essay-card">
+
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+
                     <h3 style="margin:0; color:var(--primary);">⭐ Difficult Words for Revision</h3>
+
                     <div>
+
                         <button class="tab-btn" style="background:var(--incorrect); color:white; border:none; margin-right:8px;" onclick="clearRevision()">🗑️ Clear All</button>
+
                         <button class="tab-btn rev-badge active" onclick="practiceRevision()">Practice</button>
+
                     </div>
+
                 </div>
+
                 <div id="revChipsWrap" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+
             </div>
+
         </div>
+
+
 
         <!-- 3. ESSAYS -->
+
         <div id="sec-essays" class="content-section">
+
             <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+
                 <input type="text" id="essaySearch" placeholder="Search 100 essays..." style="flex:1; min-width:180px; padding:10px 14px; border-radius:10px; border:2px solid var(--border-color); font-size:0.95rem;" oninput="filterEssays()">
+
                 <div style="display:flex; align-items:center; padding:0 16px; background:var(--primary); border-radius:10px; font-weight:700; color:#fff;" id="essayBadge">100 Essays</div>
+
             </div>
+
             <div id="essayListContainer"></div>
+
         </div>
+
+
 
         <!-- 4. STORY (1001 NIGHTS) -->
+
         <div id="sec-story" class="content-section">
+
             <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+
                 <input type="text" id="storySearch" placeholder="Search 1001 Nights tales..." style="flex:1; min-width:180px; padding:10px 14px; border-radius:10px; border:2px solid var(--border-color); font-size:0.95rem;" oninput="filterStory()">
+
                 <div style="display:flex; align-items:center; padding:0 16px; background:var(--primary); border-radius:10px; font-weight:700; color:#fff;" id="storyBadge">Tales</div>
+
             </div>
+
             <div id="storyListContainer"></div>
+
         </div>
+
+
 
         <!-- 5. SPEAKING -->
+
         <div id="sec-speaking" class="content-section">
+
             <div class="speaking-layout">
+
                 <div class="speaking-q-list">
+
                     <input type="text" id="speakSearch" placeholder="Filter questions..." style="width:96%; padding:10px; margin-bottom:12px; border:2px solid var(--border-color); border-radius:8px; font-size:0.9rem; box-sizing:border-box;" oninput="filterSpeaking()">
+
                     <div id="speakingCardsWrap"></div>
+
                 </div>
+
                 
+
                 <div class="speaking-panel">
+
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+
                         <span id="activeQText" style="font-size:1.15rem; font-weight:800; color:var(--primary); line-height:1.4; word-break:break-word; flex:1;">Question 1</span>
+
                         <button onclick="playUK(activeSpeakingQ)" style="background:var(--card-inner); border:2px solid var(--primary); color:var(--primary); border-radius:50%; width:40px; height:40px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0;">🔊</button>
+
                     </div>
+
                     
+
                     <div style="text-align:center; padding:16px; background:var(--card-inner); border-radius:14px; border:2px dashed var(--border-color);">
+
                         <button class="mic-btn" id="micBtn" onclick="toggleSpeech()">🎙️ Start Speaking & Record</button>
+
                         <p style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin:10px 0 0 0;" id="micStatus">Microphone is idle</p>
+
                         <audio id="audioPlayback" controls style="display:none;"></audio>
+
                     </div>
 
+
+
                     <div>
+
                         <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">📝 Your Spoken Transcript:</label>
+
                         <div id="speechTranscript" style="background:#fff; border:1px solid var(--border-color); border-radius:10px; padding:14px; min-height:70px; font-size:1rem; margin-top:6px; word-break:break-word; color: #111827;">Speak into your microphone to generate text...</div>
+
                     </div>
 
+
+
                     <div>
-                        <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">💡 Expert Sample Answers (Band 7.5 / 8.5 / 9.0):</label>
+
+                        <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">💡 Expert Sample Answers (Band 6.0 / 6.5 / 7.0):</label>
+
                         <div id="sampleAnswersBox" class="sample-box" style="margin-top:6px;">
+
                             Select a question from the left to view model answers.
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
+
 
         <!-- 6. PDF 1 -->
+
         <div id="sec-pdf1" class="content-section">
+
             <div class="essay-card">
+
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+
                     <h3 style="margin:0; color:var(--primary);">📘 PDF 1: English Vocabulary</h3>
+
                     <div>
+
                         <button class="tab-btn" onclick="prevPdf1()">◀ Prev</button>
+
                         <span id="pdf1PageText" style="margin:0 8px; font-weight:700;">Page 1 / 1</span>
+
                         <button class="tab-btn" onclick="nextPdf1()">Next ▶</button>
+
                     </div>
+
                 </div>
+
                 <div style="overflow-x:auto;"><div id="pdf1TableArea"></div></div>
+
             </div>
+
         </div>
+
+
 
         <!-- 7. PDF 2 -->
+
         <div id="sec-pdf2" class="content-section">
+
             <div class="essay-card">
+
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+
                     <h3 style="margin:0; color:var(--primary);">🎧 PDF 2: Listening Words</h3>
+
                     <div>
+
                         <button class="tab-btn" onclick="prevPdf2()">◀ Prev</button>
+
                         <span id="pdf2PageText" style="margin:0 8px; font-weight:700;">Page 1 / 1</span>
+
                         <button class="tab-btn" onclick="nextPdf2()">Next ▶</button>
+
                     </div>
+
                 </div>
+
                 <div style="overflow-x:auto;"><div id="pdf2TableArea"></div></div>
+
             </div>
+
         </div>
+
     </div>
+
+
 
     <!-- READING MODE MODAL -->
+
     <div id="readingModal" class="reading-modal">
+
         <div id="readingModalContent" class="reading-modal-content">
+
             <button class="close-reading-btn" onclick="closeReadingMode()">✕ Close</button>
+
             <div class="reading-controls">
+
                 <button onclick="changeReadingFontSize(1)">A+</button>
+
                 <button onclick="changeReadingFontSize(-1)">A-</button>
+
                 <button onclick="toggleReadingTheme()">🌙 Theme</button>
+
             </div>
+
             <h2 id="readingTitle" style="color:var(--primary); margin-top:0; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">Title</h2>
+
             <div id="readingBody" class="reading-text" onmouseup="triggerSelection(event)">Body</div>
+
         </div>
+
     </div>
+
+
 
     <!-- Minimal Floating Interactive Popover -->
+
     <div class="floating-popover" id="floatPop">
+
         <button onclick="closePop()" style="position:absolute; right:6px; top:6px; background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.9rem; font-weight:bold;">✕</button>
+
         <div class="popover-header">
+
             <strong id="popWord" class="popover-word">Word</strong>
+
             <div class="popover-actions">
+
                 <button onclick="speakPopWord()" title="Listen">🔊</button>
+
                 <button onclick="applyHighlight()" title="Highlight">🖍️</button>
+
             </div>
+
         </div>
+
         <div id="popIpa" class="popover-ipa">/pronunciation/</div>
+
         <div id="popMeaning" class="popover-meaning">বাংলা অর্থ</div>
+
         <button class="popover-btn" onclick="addPopWordToRev()" style="background:var(--accent-red); color:#fff; margin-bottom:0;">⭐ Add to Revision</button>
+
     </div>
 
+
+
     <!-- External Linked Datasets -->
+
     <script src="essays.js"></script>
+
     <script src="pdf_data.js"></script>
+
     <script src="story.js"></script>
+
     <script src="speaking_data.js"></script>
 
+
+
     <!-- Main Controller Logic -->
+
     <script>
+
         let globalFontSize = 1.0;
+
         function changeGlobalFontSize(step) {
+
             globalFontSize += (step * 0.08);
+
             if(globalFontSize < 0.85) globalFontSize = 0.85;
+
             if(globalFontSize > 1.3) globalFontSize = 1.3;
+
             document.documentElement.style.setProperty('--scale-factor', globalFontSize + 'rem');
+
         }
+
+
 
         function toggleDarkMode() {
+
             document.body.classList.toggle('dark-mode');
+
             const isDark = document.body.classList.contains('dark-mode');
+
             document.getElementById('darkModeBtn').innerText = isDark ? '☀️ Light Mode' : '🌙 Night Mode';
+
             localStorage.setItem('ielts_dark_mode', isDark ? '1' : '0');
+
         }
+
+
 
         if (localStorage.getItem('ielts_dark_mode') === '1') {
+
             document.body.classList.add('dark-mode');
+
             window.addEventListener('DOMContentLoaded', () => {
+
                 const btn = document.getElementById('darkModeBtn');
+
                 if(btn) btn.innerText = '☀️ Light Mode';
+
             });
+
         }
+
+
 
         const rawSpelling = [
+
             { title: "1. Days and Months", words: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "weekdays", "weekend", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] },
+
             { title: "2. Money Matters", words: ["cash", "debit", "credit card", "cheque", "in advance", "annual fee", "monthly membership", "interest rate", "deposit", "tuition fees", "poverty", "bank statement", "money management", "current account", "student account", "withdraw", "low-risk investment", "mortgage", "grace period", "budget deficit", "retail voucher", "coupon", "counterfeit money", "public money", "tax payers' money", "debt", "interest-free credit", "purchase", "partial refund", "annuity", "non-refundable", "MasterCard", "Visa", "distribution costs", "income", "finance department", "family finances", "duty-free store"] },
+
             { title: "3. Subjects", words: ["science", "politics", "history", "biology", "architecture", "law", "geography", "archaeology", "literature", "business management", "agriculture", "statistics", "mathematics", "logic", "physics", "psychology", "anthropology", "economics", "philosophy", "performing arts", "visual arts", "chemistry", "humanities"] },
+
             { title: "4. College / University", words: ["course outline", "group discussion", "handout", "written work", "report writing", "research", "proofreading", "experiment", "experience", "reference", "textbook", "dictionary", "laptop", "printer", "student advisor", "teamwork", "module", "topic", "assessment", "library", "department", "computer center", "classroom", "lecture", "tutor", "main hall", "attendance", "deadline", "give a talk", "speech", "computer laboratory", "certificate", "diploma", "placement test", "overseas students", "full-time", "facilities", "college", "dining room", "specialist", "knowledge", "international", "accommodation", "homestay", "primary", "secondary", "intermediate", "media room", "resources room", "staff", "commencement", "dissertation", "leaflet", "faculty", "pupils", "pencil", "feedback", "tasks", "outcomes", "advanced", "introductory", "extra background", "higher education", "guidelines", "post-secondary", "supervisor", "bachelor's degree", "compound", "vocabulary", "student support services", "student retention", "publication", "foreign students", "schedule", "school reunion", "registrar's office", "stationery"] },
+
             { title: "5. Marketing", words: ["catalog", "interview", "newsletter", "competition", "TV program", "strategies", "research method", "entertainment industry", "leadership", "management", "display", "products", "customer", "special offer", "collecting data", "questionnaire", "survey", "mass media", "statistic", "profit margin", "poll", "business card", "training", "trainee", "merchandise", "manufacture", "recruitment"] },
+
             { title: "6. Health", words: ["yoga", "keep-fit", "salad bar", "vegetarian", "outdoor activities", "leisure time", "disease", "meal", "protein", "balanced diet", "food pyramid", "vitamin", "carbohydrates", "rice", "pasta", "potatoes", "pizza", "tomatoes", "bread", "cereals", "minerals", "zinc", "meat", "seafood", "eggs", "beans", "milk", "cheese", "yoghurt", "fruit", "vegetables", "citrus fruits", "green pepper", "blackcurrant", "nuts", "egg yolk", "liver", "medicine", "treatment", "remedy", "nursing care", "nursery", "regular exercise"] },
+
             { title: "7. Nature", words: ["field", "footbridge", "environment", "waterfall", "river", "mountain", "forest", "village", "coast", "reef", "lake", "valley", "hill", "cliff", "island", "peninsula", "earthquake", "avalanche", "tornado", "typhoon", "desertification", "volcano", "disaster", "catastrophe", "erosion", "landslides", "storm", "flood", "hurricane", "pond", "jungle", "oasis", "dam", "canyon"] },
+
             { title: "8. The Environment", words: ["greenhouse effect", "acid rain", "global warming", "carbon dioxide", "burning fossil", "exhaust fumes", "deforestation", "nitrogen oxide", "smog", "climate", "pollution", "temperature", "power plants", "landfill", "cattle", "wind turbine", "solar power", "hydroelectric power", "renewable", "source of energy", "reliable", "solar panels", "environmentally friendly", "oxygen", "chemical-free", "desert", "degradation", "vegetation", "sea level", "ocean currents", "soil conditioner", "coal", "fossil fuels", "firewood", "drought", "contaminated"] },
+
             { title: "9. The Animal Kingdom", words: ["birds of prey", "seabirds", "poultry and game", "mammals", "cetacean", "whale", "primates", "rodents", "fish", "amphibian", "reptile", "insects", "octopus", "phylum", "class", "order", "family", "genus", "species", "livestock", "creature", "lion", "penguin"] },
+
             { title: "10. Plants", words: ["mushroom", "fungus", "leaves", "seed", "core", "bark", "trunk", "twig", "branch", "flower", "stem", "roots", "cluster", "fertilizer"] },
+
             { title: "11. Continents", words: ["South America", "North America", "Africa", "Asia", "Europe", "Australia", "Antarctica"] },
+
             { title: "12. Countries", words: ["Egypt", "Mexico", "France", "Indonesia", "Turkey", "England", "Germany", "China", "Greece", "Brazil", "India", "North Korea", "Malaysia", "New Zealand", "Nigeria", "Pakistan", "Singapore", "Switzerland", "United Kingdom", "Italy", "The Dominican Republic", "The Philippines", "Denmark"] },
+
             { title: "13. Languages", words: ["linguistics", "bilingual", "trilingual", "polyglot", "Portuguese", "Mandarin", "Bengali", "Chinese", "Hindi", "Russian", "Japanese", "German", "Punjabi", "Thai", "Persian", "Filipino", "French", "Italian", "Greek"] },
+
             { title: "14. Architecture", words: ["dome", "palace", "fort", "castle", "glasshouse", "pyramid", "log cabin", "lighthouse", "hut", "skyscraper", "sculpture"] },
+
             { title: "15. Homes", words: ["semi-detached house", "duplex", "terraced house", "town house", "row house", "bungalow", "thatched cottage", "mobile home", "houseboat", "block of flats", "apartment building", "condominium", "chimney", "bedroom", "basement", "landlord", "tenant", "rent", "lease", "neighborhood", "suburb", "sofa", "coffee table", "dormitory", "storey", "kitchen", "refrigerator", "microwave", "ground floor", "oven", "hallway", "insurance"] },
+
             { title: "16. Cities", words: ["cities", "street", "lane", "city centre", "central station", "car park", "department store", "bridge", "temple", "embassy", "road system", "hospital", "garden"] },
+
             { title: "17. Workplaces", words: ["clinic", "dentist", "reception", "appointment", "staff", "selection", "colleague", "workshop", "showroom", "information desk", "employer", "employment", "unemployed", "technical cooperation", "team leaders", "stress", "ability", "vision", "confidence", "employee", "internship"] },
+
             { title: "18. Rating and Qualities", words: ["reasonable", "satisfactory", "dangerous", "safe", "strongly recommended", "poor quality", "satisfied", "disappointed", "efficient", "luxurious", "colored", "spotted", "striped", "expensive", "cheap"] },
+
             { title: "19. Tour", words: ["tourist guided tour", "ticket office", "souvenir", "trip", "guest", "reservation", "view", "culture", "memorable", "single/double bedded room", "picnic", "tourist attraction", "hostel", "suite", "aquarium"] },
+
             { title: "20. Verbs", words: ["train", "develop", "collect", "supervise", "mark", "edit", "revise", "exhibit", "donate", "surpass", "register", "support", "hunt", "persuade", "concentrate", "discuss", "suggest", "arrange", "borrow", "immigrate", "review", "learn", "touch"] },
+
             { title: "21. Adjectives", words: ["energetic", "social", "ancient", "necessary", "fantastic", "exciting", "fabulous", "dull", "comfortable", "convenient", "suitable", "affordable", "voluntary", "mandatory", "compulsory", "temporary", "permanent", "immense", "vast", "salty", "extinct", "vulnerable", "pessimistic", "optimistic", "realistic", "practical", "knowledgeable", "flexible", "confident", "Western", "intensive", "tranquil", "spectacular", "intact", "various"] },
+
             { title: "22. Hobbies", words: ["orienteering", "caving", "spelunking", "archery", "ice skating", "scuba-diving", "snorkeling", "skateboarding", "bowls", "darts", "golf", "billiards", "photography", "painting", "pottery", "woodcarving", "gardening", "stamp collection", "embroidery", "climbing", "chess", "parachute"] },
+
             { title: "23. Sports", words: ["cricket", "baseball", "basketball", "rugby", "soccer", "American football", "hockey", "swimming", "tennis", "squash", "badminton", "ping-pong", "field", "court", "pitch", "stadium", "team", "the discus", "the javelin", "the hammer", "the high jump", "horse racing", "show jumping", "polo", "cycling", "gymnasium", "athlete", "gym", "extreme sports", "paragliding", "hang-gliding", "skydiving", "abseiling", "snowboarding", "bungee jumping", "surfing", "windsurfing", "jet-skiing", "body boarding", "white-water rafting", "kite surfing", "mountain biking", "jogging", "press-up", "push-up", "barbell", "treadmill", "judo", "recreation", "snooker", "walking", "championship", "canoeing", "refreshment"] },
+
             { title: "24. Shapes", words: ["square", "rectangular", "triangular", "polygon", "oval", "spherical", "spiral", "circular", "curved", "cylindrical"] },
+
             { title: "25. Measurements", words: ["width", "length", "altitude", "imperial system", "metric system", "mass", "depth", "breadth", "height", "three dimensions", "frequency"] },
+
             { title: "26. Transportations", words: ["cargo plane", "shipment", "container ship", "boat", "lifeboat", "ferry", "hovercraft", "hydrofoil", "liner", "canal boat", "narrow boat", "dinghy sailing", "sailboat", "paddle steamer", "cabin cruiser", "rowing boat", "rowboat", "kayak", "canoe", "punt", "gondola", "aircraft", "helicopter", "seaplane", "airship", "hot-air balloon"] },
+
             { title: "27. Weather", words: ["humid", "hot", "sticky", "breeze", "chilly", "cold", "cool", "dry", "dusty", "freezing", "warm", "wet", "weather forecast", "antenna", "moisture"] },
+
             { title: "28. Places", words: ["local library", "swimming pool", "cafeteria", "cottage", "parliament", "accommodation", "restaurant", "canteen", "café", "bookshop", "sports centre", "city council", "dance studio", "park", "conversation club", "kindergarten"] },
+
             { title: "29. Equipment and Tools", words: ["helmet", "light", "musical instrument", "cassette", "silicon chip", "digital monitor", "gadget", "device", "screen", "brakes", "wheels", "mechanical pencil", "disk", "backpack"] },
+
             { title: "30. The Arts and Media", words: ["opera", "orchestra", "concert", "symphony", "the press", "conductor", "vocalist", "audience", "festival", "carnival", "exhibition", "classical music", "theatre", "cinema", "art gallery", "museum", "ballet", "television", "radio", "graphics", "newspaper"] },
+
             { title: "31. Materials", words: ["fur", "metal", "steel", "aluminum", "copper", "rubber", "plastic", "ceramics", "glass", "cement", "stone", "textile", "cotton", "fabric", "wool", "leather", "bone", "paper", "lumber/wood", "glue", "composite", "fiberglass", "concrete", "wax", "silver", "gold", "feather"] },
+
             { title: "32. Works and Jobs", words: ["occupation", "profession", "designer", "decorator", "architect", "engineer", "manager", "waitress", "waiter", "teacher", "vacancy", "professor", "specialist", "psychologist", "volunteer", "freelance", "secretary", "craftsman", "work experience", "curriculum vitae", "mail address", "receptionist", "pilot", "guard", "flight attendant", "lecturer", "office assistant", "clerk", "accountant", "cashier", "captain"] },
+
             { title: "33. Colors", words: ["blue", "white", "orange", "green", "grey", "black", "red", "yellow", "purple", "brown", "pink"] },
+
             { title: "34. Expressions and Time", words: ["three times", "three times per week", "a gap year", "full-time", "part-time", "midday", "midnight", "millennium", "century", "decade", "fortnight"] },
+
             { title: "35. Other Terms", words: ["passport photo", "state", "government", "individual", "variety", "private sector", "practice", "gender", "creativity", "original inhabitant", "indigenous", "demonstration", "strike", "entrance", "circuit", "guarantee", "dialog", "commerce", "carriage", "narrative", "chocolate", "satellite", "decision", "prototype", "attitude", "daily routine", "personal fulfillment", "activity", "recipient", "ultrasound", "pedestrian safety", "traffic jams", "procedures", "creation", "prize", "junior", "senior", "opportunity", "driving license", "process", "literary", "man-made", "Republicans", "umbrella", "frequently updated", "waiting list", "sewer systems", "liberal democracy", "Democrats", "lunar calendar", "libertarian", "burger", "videos", "nature conservation", "life expectancy", "fund-raising event", "magnet", "dialect", "ramification", "straight", "farewell", "welfare", "encyclopedia", "evolution", "revolution", "illiteracy", "robot", "proficiency", "sufficient"] },
+
             { title: "★ Tricky 1: Double Letters", words: ["accommodation", "embarrassment", "millennium", "recommend", "necessary", "success", "occur", "occurred", "profession", "possession", "disappoint", "apparent", "colleague", "immediate", "interrupt", "exaggerate", "parallel", "commitment", "committee", "harass", "assess", "assessment", "fulfill", "beginning", "disappear", "aggressive", "tomorrow"] },
+
             { title: "★ Tricky 2: Silent Letters", words: ["environment", "government", "Wednesday", "February", "knowledge", "doubt", "subtle", "discipline", "foreign", "rhythm", "acquire", "fascinating", "muscle", "exhausted", "aisle", "column", "autumn", "castle", "climb", "receipt"] },
+
             { title: "★ Tricky 3: Vowel Traps", words: ["independent", "persistent", "subsequent", "consequent", "preceding", "proceeding", "definition", "definitely", "separate", "privilege", "occurrence", "independent", "guarantee", "maintenance", "recommendation"] },
+
             { title: "★ Tricky 4: Numbers & Misc", words: ["fourteen", "forty", "ninety", "twelfth", "millimetre", "kilometre", "temperature", "percentage", "frequency", "quantity", "straight", "height", "length", "width"] }
+
         ];
+
+
 
         const defaultStoryData = [
+
             { id: 1, topic: "Foreword", question: "Foreword by Mary Gaitskill", answer: "One Thousand and One Nights is about worlds underground..." }
+
         ];
+
         const finalStoryData = (typeof storyData !== 'undefined' && storyData.length > 0) ? storyData : defaultStoryData;
 
+
+
         let revisionWords = JSON.parse(localStorage.getItem('ielts_revision_words') || '[]');
+
         let currentWordsList = [];
+
         let charSpans = [], curIdx = 0, timer = null, startTime = null, isPlaying = false, totalTypedCount = 0;
+
         let lastSpokenWordIdx = -1;
 
+
+
         function focusHiddenInput() {
+
             const input = document.getElementById('hiddenInput');
+
             if (input) input.focus();
+
         }
+
+
 
         document.addEventListener('DOMContentLoaded', () => {
+
             focusHiddenInput();
+
             initTypingEngine();
+
             updateRevUI();
+
         });
 
+
+
         function initTypingEngine() {
+
             const grid = document.getElementById('sessionGrid');
+
             grid.innerHTML = '';
+
             rawSpelling.forEach((s, idx) => {
+
                 const btn = document.createElement('button');
+
                 btn.className = 'session-btn';
+
                 btn.innerText = s.title;
+
                 btn.onclick = () => loadSession(idx, btn);
+
                 grid.appendChild(btn);
+
             });
+
             loadSession(0);
+
         }
+
+
 
         function loadSession(idx, btn) {
+
             document.querySelectorAll('.session-btn').forEach(b => b.classList.remove('active'));
+
             if (btn) btn.classList.add('active');
 
+
+
             currentWordsList = [...rawSpelling[idx].words];
+
             lastSpokenWordIdx = -1;
+
             renderFullListDisplay();
+
             resetTimer();
+
             focusHiddenInput();
+
         }
+
+
 
         function renderFullListDisplay() {
+
             const disp = document.getElementById('textDisplay');
+
             disp.innerHTML = '';
+
             charSpans = [];
+
             curIdx = 0;
 
+
+
             currentWordsList.forEach((w, wIdx) => {
+
                 for (let i = 0; i < w.length; i++) {
+
                     const sp = document.createElement('span');
+
                     sp.innerText = w[i];
+
                     disp.appendChild(sp);
+
                     charSpans.push({ span: sp, wordIdx: wIdx, charInWord: i, isChar: true });
+
                 }
+
                 if (wIdx < currentWordsList.length - 1) {
+
                     const sp = document.createElement('span');
+
                     sp.innerText = ' ';
+
                     disp.appendChild(sp);
+
                     charSpans.push({ span: sp, wordIdx: wIdx, isSpace: true });
+
                 }
+
             });
 
+
+
             if (charSpans.length > 0) {
+
                 charSpans[0].span.classList.add('active');
+
             }
+
             
+
             if (currentWordsList.length > 0) {
+
                 lastSpokenWordIdx = 0;
+
                 playUK(currentWordsList[0]);
+
             }
+
         }
 
+
+
         function resetTimer() {
+
             clearInterval(timer); startTime = null; isPlaying = false; totalTypedCount = 0;
+
             document.getElementById('statTimer').innerText = "Time: 00:00";
+
             document.getElementById('statWpm').innerText = "WPM: 0";
+
         }
+
+
 
         const hiddenInput = document.getElementById('hiddenInput');
 
+
+
         if (hiddenInput) {
+
             hiddenInput.addEventListener('keydown', (e) => {
+
                 const activeSec = document.querySelector('.content-section.active');
+
                 if (!activeSec || activeSec.id !== 'sec-typing') return;
 
+
+
                 if (e.key === 'Backspace') {
+
                     e.preventDefault();
+
                     if (curIdx > 0) {
+
                         charSpans[curIdx].span.classList.remove('active');
+
                         curIdx--;
+
                         charSpans[curIdx].span.classList.remove('correct', 'incorrect');
+
                         charSpans[curIdx].span.classList.add('active');
+
                         playTick(); 
+
                     }
+
                 } else if (e.key === ' ' || e.code === 'Space') {
+
                     e.preventDefault();
+
                     handleCharacterInput(' ');
+
                 } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+
                     e.preventDefault();
+
                     handleCharacterInput(e.key);
+
                 }
+
             });
+
+
 
             hiddenInput.addEventListener('input', (e) => {
+
                 const val = e.target.value;
+
                 if (val.length > 0) {
+
                     const ch = val[val.length - 1];
+
                     handleCharacterInput(ch);
+
                     e.target.value = '';
+
                 }
+
             });
+
         }
 
+
+
         function handleCharacterInput(ch) {
+
             if (curIdx >= charSpans.length) return;
+
             
+
+            // Auto-skip spaces if user already typed the word fully and hit space or next letter
+
             while (curIdx < charSpans.length && charSpans[curIdx].isSpace && ch === ' ') {
+
                 charSpans[curIdx].span.classList.remove('active');
+
                 charSpans[curIdx].span.classList.add('correct');
+
                 curIdx++;
+
                 if (curIdx < charSpans.length) {
+
                     const nextObj = charSpans[curIdx];
+
                     nextObj.span.classList.add('active');
+
                     if (nextObj.wordIdx !== lastSpokenWordIdx) {
+
                         lastSpokenWordIdx = nextObj.wordIdx;
+
                         playUK(currentWordsList[nextObj.wordIdx]);
+
                     }
+
                 }
+
                 playTick();
+
                 return;
+
             }
+
+
 
             const currentObj = charSpans[curIdx];
 
+
+
             if (!isPlaying) {
+
                 isPlaying = true; startTime = new Date();
+
                 timer = setInterval(() => {
+
                     const elapsed = Math.floor((new Date() - startTime) / 1000);
+
                     const m = Math.floor(elapsed / 60), s = elapsed % 60;
+
                     document.getElementById('statTimer').innerText = `Time: ${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+
                     
+
                     const mins = elapsed / 60;
+
                     const words = totalTypedCount / 5;
+
                     const wpm = mins > 0 ? Math.round(words / mins) : 0;
+
                     document.getElementById('statWpm').innerText = `WPM: ${wpm}`;
+
                 }, 1000);
+
             }
+
+
+
+            // If a space is expected right now
 
             if (currentObj.isSpace) {
+
                 if (ch === ' ') {
+
                     currentObj.span.classList.remove('active');
+
                     currentObj.span.classList.add('correct');
+
                     curIdx++;
+
                     if (curIdx < charSpans.length) {
+
                         const nextObj = charSpans[curIdx];
+
                         nextObj.span.classList.add('active');
+
                         if (nextObj.wordIdx !== lastSpokenWordIdx) {
+
                             lastSpokenWordIdx = nextObj.wordIdx;
+
                             playUK(currentWordsList[nextObj.wordIdx]);
+
                         }
+
                     }
+
                     playTick();
+
                 } else {
+
+                    // If user typed a letter instead of space, auto-mark space correct and process the letter on the next word
+
                     currentObj.span.classList.remove('active');
+
                     currentObj.span.classList.add('correct');
+
                     curIdx++;
+
                     if (curIdx < charSpans.length) {
+
                         charSpans[curIdx].span.classList.add('active');
-                        handleCharacterInput(ch);
+
+                        handleCharacterInput(ch); // recursive call for the letter
+
                     }
+
                 }
+
                 return;
+
             }
+
+
 
             const exp = currentObj.span.innerText;
+
             currentObj.span.classList.remove('active');
 
+
+
             if (ch.toLowerCase() === exp.toLowerCase()) {
+
                 currentObj.span.classList.add('correct');
+
                 totalTypedCount++;
+
                 playTick();
+
                 curIdx++;
+
                 if (curIdx < charSpans.length) {
+
                     charSpans[curIdx].span.classList.add('active');
+
                 } else {
+
                     clearInterval(timer);
+
                     alert('Session completed successfully!');
+
                 }
+
             } else {
+
                 currentObj.span.classList.add('incorrect');
+
                 playError();
+
                 curIdx++;
+
                 if (curIdx < charSpans.length) {
+
                     charSpans[curIdx].span.classList.add('active');
+
                 }
+
             }
+
         }
+
+
 
         function repeatCurrentWord() {
+
             if (charSpans[curIdx]) {
+
                 const wIdx = charSpans[curIdx].wordIdx;
+
                 playUK(currentWordsList[wIdx]);
+
             } else if (currentWordsList.length > 0) {
+
                 playUK(currentWordsList[0]);
+
             }
+
             focusHiddenInput();
+
         }
+
+
 
         function updateRevUI() {
+
             document.getElementById('revCount').innerText = revisionWords.length;
+
             const wrap = document.getElementById('revChipsWrap');
+
             wrap.innerHTML = '';
+
             if (revisionWords.length === 0) {
+
                 wrap.innerHTML = '<span style="color:var(--text-muted);">No words added yet. Double-click any word to add to revision!</span>';
+
                 return;
+
             }
+
             revisionWords.forEach(w => {
+
                 const ch = document.createElement('span');
+
                 ch.style = "background:var(--card-inner); border:1px solid var(--weak-color); padding:6px 14px; border-radius:10px; font-weight:700; color:var(--primary); display:inline-flex; align-items:center; gap:6px;";
+
                 ch.innerHTML = `${w} <button onclick="removeRevWord('${w}')" style="background:none;border:none;color:var(--accent-red);cursor:pointer;font-weight:bold;">×</button>`;
+
                 wrap.appendChild(ch);
+
             });
+
         }
+
+
 
         function removeRevWord(w) {
+
             revisionWords = revisionWords.filter(item => item !== w);
+
             localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+
             updateRevUI();
+
         }
+
+
 
         function addWordToRevision(word) {
+
             const clean = word.trim();
+
             if (clean && !revisionWords.includes(clean)) {
+
                 revisionWords.push(clean);
+
                 localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+
                 updateRevUI();
+
                 alert(`Added "${clean}" to Revision!`);
+
             } else {
+
                 alert(`"${clean}" is already in Revision.`);
+
             }
+
         }
+
+
 
         function practiceRevision() {
+
             if (revisionWords.length === 0) { alert('No revision words available.'); return; }
+
             showTab('typing');
+
             currentWordsList = [...revisionWords];
+
             lastSpokenWordIdx = -1;
+
             renderFullListDisplay();
+
             focusHiddenInput();
+
         }
+
+
 
         function clearRevision() {
+
             if (confirm("Are you sure you want to delete all revision words?")) {
+
                 revisionWords = [];
+
                 localStorage.setItem('ielts_revision_words', JSON.stringify(revisionWords));
+
                 updateRevUI();
+
             }
+
         }
+
+
 
         async function translateContent(type, id, btn) {
+
             const grid = document.getElementById(`grid_${type}_${id}`);
+
             const colEn = document.getElementById(`col_en_${type}_${id}`);
+
             const colBn = document.getElementById(`col_bn_${type}_${id}`);
+
             const titleEn = document.getElementById(`title_en_${type}_${id}`);
+
             const ansBn = document.getElementById(`ans_bn_${type}_${id}`);
+
             const orig = document.getElementById(`ans_en_${type}_${id}`).getAttribute('data-orig');
 
+
+
             if (btn.getAttribute('data-trans') === '1') {
+
                 grid.classList.remove('active');
+
                 colBn.style.display = 'none';
+
                 titleEn.style.display = 'none';
+
                 colEn.classList.add('plain');
+
                 btn.innerHTML = "🌐 Translate to Bangla";
+
                 btn.setAttribute('data-trans', '0');
+
             } else {
+
                 grid.classList.add('active');
+
                 colBn.style.display = 'block';
+
                 titleEn.style.display = 'block';
+
                 colEn.classList.remove('plain');
+
                 btn.innerHTML = "⏳ Translating...";
+
                 ansBn.innerHTML = "<em>Translating using Google API... Please wait...</em>";
 
+
+
                 try {
+
                     const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
+
                         method: 'POST',
+
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+
                         body: `q=${encodeURIComponent(orig)}`
+
                     });
+
                     const data = await res.json();
+
                     let trans = "";
+
                     if (data && data[0]) data[0].forEach(s => { if (s[0]) trans += s[0]; });
+
                     ansBn.innerText = trans;
+
                     btn.innerHTML = "❌ Hide Translation";
+
                     btn.setAttribute('data-trans', '1');
+
                 } catch {
+
                     alert('Translation failed. Check connection.');
+
                     btn.innerHTML = "🌐 Translate to Bangla";
+
                     
+
                     grid.classList.remove('active');
+
                     colBn.style.display = 'none';
+
                     titleEn.style.display = 'none';
+
                     colEn.classList.add('plain');
+
                 }
+
             }
+
         }
+
+
 
         function loadTextToTyping(rawText) {
+
             const words = rawText.replace(/\n+/g, ' ').split(/\s+/).filter(w => w.trim().length > 0);
+
             showTab('typing');
+
             currentWordsList = words;
+
             lastSpokenWordIdx = -1;
+
             renderFullListDisplay();
+
             focusHiddenInput();
+
         }
+
+
 
         function toggleAccordion(id) {
+
             const wrap = document.getElementById(`body_${id}`);
+
             wrap.classList.toggle('open');
+
         }
+
+
 
         let currentReadingFontSize = 1.2;
+
         
+
         function openReadingMode(title, contentId) {
+
             const rawText = document.getElementById(contentId).getAttribute('data-orig');
+
             document.getElementById('readingTitle').innerText = title;
+
             document.getElementById('readingBody').innerText = rawText;
+
             document.getElementById('readingModal').style.display = 'flex';
+
             document.body.style.overflow = 'hidden';
+
         }
+
         
+
         function closeReadingMode() {
+
             document.getElementById('readingModal').style.display = 'none';
+
             document.body.style.overflow = 'auto';
+
         }
+
         
+
         function changeReadingFontSize(step) {
+
             currentReadingFontSize += (step * 0.1);
+
             if(currentReadingFontSize < 0.8) currentReadingFontSize = 0.8;
+
             if(currentReadingFontSize > 2.5) currentReadingFontSize = 2.5;
+
             document.getElementById('readingBody').style.fontSize = currentReadingFontSize + 'rem';
+
         }
+
         
+
         function toggleReadingTheme() {
+
             document.getElementById('readingModalContent').classList.toggle('dark');
+
         }
+
+
 
         function initEssays() {
+
             const list = document.getElementById('essayListContainer');
+
             list.innerHTML = '';
+
             if (typeof essaysData === 'undefined' || essaysData.length === 0) {
+
                 list.innerHTML = '<p style="color:var(--text-muted);">Please check if essays.js is present.</p>';
+
                 return;
+
             }
+
             essaysData.forEach(e => {
+
                 const card = document.createElement('div');
+
                 card.className = 'essay-card';
+
                 card.innerHTML = `
+
                     <span class="essay-topic">${e.topic}</span>
+
                     <div class="essay-q-box" onclick="toggleAccordion('essay_${e.id}')">
-                        <span>Essay #${e.id}:${e.question}</span>
+
+                        <span>Essay #${e.id}: ${e.question}</span>
+
                         <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
+
                     </div>
+
                     
+
                     <div class="body-wrap" id="body_essay_${e.id}">
+
                         <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+
                             <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('Essay #${e.id} - ${e.topic}', 'ans_en_essay_${e.id}')">📖 Read Focus</button>
+
                             <button class="control-btn" data-trans="0" onclick="translateContent('essay', ${e.id}, this)">🌐 Translate to Bangla</button>
+
                         </div>
+
                         
+
                         <div class="split-grid" id="grid_essay_${e.id}">
+
                             <div class="split-col plain" id="col_en_essay_${e.id}">
+
                                 <div style="font-weight:800; color:var(--primary); margin-bottom:10px; display:none;" id="title_en_essay_${e.id}">🇬🇧 English Original</div>
+
                                 <div class="essay-ans-box" id="ans_en_essay_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+
                             </div>
+
                             <div class="split-col" id="col_bn_essay_${e.id}" style="display:none; border-color: var(--correct);">
+
                                 <div style="font-weight:800; color:var(--correct); margin-bottom:10px;">🇧🇩 Bengali Translation</div>
+
                                 <div class="essay-ans-box" id="ans_bn_essay_${e.id}" onmouseup="triggerSelection(event)"></div>
+
                             </div>
+
                         </div>
+
+
 
                         <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+
                             <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadEssayToTyping(${e.id})">⌨️ Practice Typing</button>
+
                         </div>
+
                     </div>
+
                 `;
+
                 list.appendChild(card);
+
             });
+
             document.getElementById('essayBadge').innerText = `${essaysData.length} Essays`;
+
         }
+
+
 
         function filterEssays() {
+
             const q = document.getElementById('essaySearch').value.toLowerCase().trim();
+
             document.querySelectorAll('#sec-essays .essay-card').forEach((c, idx) => {
+
                 const ed = essaysData[idx];
+
                 const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
+
                 c.style.display = match ? 'block' : 'none';
+
             });
+
         }
+
+
 
         function loadEssayToTyping(id) {
+
             const e = essaysData.find(item => item.id === id);
+
             if (e) loadTextToTyping(e.answer);
+
         }
 
+
+
         function initStory() {
+
             const list = document.getElementById('storyListContainer');
+
             list.innerHTML = '';
+
             
+
             finalStoryData.forEach(e => {
+
                 const card = document.createElement('div');
+
                 card.className = 'essay-card';
+
                 card.innerHTML = `
+
                     <div class="essay-topic" style="background:var(--weak-color); color:#fff;">${e.topic}</div>
+
                     
+
                     <div class="essay-q-box" style="border-left-color:var(--weak-color);" onclick="toggleAccordion('story_${e.id}')">
-                        <span>Chapter #${e.id}:${e.question}</span>
-                        <span style="font-size
+
+                        <span>Chapter #${e.id}: ${e.question}</span>
+
+                        <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
+
+                    </div>
+
+                    
+
+                    <div class="body-wrap" id="body_story_${e.id}">
+
+                        <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+
+                            <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('${e.topic} - ${e.question}', 'ans_en_story_${e.id}')">📖 Read Focus</button>
+
+                            <button class="control-btn" data-trans="0" onclick="translateContent('story', ${e.id}, this)">🌐 Translate to Bangla</button>
+
+                        </div>
+
+                        
+
+                        <div class="split-grid" id="grid_story_${e.id}">
+
+                            <div class="split-col plain" id="col_en_story_${e.id}">
+
+                                <div style="font-weight:800; color:var(--primary); margin-bottom:10px; display:none;" id="title_en_story_${e.id}">🇬🇧 English Original</div>
+
+                                <div class="essay-ans-box" id="ans_en_story_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
+
+                            </div>
+
+                            <div class="split-col" id="col_bn_story_${e.id}" style="display:none; border-color: var(--correct);">
+
+                                <div style="font-weight:800; color:var(--correct); margin-bottom:10px;">🇧🇩 Bengali Translation</div>
+
+                                <div class="essay-ans-box" id="ans_bn_story_${e.id}" onmouseup="triggerSelection(event)"></div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div style="display:flex; justify-content:flex-end; margin-top:12px;">
+
+                            <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadStoryToTyping(${e.id})">⌨️ Practice Typing</button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+                list.appendChild(card);
+
+            });
+
+            document.getElementById('storyBadge').innerText = `${finalStoryData.length} Tales`;
+
+        }
+
+
+
+        function filterStory() {
+
+            const q = document.getElementById('storySearch').value.toLowerCase().trim();
+
+            document.querySelectorAll('#sec-story .essay-card').forEach((c, idx) => {
+
+                const ed = finalStoryData[idx];
+
+                const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
+
+                c.style.display = match ? 'block' : 'none';
+
+            });
+
+        }
+
+
+
+        function loadStoryToTyping(id) {
+
+            const e = finalStoryData.find(item => item.id === id);
+
+            if (e) loadTextToTyping(e.answer);
+
+        }
+
+
+
+        let currentSelectedText = "", currentRange = null;
+
+
+
+        function triggerSelection(e) {
+
+            const sel = window.getSelection();
+
+            const text = sel.toString().trim();
+
+            if (text && text.length > 1) {
+
+                currentSelectedText = text;
+
+                currentRange = sel.getRangeAt(0).cloneRange();
+
+                const pop = document.getElementById('floatPop');
+
+                document.getElementById('popWord').innerText = text.length > 22 ? text.substring(0, 20) + '...' : text;
+
+
+
+                const clean = text.toLowerCase().replace(/[^a-zA-Z]/g, '');
+
+                let foundMatch = false;
+
+
+
+                if (typeof pdf1Data !== 'undefined') {
+
+                    const match = pdf1Data.flat().find(item => item.w.toLowerCase() === clean);
+
+                    if (match) {
+
+                        document.getElementById('popIpa').innerText = match.ipa;
+
+                        document.getElementById('popMeaning').innerText = match.bn;
+
+                        foundMatch = true;
+
+                    }
+
+                }
+
+                if (!foundMatch && typeof pdf2Data !== 'undefined') {
+
+                    const match2 = pdf2Data.flat().find(item => item.w.toLowerCase() === clean);
+
+                    if (match2) {
+
+                        document.getElementById('popIpa').innerText = match2.ipa;
+
+                        document.getElementById('popMeaning').innerText = match2.bn;
+
+                        foundMatch = true;
+
+                    }
+
+                }
+
+
+
+                if (!foundMatch) {
+
+                    document.getElementById('popIpa').innerText = `/${clean}/`;
+
+                    document.getElementById('popMeaning').innerText = "Translating...";
+
+                    fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
+
+                        method: 'POST',
+
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+
+                        body: `q=${encodeURIComponent(text)}`
+
+                    })
+
+                    .then(res => res.json())
+
+                    .then(data => {
+
+                        if (data && data[0] && data[0][0]) document.getElementById('popMeaning').innerText = data[0][0][0];
+
+                        else document.getElementById('popMeaning').innerText = "No meaning found.";
+
+                    });
+
+                }
+
+
+
+                let x = e.clientX + 10, y = e.clientY + 15;
+
+                if (x + 230 > window.innerWidth) x = window.innerWidth - 240;
+
+                pop.style.left = `${x}px`; pop.style.top = `${y}px`; pop.style.display = 'block';
+
+
+
+                if (document.getElementById('soundToggle').checked && !text.includes(' ') && text.length < 18) playUK(text);
+
+            }
+
+        }
+
+        function closePop() { document.getElementById('floatPop').style.display = 'none'; }
+
+        function speakPopWord() { if (currentSelectedText) playUK(currentSelectedText); }
+
+        function applyHighlight() {
+
+            if (!currentRange) return;
+
+            const span = document.createElement('span');
+
+            span.className = 'highlight-mark';
+
+            span.onclick = function() {
+
+                const p = this.parentNode; while (this.firstChild) p.insertBefore(this.firstChild, this); p.removeChild(this);
+
+            };
+
+            try { currentRange.surroundContents(span); } catch { document.execCommand('hiliteColor', false, '#fde047'); }
+
+            closePop(); window.getSelection().removeAllRanges();
+
+        }
+
+        function addPopWordToRev() {
+
+            const clean = currentSelectedText.trim();
+
+            if (clean) {
+
+                addWordToRevision(clean);
+
+            }
+
+            closePop();
+
+        }
+
+        function playUK(word) {
+
+            if (!document.getElementById('soundToggle').checked || !('speechSynthesis' in window)) return;
+
+            window.speechSynthesis.cancel();
+
+            const u = new SpeechSynthesisUtterance(word);
+
+            const v = window.speechSynthesis.getVoices().find(voice => voice.lang.includes('en-GB') || voice.lang.includes('en_GB'));
+
+            if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
+
+        }
+
+
+
+        const fallbackSpeakingList = [
+
+            "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
+
+            "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
+
+            "Where do you want to see yourself after 10 years in terms of your career?", "Tell me about your best friend at school.", "Do you enjoy studying Accounting? Why or why not?",
+
+            "What do you like most about your hometown?", "Do you prefer living in a city or a village? Why?", "How often do you meet your best friend?",
+
+            "What do you usually do together when you meet?", "Do you think having close friends is important? Why?", "What do you study? / Where do you study that?",
+
+            "Why did you choose that subject?", "Is it a popular subject in your country?", "Do you like that subject?", "Do you get on with your classmates?",
+
+            "What was your first day like?", "What are the main aspects of your subject?", "Where is your hometown?", "Do you like your hometown?",
+
+            "Do you often visit your hometown?", "What is your hometown like?", "What is the oldest place in your hometown?", "What is there for a foreigner to do or see in your hometown?",
+
+            "How could your hometown be improved?", "Has your hometown changed much since you were a child?", "Is there good public transportation in your hometown?",
+
+            "Do you think your hometown is a good place to bring up children?", "What is your job? / Where do you work?", "Why did you choose that job? / Is it a popular job in your country?",
+
+            "Do you like your job? / Do you get on well with your colleagues?", "What responsibilities do you have at work?", "If you had the chance, would you change your job?",
+
+            "Where is your home?", "Do you live in a house or a flat?", "Who do you live with?", "Are there many rooms in your home?", "What is your favourite room?",
+
+            "How are the walls decorated?", "What would you change about your home?", "Do you plan to live there in the future?", "What facilities are there near your home?",
+
+            "What is your neighbourhood like?", "Do most people live in houses in your country?", "Are you good at art?", "Did you learn art at school when you were a child?",
+
+            "What kind of art do you like?", "Is art popular in your country?", "Have you ever been to an art gallery?", "Do you think children can benefit from going to art galleries?",
+
+            "Do you have a bike?", "How often do you use it?", "How old were you when you learned to ride a bike?", "Do many people in your country use bicycles?",
+
+            "Do you think using bicycles should be encouraged?", "Did you enjoy your childhood?", "What is your first memory of your childhood?", "Did you have a lot of friends when you were a child?",
+
+            "What did you enjoy doing as a child?", "Do you think it is better for children to grow up in the city or in the countryside?", "Do you usually celebrate your birthdays?",
+
+            "How did you celebrate your last birthday?", "Which birthdays are the most important ones in your country?", "Do you think children should celebrate their birthdays with a party?",
+
+            "Are clothes important to you?", "What kind of clothes do you usually wear?", "Do you ever wear the traditional clothes of your country?", "Where do you usually buy your clothes?",
+
+            "Have you ever worn a uniform?", "Do most people in your country follow fashion?", "Do you often use a computer?", "How do you usually get online?",
+
+            "Do you prefer desktops or laptops?", "What do you use your computer for?", "Do you think it is important to learn how to use a computer?", "When do you usually get up in the morning?",
+
+            "Do you usually have the same routine every day? What is your daily routine?", "Do you ever change your routine?", "Is your routine the same today as it was when you were a child?",
+
+            "Do you think it is important to have a daily routine?", "Do you often have dreams when you sleep?", "Do you usually remember your dreams?", "Do you think dreams are important to remember?",
+
+            "Do you ever have daydreams?", "What kind of daydreams do you usually have?", "Do you spend much time with your family?", "Who are you closest to in your family?",
+
+            "Do you prefer spending time with your family or friends?", "Who is your best friend?", "Are you still friends with people from your childhood?", "Is family important in your country?",
+
+            "Do you like flowers?", "What's your favourite flower?", "When was the last time you gave someone flowers?", "Do any flowers have a special meaning in your country?",
+
+            "Why do you think women like flowers more than men?", "What's your favourite food?", "Have you always liked the same food?", "Is there any food you dislike?",
+
+            "What is a common meal in your country?", "Do you have a healthy diet?", "What do you think of fast food?", "Do you often go out in the evenings?",
+
+            "What do you like to do when you go out?", "Do you prefer going out alone or with friends?", "How often do you go out on weekends?", "Do you think it's important for people to go out?",
+
+            "What makes you happy?", "What do you do to stay happy?", "Does your happiness change with time?", "What was the happiest moment in your life?",
+
+            "Do you think money brings happiness?", "Do you have a hobby?", "What equipment do you need for it?", "Do you think hobbies should be shared with other people?",
+
+            "Did you have a hobby as a child?", "What hobbies are popular in your country?", "Why do you think people have hobbies?", "How often do you go online?",
+
+            "What do you use the internet for?", "How do you get online?", "Do you have your own computer?", "What's your favourite website?",
+
+            "Do you think children should be allowed unsupervised access to the internet?", "What do you usually do in your leisure time?", "Do you prefer to spend your free time alone or with others?",
+
+            "What did you enjoy doing in your free time when you were a child?", "Do you have enough leisure time now?", "What do you think is the best way to spend leisure time?",
+
+            "Do you like music?", "What's your favourite type of music?", "Can you sing?", "Did you learn music at school when you were a child?",
+
+            "If you could learn a musical instrument, what would it be?", "Do you think music is important?", "Do you like your neighbours?", "Are neighbours usually close to each other in your country?",
+
+            "What is your neighbourhood like?", "Do you think your neighbourhood is a good place for children?", "How could your neighbourhood be improved?",
+
+            "Do you think it is important to have a good relationship with your neighbours?", "Do you live in a noisy area?", "What kinds of sounds do you hear on a daily basis?",
+
+            "Where do you go to spend time in peace and quiet?", "Are there any sounds which you think are pleasant?", "Do you have any noisy friends?",
+
+            "Do you have a pet?", "Do you like animals?", "What's your favourite animal?", "What is a popular pet to have in your country?", "Did you have a pet as a child?",
+
+            "Why do people have pets?", "Do you like shopping?", "What do you usually buy when you go shopping?", "Do you prefer shopping alone or with others?",
+
+            "Do you enjoy shopping for clothes?", "Do you think online shopping is popular in your country?", "What are the advantages of shopping online?",
+
+            "Do you like sports?", "What's your favourite sport?", "Do you watch sport on TV?", "Did you play sport when you were a child?", "Do you think it's important to play sport?",
+
+            "Why do people like watching sport?", "Do you often watch TV?", "What kind of TV programmes do you like?", "What was your favourite show when you were a child?",
+
+            "Do you think TV has changed much in the last few years?", "Do you prefer watching TV alone or with your family?", "How often do you watch news on TV?",
+
+            "How do you usually travel around your city?", "What's your favourite kind of transport?", "Do you prefer public transport or private transport?",
+
+            "Is public transport popular in your country?", "How could public transport be improved?", "Do you enjoy long journeys?", "Do you like travelling?",
+
+            "What's the best place you've ever visited?", "How do you usually travel long distances?", "Do you like travelling with family or friends?",
+
+            "What places would you like to visit in the future?", "Do you prefer travelling to new places or visiting the same places again?",
+
+            "What's the weather like where you live?", "What's your favourite type of weather?", "What do you usually do in the hot weather?",
+
+            "Do you prefer dry weather or wet weather?", "Has the weather changed much in your country in recent years?"
+
+        ];
+
+
+
+        let activeSpeakingQ = "";
+
+
+
+        function initSpeaking() {
+
+            const wrap = document.getElementById('speakingCardsWrap');
+
+            wrap.innerHTML = '';
+
+            
+
+            let masterList = [];
+
+            if (typeof speakingData !== 'undefined' && speakingData.length > 0) {
+
+                masterList = speakingData;
+
+            }
+
+            
+
+            fallbackSpeakingList.forEach((qText, index) => {
+
+                const qId = index + 1;
+
+                const found = masterList.find(item => item.id === qId || item.question.toLowerCase() === qText.toLowerCase());
+
+                if (!found) {
+
+                    masterList.push({
+
+                        id: qId,
+
+                        question: qText,
+
+                        b6: "Sample answer not available yet.",
+
+                        b65: "Sample answer not available yet.",
+
+                        b7: "Sample answer not available yet."
+
+                    });
+
+                }
+
+            });
+
+
+
+            masterList.sort((a,b) => a.id - b.id);
+
+
+
+            masterList.forEach((item) => {
+
+                const c = document.createElement('div');
+
+                c.className = 'speaking-card';
+
+                if (item.id === 5) c.classList.add('active');
+
+                c.innerText = `${item.id}. ${item.question}`;
+
+                c.onclick = () => {
+
+                    document.querySelectorAll('.speaking-card').forEach(el => el.classList.remove('active'));
+
+                    c.classList.add('active');
+
+                    activeSpeakingQ = item.question;
+
+                    document.getElementById('activeQText').innerText = `${item.id}. ${item.question}`;
+
+                    
+
+                    displaySampleAnswers(item);
+
+                    document.getElementById('audioPlayback').style.display = 'none';
+
+                    document.getElementById('speechTranscript').innerText = 'Speak into your microphone...';
+
+                    
+
+                    if(document.getElementById('soundToggle').checked) playUK(item.question);
+
+                };
+
+                wrap.appendChild(c);
+
+            });
+
+
+
+            const defaultItem = masterList.find(i => i.id === 5) || masterList[0];
+
+            if (defaultItem) {
+
+                activeSpeakingQ = defaultItem.question;
+
+                document.getElementById('activeQText').innerText = `${defaultItem.id}. ${defaultItem.question}`;
+
+                displaySampleAnswers(defaultItem);
+
+            }
+
+        }
+
+
+
+        function displaySampleAnswers(data) {
+
+            const box = document.getElementById('sampleAnswersBox');
+
+            box.innerHTML = `
+
+                <strong style="color:var(--correct);">Target Band 6.0:</strong><br>${data.b6 || "Sample answer not available yet."}<br><br>
+
+                <strong style="color:var(--primary);">Target Band 6.5:</strong><br>${data.b65 || "Sample answer not available yet."}<br><br>
+
+                <strong style="color:var(--accent-red);">Target Band 7.0:</strong><br>${data.b7 || "Sample answer not available yet."}
+
+            `;
+
+        }
+
+
+
+        function filterSpeaking() {
+
+            const q = document.getElementById('speakSearch').value.toLowerCase().trim();
+
+            document.querySelectorAll('.speaking-card').forEach((c) => {
+
+                const text = c.innerText.toLowerCase();
+
+                c.style.display = text.includes(q) ? 'block' : 'none';
+
+            });
+
+        }
+
+
+
+        let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
+
+        let finalTranscript = "";
+
+
+
+        async function toggleSpeech() {
+
+            const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus'), out = document.getElementById('speechTranscript');
+
+            const audioPlayback = document.getElementById('audioPlayback');
+
+
+
+            if (!isRec) {
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+                if (!SpeechRecognition) {
+
+                    alert('Speech Recognition is not supported on this browser/device. Please use Google Chrome or Safari.');
+
+                    return;
+
+                }
+
+                try {
+
+                    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                    mediaRecorder = new MediaRecorder(micStream);
+
+                    audioChunks = [];
+
+                    
+
+                    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
+
+                    mediaRecorder.onstop = () => {
+
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+
+                        const audioUrl = URL.createObjectURL(audioBlob);
+
+                        audioPlayback.src = audioUrl;
+
+                        audioPlayback.style.display = 'block'; 
+
+                    };
+
+
+
+                    recog = new SpeechRecognition(); 
+
+                    recog.continuous = true; 
+
+                    recog.interimResults = true; 
+
+                    recog.lang = 'en-GB'; 
+
+                    
+
+                    finalTranscript = "";
+
+                    out.innerText = '';
+
+                    audioPlayback.style.display = 'none';
+
+
+
+                    recog.onstart = () => { 
+
+                        isRec = true; 
+
+                        btn.innerText = "🛑 Stop Recording"; 
+
+                        btn.classList.add('recording');
+
+                        st.innerText = "Listening & Recording..."; 
+
+                    };
+
+                    
+
+                    recog.onresult = (e) => {
+
+                        let interim = '';
+
+                        for (let i = e.resultIndex; i < e.results.length; ++i) {
+
+                            if (e.results[i].isFinal) {
+
+                                finalTranscript += e.results[i][0].transcript + ' ';
+
+                            } else {
+
+                                interim += e.results[i][0].transcript;
+
+                            }
+
+                        }
+
+                        out.innerText = finalTranscript + interim;
+
+                    };
+
+                    
+
+                    recog.onerror = (event) => {
+
+                        console.error('Speech recognition error', event.error);
+
+                    };
+
+                    
+
+                    recog.onend = () => {
+
+                        if (isRec) {
+
+                            try { recog.start(); } catch(err) {}
+
+                        }
+
+                    };
+
+                    
+
+                    mediaRecorder.start();
+
+                    recog.start();
+
+
+
+                } catch (err) { 
+
+                    alert("Microphone access denied or not supported on this view. Please allow mic permissions."); 
+
+                }
+
+            } else {
+
+                if (recog) {
+
+                    try { recog.stop(); } catch(e){}
+
+                }
+
+                if (mediaRecorder && mediaRecorder.state !== "inactive") {
+
+                    try { mediaRecorder.stop(); } catch(e){}
+
+                }
+
+                if (micStream) {
+
+                    micStream.getTracks().forEach(track => track.stop());
+
+                }
+
+                stopRecordingUI();
+
+            }
+
+        }
+
+
+
+        function stopRecordingUI() {
+
+            isRec = false;
+
+            const btn = document.getElementById('micBtn');
+
+            const st = document.getElementById('micStatus');
+
+            btn.innerText = "🎙️ Start Speaking & Record";
+
+            btn.classList.remove('recording');
+
+            st.innerText = "Recorded! Play back your audio below.";
+
+        }
+
+
+
+        let p1Idx = 0, p2Idx = 0;
+
+        function renderP1() {
+
+            if (typeof pdf1Data === 'undefined' || pdf1Data.length === 0) return;
+
+            const data = pdf1Data[p1Idx] || [];
+
+            let h = `<table class="pdf-table"><thead><tr><th>Word / Phrase</th><th>Pronunciation Guide</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
+
+            data.forEach(r => { 
+
+                h += `<tr>
+
+                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
+
+                    <td><code>${r.ipa}</code></td>
+
+                    <td>${r.bn}</td>
+
+                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
+
+                </tr>`; 
+
+            });
+
+            h += `</tbody></table>`;
+
+            document.getElementById('pdf1TableArea').innerHTML = h;
+
+            document.getElementById('pdf1PageText').innerText = `Page ${p1Idx + 1} / ${pdf1Data.length}`;
+
+        }
+
+        function prevPdf1() { if (p1Idx > 0) { p1Idx--; renderP1(); } }
+
+        function nextPdf1() { if (p1Idx < pdf1Data.length - 1) { p1Idx++; renderP1(); } }
+
+
+
+        function renderP2() {
+
+            if (typeof pdf2Data === 'undefined' || pdf2Data.length === 0) return;
+
+            const data = pdf2Data[p2Idx] || [];
+
+            let h = `<table class="pdf-table"><thead><tr><th>Listening Word</th><th>Pronunciation</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
+
+            data.forEach(r => { 
+
+                h += `<tr>
+
+                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
+
+                    <td><code>${r.ipa}</code></td>
+
+                    <td>${r.bn}</td>
+
+                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
+
+                </tr>`; 
+
+            });
+
+            h += `</tbody></table>`;
+
+            document.getElementById('pdf2TableArea').innerHTML = h;
+
+            document.getElementById('pdf2PageText').innerText = `Page ${p2Idx + 1} / ${pdf2Data.length}`;
+
+        }
+
+        function prevPdf2() { if (p2Idx > 0) { p2Idx--; renderP2(); } }
+
+        function nextPdf2() { if (p2Idx < pdf2Data.length - 1) { p2Idx++; renderP2(); } }
+
+
+
+        function showTab(t) {
+
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+            closePop();
+
+
+
+            document.getElementById(`sec-${t}`).classList.add('active');
+
+            if (t === 'typing') {
+
+                document.getElementById('tabTyping').classList.add('active');
+
+                document.getElementById('pageTitle').innerText = "IELTS Spelling Practice Meter";
+
+                document.getElementById('pageDesc').innerText = "Listen to the word first, then type it naturally.";
+
+                focusHiddenInput();
+
+            } else if (t === 'revision') {
+
+                document.getElementById('tabRev').classList.add('active');
+
+                updateRevUI();
+
+            } else if (t === 'essays') {
+
+                document.getElementById('tabEssays').classList.add('active');
+
+                document.getElementById('pageTitle').innerText = "100 Band 9 Essays & Vocabulary Engine";
+
+                document.getElementById('pageDesc').innerText = "Double-click text for UK audio & Bengali definition, highlight or translate";
+
+                initEssays();
+
+            } else if (t === 'story') {
+
+                document.getElementById('tabStory').classList.add('active');
+
+                document.getElementById('pageTitle').innerText = "1001 Nights - Reading & Typing";
+
+                document.getElementById('pageDesc').innerText = "Read, translate, or type the classic tales of Arabian Nights.";
+
+                initStory();
+
+            } else if (t === 'speaking') {
+
+                document.getElementById('tabSpeaking').classList.add('active');
+
+                document.getElementById('pageTitle').innerText = "IELTS Speaking Practice (Model Answers)";
+
+                document.getElementById('pageDesc').innerText = "Practice speaking questions and view expert Band 6.0 / 6.5 / 7.0 sample answers";
+
+                initSpeaking();
+
+            } else if (t === 'pdf1') {
+
+                document.getElementById('tabPdf1').classList.add('active');
+
+                renderP1();
+
+            } else if (t === 'pdf2') {
+
+                document.getElementById('tabPdf2').classList.add('active');
+
+                renderP2();
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
