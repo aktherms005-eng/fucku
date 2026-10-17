@@ -596,6 +596,24 @@
 
         function handleCharacterInput(ch) {
             if (curIdx >= charSpans.length) return;
+            
+            // Auto-skip spaces if user already typed the word fully and hit space or next letter
+            while (curIdx < charSpans.length && charSpans[curIdx].isSpace && ch === ' ') {
+                charSpans[curIdx].span.classList.remove('active');
+                charSpans[curIdx].span.classList.add('correct');
+                curIdx++;
+                if (curIdx < charSpans.length) {
+                    const nextObj = charSpans[curIdx];
+                    nextObj.span.classList.add('active');
+                    if (nextObj.wordIdx !== lastSpokenWordIdx) {
+                        lastSpokenWordIdx = nextObj.wordIdx;
+                        playUK(currentWordsList[nextObj.wordIdx]);
+                    }
+                }
+                playTick();
+                return;
+            }
+
             const currentObj = charSpans[curIdx];
 
             if (!isPlaying) {
@@ -612,9 +630,9 @@
                 }, 1000);
             }
 
-            // Handling Space precisely
-            if (ch === ' ') {
-                if (currentObj.isSpace) {
+            // If a space is expected right now
+            if (currentObj.isSpace) {
+                if (ch === ' ') {
                     currentObj.span.classList.remove('active');
                     currentObj.span.classList.add('correct');
                     curIdx++;
@@ -628,20 +646,15 @@
                     }
                     playTick();
                 } else {
-                    playError();
+                    // If user typed a letter instead of space, auto-mark space correct and process the letter on the next word
+                    currentObj.span.classList.remove('active');
+                    currentObj.span.classList.add('correct');
+                    curIdx++;
+                    if (curIdx < charSpans.length) {
+                        charSpans[curIdx].span.classList.add('active');
+                        handleCharacterInput(ch); // recursive call for the letter
+                    }
                 }
-                return;
-            }
-
-            // If user typed a letter when a space is expected
-            if (currentObj.isSpace) {
-                currentObj.span.classList.remove('active');
-                currentObj.span.classList.add('incorrect');
-                curIdx++;
-                if (curIdx < charSpans.length) {
-                    charSpans[curIdx].span.classList.add('active');
-                }
-                playError();
                 return;
             }
 
