@@ -335,7 +335,7 @@
                     </div>
 
                     <div>
-                        <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">💡 Expert Sample Answers (Band 6.0 / 6.5 / 7.0):</label>
+                        <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">💡 Expert Sample Answers (Band 7.5 / 8.5 / 9.0):</label>
                         <div id="sampleAnswersBox" class="sample-box" style="margin-top:6px;">
                             Select a question from the left to view model answers.
                         </div>
@@ -597,7 +597,6 @@
         function handleCharacterInput(ch) {
             if (curIdx >= charSpans.length) return;
             
-            // Auto-skip spaces if user already typed the word fully and hit space or next letter
             while (curIdx < charSpans.length && charSpans[curIdx].isSpace && ch === ' ') {
                 charSpans[curIdx].span.classList.remove('active');
                 charSpans[curIdx].span.classList.add('correct');
@@ -630,7 +629,6 @@
                 }, 1000);
             }
 
-            // If a space is expected right now
             if (currentObj.isSpace) {
                 if (ch === ' ') {
                     currentObj.span.classList.remove('active');
@@ -646,13 +644,12 @@
                     }
                     playTick();
                 } else {
-                    // If user typed a letter instead of space, auto-mark space correct and process the letter on the next word
                     currentObj.span.classList.remove('active');
                     currentObj.span.classList.add('correct');
                     curIdx++;
                     if (curIdx < charSpans.length) {
                         charSpans[curIdx].span.classList.add('active');
-                        handleCharacterInput(ch); // recursive call for the letter
+                        handleCharacterInput(ch);
                     }
                 }
                 return;
@@ -843,7 +840,7 @@
                 card.innerHTML = `
                     <span class="essay-topic">${e.topic}</span>
                     <div class="essay-q-box" onclick="toggleAccordion('essay_${e.id}')">
-                        <span>Essay #${e.id}: ${e.question}</span>
+                        <span>Essay #${e.id}:${e.question}</span>
                         <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
                     </div>
                     
@@ -899,428 +896,5 @@
                     <div class="essay-topic" style="background:var(--weak-color); color:#fff;">${e.topic}</div>
                     
                     <div class="essay-q-box" style="border-left-color:var(--weak-color);" onclick="toggleAccordion('story_${e.id}')">
-                        <span>Chapter #${e.id}: ${e.question}</span>
-                        <span style="font-size: 1.1rem; color:var(--primary);">▼</span>
-                    </div>
-                    
-                    <div class="body-wrap" id="body_story_${e.id}">
-                        <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-                            <button class="control-btn" style="background:#fef3c7; border-color:#f59e0b; color:#d97706;" onclick="openReadingMode('${e.topic} - ${e.question}', 'ans_en_story_${e.id}')">📖 Read Focus</button>
-                            <button class="control-btn" data-trans="0" onclick="translateContent('story', ${e.id}, this)">🌐 Translate to Bangla</button>
-                        </div>
-                        
-                        <div class="split-grid" id="grid_story_${e.id}">
-                            <div class="split-col plain" id="col_en_story_${e.id}">
-                                <div style="font-weight:800; color:var(--primary); margin-bottom:10px; display:none;" id="title_en_story_${e.id}">🇬🇧 English Original</div>
-                                <div class="essay-ans-box" id="ans_en_story_${e.id}" data-orig="${e.answer}" onmouseup="triggerSelection(event)">${e.answer}</div>
-                            </div>
-                            <div class="split-col" id="col_bn_story_${e.id}" style="display:none; border-color: var(--correct);">
-                                <div style="font-weight:800; color:var(--correct); margin-bottom:10px;">🇧🇩 Bengali Translation</div>
-                                <div class="essay-ans-box" id="ans_bn_story_${e.id}" onmouseup="triggerSelection(event)"></div>
-                            </div>
-                        </div>
-
-                        <div style="display:flex; justify-content:flex-end; margin-top:12px;">
-                            <button class="tab-btn" style="background:var(--primary); color:#ffffff; font-weight:700;" onclick="loadStoryToTyping(${e.id})">⌨️ Practice Typing</button>
-                        </div>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-            document.getElementById('storyBadge').innerText = `${finalStoryData.length} Tales`;
-        }
-
-        function filterStory() {
-            const q = document.getElementById('storySearch').value.toLowerCase().trim();
-            document.querySelectorAll('#sec-story .essay-card').forEach((c, idx) => {
-                const ed = finalStoryData[idx];
-                const match = ed.topic.toLowerCase().includes(q) || ed.question.toLowerCase().includes(q) || ed.answer.toLowerCase().includes(q);
-                c.style.display = match ? 'block' : 'none';
-            });
-        }
-
-        function loadStoryToTyping(id) {
-            const e = finalStoryData.find(item => item.id === id);
-            if (e) loadTextToTyping(e.answer);
-        }
-
-        let currentSelectedText = "", currentRange = null;
-
-        function triggerSelection(e) {
-            const sel = window.getSelection();
-            const text = sel.toString().trim();
-            if (text && text.length > 1) {
-                currentSelectedText = text;
-                currentRange = sel.getRangeAt(0).cloneRange();
-                const pop = document.getElementById('floatPop');
-                document.getElementById('popWord').innerText = text.length > 22 ? text.substring(0, 20) + '...' : text;
-
-                const clean = text.toLowerCase().replace(/[^a-zA-Z]/g, '');
-                let foundMatch = false;
-
-                if (typeof pdf1Data !== 'undefined') {
-                    const match = pdf1Data.flat().find(item => item.w.toLowerCase() === clean);
-                    if (match) {
-                        document.getElementById('popIpa').innerText = match.ipa;
-                        document.getElementById('popMeaning').innerText = match.bn;
-                        foundMatch = true;
-                    }
-                }
-                if (!foundMatch && typeof pdf2Data !== 'undefined') {
-                    const match2 = pdf2Data.flat().find(item => item.w.toLowerCase() === clean);
-                    if (match2) {
-                        document.getElementById('popIpa').innerText = match2.ipa;
-                        document.getElementById('popMeaning').innerText = match2.bn;
-                        foundMatch = true;
-                    }
-                }
-
-                if (!foundMatch) {
-                    document.getElementById('popIpa').innerText = `/${clean}/`;
-                    document.getElementById('popMeaning').innerText = "Translating...";
-                    fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=bn&dt=t`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `q=${encodeURIComponent(text)}`
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data && data[0] && data[0][0]) document.getElementById('popMeaning').innerText = data[0][0][0];
-                        else document.getElementById('popMeaning').innerText = "No meaning found.";
-                    });
-                }
-
-                let x = e.clientX + 10, y = e.clientY + 15;
-                if (x + 230 > window.innerWidth) x = window.innerWidth - 240;
-                pop.style.left = `${x}px`; pop.style.top = `${y}px`; pop.style.display = 'block';
-
-                if (document.getElementById('soundToggle').checked && !text.includes(' ') && text.length < 18) playUK(text);
-            }
-        }
-        function closePop() { document.getElementById('floatPop').style.display = 'none'; }
-        function speakPopWord() { if (currentSelectedText) playUK(currentSelectedText); }
-        function applyHighlight() {
-            if (!currentRange) return;
-            const span = document.createElement('span');
-            span.className = 'highlight-mark';
-            span.onclick = function() {
-                const p = this.parentNode; while (this.firstChild) p.insertBefore(this.firstChild, this); p.removeChild(this);
-            };
-            try { currentRange.surroundContents(span); } catch { document.execCommand('hiliteColor', false, '#fde047'); }
-            closePop(); window.getSelection().removeAllRanges();
-        }
-        function addPopWordToRev() {
-            const clean = currentSelectedText.trim();
-            if (clean) {
-                addWordToRevision(clean);
-            }
-            closePop();
-        }
-        function playUK(word) {
-            if (!document.getElementById('soundToggle').checked || !('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(word);
-            const v = window.speechSynthesis.getVoices().find(voice => voice.lang.includes('en-GB') || voice.lang.includes('en_GB'));
-            if (v) u.voice = v; u.rate = 0.88; window.speechSynthesis.speak(u);
-        }
-
-        const fallbackSpeakingList = [
-            "May I know your full name? / What is your name?", "What can I call you? / How may I call you?", "How may I address you?", "May I see your ID?",
-            "Where do you come from? / Where are you from?", "Do you work or study?", "Do you like your subject?", "How did your parents choose your name?",
-            "Where do you want to see yourself after 10 years in terms of your career?", "Tell me about your best friend at school.", "Do you enjoy studying Accounting? Why or why not?",
-            "What do you like most about your hometown?", "Do you prefer living in a city or a village? Why?", "How often do you meet your best friend?",
-            "What do you usually do together when you meet?", "Do you think having close friends is important? Why?", "What do you study? / Where do you study that?",
-            "Why did you choose that subject?", "Is it a popular subject in your country?", "Do you like that subject?", "Do you get on with your classmates?",
-            "What was your first day like?", "What are the main aspects of your subject?", "Where is your hometown?", "Do you like your hometown?",
-            "Do you often visit your hometown?", "What is your hometown like?", "What is the oldest place in your hometown?", "What is there for a foreigner to do or see in your hometown?",
-            "How could your hometown be improved?", "Has your hometown changed much since you were a child?", "Is there good public transportation in your hometown?",
-            "Do you think your hometown is a good place to bring up children?", "What is your job? / Where do you work?", "Why did you choose that job? / Is it a popular job in your country?",
-            "Do you like your job? / Do you get on well with your colleagues?", "What responsibilities do you have at work?", "If you had the chance, would you change your job?",
-            "Where is your home?", "Do you live in a house or a flat?", "Who do you live with?", "Are there many rooms in your home?", "What is your favourite room?",
-            "How are the walls decorated?", "What would you change about your home?", "Do you plan to live there in the future?", "What facilities are there near your home?",
-            "What is your neighbourhood like?", "Do most people live in houses in your country?", "Are you good at art?", "Did you learn art at school when you were a child?",
-            "What kind of art do you like?", "Is art popular in your country?", "Have you ever been to an art gallery?", "Do you think children can benefit from going to art galleries?",
-            "Do you have a bike?", "How often do you use it?", "How old were you when you learned to ride a bike?", "Do many people in your country use bicycles?",
-            "Do you think using bicycles should be encouraged?", "Did you enjoy your childhood?", "What is your first memory of your childhood?", "Did you have a lot of friends when you were a child?",
-            "What did you enjoy doing as a child?", "Do you think it is better for children to grow up in the city or in the countryside?", "Do you usually celebrate your birthdays?",
-            "How did you celebrate your last birthday?", "Which birthdays are the most important ones in your country?", "Do you think children should celebrate their birthdays with a party?",
-            "Are clothes important to you?", "What kind of clothes do you usually wear?", "Do you ever wear the traditional clothes of your country?", "Where do you usually buy your clothes?",
-            "Have you ever worn a uniform?", "Do most people in your country follow fashion?", "Do you often use a computer?", "How do you usually get online?",
-            "Do you prefer desktops or laptops?", "What do you use your computer for?", "Do you think it is important to learn how to use a computer?", "When do you usually get up in the morning?",
-            "Do you usually have the same routine every day? What is your daily routine?", "Do you ever change your routine?", "Is your routine the same today as it was when you were a child?",
-            "Do you think it is important to have a daily routine?", "Do you often have dreams when you sleep?", "Do you usually remember your dreams?", "Do you think dreams are important to remember?",
-            "Do you ever have daydreams?", "What kind of daydreams do you usually have?", "Do you spend much time with your family?", "Who are you closest to in your family?",
-            "Do you prefer spending time with your family or friends?", "Who is your best friend?", "Are you still friends with people from your childhood?", "Is family important in your country?",
-            "Do you like flowers?", "What's your favourite flower?", "When was the last time you gave someone flowers?", "Do any flowers have a special meaning in your country?",
-            "Why do you think women like flowers more than men?", "What's your favourite food?", "Have you always liked the same food?", "Is there any food you dislike?",
-            "What is a common meal in your country?", "Do you have a healthy diet?", "What do you think of fast food?", "Do you often go out in the evenings?",
-            "What do you like to do when you go out?", "Do you prefer going out alone or with friends?", "How often do you go out on weekends?", "Do you think it's important for people to go out?",
-            "What makes you happy?", "What do you do to stay happy?", "Does your happiness change with time?", "What was the happiest moment in your life?",
-            "Do you think money brings happiness?", "Do you have a hobby?", "What equipment do you need for it?", "Do you think hobbies should be shared with other people?",
-            "Did you have a hobby as a child?", "What hobbies are popular in your country?", "Why do you think people have hobbies?", "How often do you go online?",
-            "What do you use the internet for?", "How do you get online?", "Do you have your own computer?", "What's your favourite website?",
-            "Do you think children should be allowed unsupervised access to the internet?", "What do you usually do in your leisure time?", "Do you prefer to spend your free time alone or with others?",
-            "What did you enjoy doing in your free time when you were a child?", "Do you have enough leisure time now?", "What do you think is the best way to spend leisure time?",
-            "Do you like music?", "What's your favourite type of music?", "Can you sing?", "Did you learn music at school when you were a child?",
-            "If you could learn a musical instrument, what would it be?", "Do you think music is important?", "Do you like your neighbours?", "Are neighbours usually close to each other in your country?",
-            "What is your neighbourhood like?", "Do you think your neighbourhood is a good place for children?", "How could your neighbourhood be improved?",
-            "Do you think it is important to have a good relationship with your neighbours?", "Do you live in a noisy area?", "What kinds of sounds do you hear on a daily basis?",
-            "Where do you go to spend time in peace and quiet?", "Are there any sounds which you think are pleasant?", "Do you have any noisy friends?",
-            "Do you have a pet?", "Do you like animals?", "What's your favourite animal?", "What is a popular pet to have in your country?", "Did you have a pet as a child?",
-            "Why do people have pets?", "Do you like shopping?", "What do you usually buy when you go shopping?", "Do you prefer shopping alone or with others?",
-            "Do you enjoy shopping for clothes?", "Do you think online shopping is popular in your country?", "What are the advantages of shopping online?",
-            "Do you like sports?", "What's your favourite sport?", "Do you watch sport on TV?", "Did you play sport when you were a child?", "Do you think it's important to play sport?",
-            "Why do people like watching sport?", "Do you often watch TV?", "What kind of TV programmes do you like?", "What was your favourite show when you were a child?",
-            "Do you think TV has changed much in the last few years?", "Do you prefer watching TV alone or with your family?", "How often do you watch news on TV?",
-            "How do you usually travel around your city?", "What's your favourite kind of transport?", "Do you prefer public transport or private transport?",
-            "Is public transport popular in your country?", "How could public transport be improved?", "Do you enjoy long journeys?", "Do you like travelling?",
-            "What's the best place you've ever visited?", "How do you usually travel long distances?", "Do you like travelling with family or friends?",
-            "What places would you like to visit in the future?", "Do you prefer travelling to new places or visiting the same places again?",
-            "What's the weather like where you live?", "What's your favourite type of weather?", "What do you usually do in the hot weather?",
-            "Do you prefer dry weather or wet weather?", "Has the weather changed much in your country in recent years?"
-        ];
-
-        let activeSpeakingQ = "";
-
-        function initSpeaking() {
-            const wrap = document.getElementById('speakingCardsWrap');
-            wrap.innerHTML = '';
-            
-            let masterList = [];
-            if (typeof speakingData !== 'undefined' && speakingData.length > 0) {
-                masterList = speakingData;
-            }
-            
-            fallbackSpeakingList.forEach((qText, index) => {
-                const qId = index + 1;
-                const found = masterList.find(item => item.id === qId || item.question.toLowerCase() === qText.toLowerCase());
-                if (!found) {
-                    masterList.push({
-                        id: qId,
-                        question: qText,
-                        b6: "Sample answer not available yet.",
-                        b65: "Sample answer not available yet.",
-                        b7: "Sample answer not available yet."
-                    });
-                }
-            });
-
-            masterList.sort((a,b) => a.id - b.id);
-
-            masterList.forEach((item) => {
-                const c = document.createElement('div');
-                c.className = 'speaking-card';
-                if (item.id === 5) c.classList.add('active');
-                c.innerText = `${item.id}. ${item.question}`;
-                c.onclick = () => {
-                    document.querySelectorAll('.speaking-card').forEach(el => el.classList.remove('active'));
-                    c.classList.add('active');
-                    activeSpeakingQ = item.question;
-                    document.getElementById('activeQText').innerText = `${item.id}. ${item.question}`;
-                    
-                    displaySampleAnswers(item);
-                    document.getElementById('audioPlayback').style.display = 'none';
-                    document.getElementById('speechTranscript').innerText = 'Speak into your microphone...';
-                    
-                    if(document.getElementById('soundToggle').checked) playUK(item.question);
-                };
-                wrap.appendChild(c);
-            });
-
-            const defaultItem = masterList.find(i => i.id === 5) || masterList[0];
-            if (defaultItem) {
-                activeSpeakingQ = defaultItem.question;
-                document.getElementById('activeQText').innerText = `${defaultItem.id}. ${defaultItem.question}`;
-                displaySampleAnswers(defaultItem);
-            }
-        }
-
-        function displaySampleAnswers(data) {
-            const box = document.getElementById('sampleAnswersBox');
-            box.innerHTML = `
-                <strong style="color:var(--correct);">Target Band 6.0:</strong><br>${data.b6 || "Sample answer not available yet."}<br><br>
-                <strong style="color:var(--primary);">Target Band 6.5:</strong><br>${data.b65 || "Sample answer not available yet."}<br><br>
-                <strong style="color:var(--accent-red);">Target Band 7.0:</strong><br>${data.b7 || "Sample answer not available yet."}
-            `;
-        }
-
-        function filterSpeaking() {
-            const q = document.getElementById('speakSearch').value.toLowerCase().trim();
-            document.querySelectorAll('.speaking-card').forEach((c) => {
-                const text = c.innerText.toLowerCase();
-                c.style.display = text.includes(q) ? 'block' : 'none';
-            });
-        }
-
-        let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
-        let finalTranscript = "";
-
-        async function toggleSpeech() {
-            const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus'), out = document.getElementById('speechTranscript');
-            const audioPlayback = document.getElementById('audioPlayback');
-
-            if (!isRec) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    alert('Speech Recognition is not supported on this browser/device. Please use Google Chrome or Safari.');
-                    return;
-                }
-                try {
-                    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(micStream);
-                    audioChunks = [];
-                    
-                    mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
-                    mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                        const audioUrl = URL.createObjectURL(audioBlob);
-                        audioPlayback.src = audioUrl;
-                        audioPlayback.style.display = 'block'; 
-                    };
-
-                    recog = new SpeechRecognition(); 
-                    recog.continuous = true; 
-                    recog.interimResults = true; 
-                    recog.lang = 'en-GB'; 
-                    
-                    finalTranscript = "";
-                    out.innerText = '';
-                    audioPlayback.style.display = 'none';
-
-                    recog.onstart = () => { 
-                        isRec = true; 
-                        btn.innerText = "🛑 Stop Recording"; 
-                        btn.classList.add('recording');
-                        st.innerText = "Listening & Recording..."; 
-                    };
-                    
-                    recog.onresult = (e) => {
-                        let interim = '';
-                        for (let i = e.resultIndex; i < e.results.length; ++i) {
-                            if (e.results[i].isFinal) {
-                                finalTranscript += e.results[i][0].transcript + ' ';
-                            } else {
-                                interim += e.results[i][0].transcript;
-                            }
-                        }
-                        out.innerText = finalTranscript + interim;
-                    };
-                    
-                    recog.onerror = (event) => {
-                        console.error('Speech recognition error', event.error);
-                    };
-                    
-                    recog.onend = () => {
-                        if (isRec) {
-                            try { recog.start(); } catch(err) {}
-                        }
-                    };
-                    
-                    mediaRecorder.start();
-                    recog.start();
-
-                } catch (err) { 
-                    alert("Microphone access denied or not supported on this view. Please allow mic permissions."); 
-                }
-            } else {
-                if (recog) {
-                    try { recog.stop(); } catch(e){}
-                }
-                if (mediaRecorder && mediaRecorder.state !== "inactive") {
-                    try { mediaRecorder.stop(); } catch(e){}
-                }
-                if (micStream) {
-                    micStream.getTracks().forEach(track => track.stop());
-                }
-                stopRecordingUI();
-            }
-        }
-
-        function stopRecordingUI() {
-            isRec = false;
-            const btn = document.getElementById('micBtn');
-            const st = document.getElementById('micStatus');
-            btn.innerText = "🎙️ Start Speaking & Record";
-            btn.classList.remove('recording');
-            st.innerText = "Recorded! Play back your audio below.";
-        }
-
-        let p1Idx = 0, p2Idx = 0;
-        function renderP1() {
-            if (typeof pdf1Data === 'undefined' || pdf1Data.length === 0) return;
-            const data = pdf1Data[p1Idx] || [];
-            let h = `<table class="pdf-table"><thead><tr><th>Word / Phrase</th><th>Pronunciation Guide</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
-            data.forEach(r => { 
-                h += `<tr>
-                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
-                    <td><code>${r.ipa}</code></td>
-                    <td>${r.bn}</td>
-                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
-                </tr>`; 
-            });
-            h += `</tbody></table>`;
-            document.getElementById('pdf1TableArea').innerHTML = h;
-            document.getElementById('pdf1PageText').innerText = `Page ${p1Idx + 1} / ${pdf1Data.length}`;
-        }
-        function prevPdf1() { if (p1Idx > 0) { p1Idx--; renderP1(); } }
-        function nextPdf1() { if (p1Idx < pdf1Data.length - 1) { p1Idx++; renderP1(); } }
-
-        function renderP2() {
-            if (typeof pdf2Data === 'undefined' || pdf2Data.length === 0) return;
-            const data = pdf2Data[p2Idx] || [];
-            let h = `<table class="pdf-table"><thead><tr><th>Listening Word</th><th>Pronunciation</th><th>Bangla Meaning</th><th>Action</th></tr></thead><tbody>`;
-            data.forEach(r => { 
-                h += `<tr>
-                    <td><strong style="cursor:pointer; color:var(--primary);" onclick="playUK('${r.w.replace(/'/g, "\\'")}')" title="Click to hear">🔊 ${r.w}</strong></td>
-                    <td><code>${r.ipa}</code></td>
-                    <td>${r.bn}</td>
-                    <td><button class="add-rev-btn" onclick="addWordToRevision('${r.w.replace(/'/g, "\\'")}')">⭐ Add</button></td>
-                </tr>`; 
-            });
-            h += `</tbody></table>`;
-            document.getElementById('pdf2TableArea').innerHTML = h;
-            document.getElementById('pdf2PageText').innerText = `Page ${p2Idx + 1} / ${pdf2Data.length}`;
-        }
-        function prevPdf2() { if (p2Idx > 0) { p2Idx--; renderP2(); } }
-        function nextPdf2() { if (p2Idx < pdf2Data.length - 1) { p2Idx++; renderP2(); } }
-
-        function showTab(t) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            closePop();
-
-            document.getElementById(`sec-${t}`).classList.add('active');
-            if (t === 'typing') {
-                document.getElementById('tabTyping').classList.add('active');
-                document.getElementById('pageTitle').innerText = "IELTS Spelling Practice Meter";
-                document.getElementById('pageDesc').innerText = "Listen to the word first, then type it naturally.";
-                focusHiddenInput();
-            } else if (t === 'revision') {
-                document.getElementById('tabRev').classList.add('active');
-                updateRevUI();
-            } else if (t === 'essays') {
-                document.getElementById('tabEssays').classList.add('active');
-                document.getElementById('pageTitle').innerText = "100 Band 9 Essays & Vocabulary Engine";
-                document.getElementById('pageDesc').innerText = "Double-click text for UK audio & Bengali definition, highlight or translate";
-                initEssays();
-            } else if (t === 'story') {
-                document.getElementById('tabStory').classList.add('active');
-                document.getElementById('pageTitle').innerText = "1001 Nights - Reading & Typing";
-                document.getElementById('pageDesc').innerText = "Read, translate, or type the classic tales of Arabian Nights.";
-                initStory();
-            } else if (t === 'speaking') {
-                document.getElementById('tabSpeaking').classList.add('active');
-                document.getElementById('pageTitle').innerText = "IELTS Speaking Practice (Model Answers)";
-                document.getElementById('pageDesc').innerText = "Practice speaking questions and view expert Band 6.0 / 6.5 / 7.0 sample answers";
-                initSpeaking();
-            } else if (t === 'pdf1') {
-                document.getElementById('tabPdf1').classList.add('active');
-                renderP1();
-            } else if (t === 'pdf2') {
-                document.getElementById('tabPdf2').classList.add('active');
-                renderP2();
-            }
-        }
-    </script>
-</body>
-</html>
+                        <span>Chapter #${e.id}:${e.question}</span>
+                        <span style="font-size
