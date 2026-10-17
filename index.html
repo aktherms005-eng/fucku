@@ -82,7 +82,6 @@
             cursor: pointer; font-size: calc(0.78rem * var(--scale-factor) / 1rem); font-weight: 600;
         }
 
-        /* Toolbar for Font size & Dark Mode */
         .utility-bar {
             display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; background: var(--card-bg); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--border-color);
         }
@@ -97,7 +96,6 @@
         .content-section { display: none; width: 100%; box-sizing: border-box; }
         .content-section.active { display: block; }
 
-        /* Typing Screen */
         .session-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 8px; max-height: 160px; overflow-y: auto; padding: 10px;
@@ -129,7 +127,6 @@
         .hidden-input { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
         .live-stats { display: flex; justify-content: space-between; font-weight: 700; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: calc(0.9rem * var(--scale-factor) / 1rem); color: var(--primary); }
 
-        /* Accordion Layout for Essays and Stories */
         .essay-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 14px; padding: 15px; margin-bottom: 12px; box-shadow: var(--shadow); box-sizing: border-box;
@@ -154,7 +151,6 @@
         .essay-ans-box { font-size: calc(0.95rem * var(--scale-factor) / 1rem); line-height: 1.8; white-space: pre-line; user-select: text; word-break: break-word; }
         .highlight-mark { background-color: var(--highlight-bg) !important; color: #000 !important; border-radius: 3px; padding: 2px 4px; }
 
-        /* Speaking Screen */
         .speaking-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 15px; }
         @media(max-width: 900px) { .speaking-layout { grid-template-columns: 1fr; } }
         .speaking-q-list { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 12px; max-height: 500px; overflow-y: auto; box-shadow: var(--shadow); box-sizing: border-box; }
@@ -172,7 +168,6 @@
         .sample-box { background: var(--card-inner); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; font-size: calc(0.9rem * var(--scale-factor) / 1rem); line-height: 1.6; max-height: 280px; overflow-y: auto; word-break: break-word; }
         audio { width: 100%; margin-top: 10px; border-radius: 6px; height: 40px; }
 
-        /* Minimal Floating Tooltip */
         .floating-popover {
             position: fixed; display: none; z-index: 3000;
             background: var(--card-bg); color: var(--text-main); border: 2px solid var(--primary);
@@ -185,7 +180,6 @@
         .popover-meaning { color: var(--correct); font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
         .popover-btn { border: none; border-radius: 6px; padding: 6px; width: 100%; font-weight: 700; font-size: 0.8rem; cursor: pointer; margin-bottom: 0; }
 
-        /* Reading Mode Modal */
         .reading-modal {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); z-index: 2000; display: none;
@@ -208,7 +202,6 @@
         .reading-controls button { background: rgba(0,0,0,0.05); border: 1px solid #aaa; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-weight: 700; color: inherit; font-size: 0.85rem; }
         .reading-text { font-size: calc(1.1rem * var(--scale-factor) / 1rem); line-height: 1.8; white-space: pre-line; word-break: break-word; }
 
-        /* PDF Table */
         .pdf-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: calc(0.9rem * var(--scale-factor) / 1rem); }
         .pdf-table th, .pdf-table td { border: 1px solid var(--border-color); padding: 10px; text-align: left; word-break: break-word; }
         .pdf-table th { background: var(--primary); color: #fff; font-weight: 700; }
@@ -218,7 +211,6 @@
 </head>
 <body>
 
-    <!-- Audio Synth -->
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTick() {
@@ -239,7 +231,6 @@
     </script>
 
     <div class="container">
-        <!-- Utility Toolbar (Font Size & Dark Mode) -->
         <div class="utility-bar">
             <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Text Size:</span>
             <button onclick="changeGlobalFontSize(1)">A+</button>
@@ -247,7 +238,6 @@
             <button onclick="toggleDarkMode()" id="darkModeBtn" style="margin-left: 10px;">🌙 Night Mode</button>
         </div>
 
-        <!-- Top Nav -->
         <div class="top-nav">
             <div class="nav-tabs">
                 <button class="tab-btn active" id="tabTyping" onclick="showTab('typing')">⌨️ Spelling</button>
@@ -585,43 +575,28 @@
                         charSpans[curIdx].span.classList.add('active');
                         playTick(); 
                     }
-                } else if (e.key === ' ') {
+                } else if (e.key === ' ' || e.code === 'Space') {
                     e.preventDefault();
-                    if (curIdx < charSpans.length && charSpans[curIdx].isSpace) {
-                        const currentObj = charSpans[curIdx];
-                        currentObj.span.classList.remove('active');
-                        currentObj.span.classList.add('correct');
-                        curIdx++;
-                        if (curIdx < charSpans.length) {
-                            const nextObj = charSpans[curIdx];
-                            nextObj.span.classList.add('active');
-                            if (nextObj.wordIdx !== lastSpokenWordIdx) {
-                                lastSpokenWordIdx = nextObj.wordIdx;
-                                playUK(currentWordsList[nextObj.wordIdx]);
-                            }
-                        }
-                        playTick();
-                    } else {
-                        playError();
-                    }
+                    handleCharacterInput(' ');
                 } else if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-                    handleTypedChar(e.key);
+                    e.preventDefault();
+                    handleCharacterInput(e.key);
                 }
             });
 
             hiddenInput.addEventListener('input', (e) => {
-                e.target.value = '';
+                const val = e.target.value;
+                if (val.length > 0) {
+                    const ch = val[val.length - 1];
+                    handleCharacterInput(ch);
+                    e.target.value = '';
+                }
             });
         }
 
-        function handleTypedChar(ch) {
+        function handleCharacterInput(ch) {
             if (curIdx >= charSpans.length) return;
             const currentObj = charSpans[curIdx];
-
-            if (currentObj.isSpace) {
-                playError();
-                return;
-            }
 
             if (!isPlaying) {
                 isPlaying = true; startTime = new Date();
@@ -635,6 +610,39 @@
                     const wpm = mins > 0 ? Math.round(words / mins) : 0;
                     document.getElementById('statWpm').innerText = `WPM: ${wpm}`;
                 }, 1000);
+            }
+
+            // Handling Space precisely
+            if (ch === ' ') {
+                if (currentObj.isSpace) {
+                    currentObj.span.classList.remove('active');
+                    currentObj.span.classList.add('correct');
+                    curIdx++;
+                    if (curIdx < charSpans.length) {
+                        const nextObj = charSpans[curIdx];
+                        nextObj.span.classList.add('active');
+                        if (nextObj.wordIdx !== lastSpokenWordIdx) {
+                            lastSpokenWordIdx = nextObj.wordIdx;
+                            playUK(currentWordsList[nextObj.wordIdx]);
+                        }
+                    }
+                    playTick();
+                } else {
+                    playError();
+                }
+                return;
+            }
+
+            // If user typed a letter when a space is expected
+            if (currentObj.isSpace) {
+                currentObj.span.classList.remove('active');
+                currentObj.span.classList.add('incorrect');
+                curIdx++;
+                if (curIdx < charSpans.length) {
+                    charSpans[curIdx].span.classList.add('active');
+                }
+                playError();
+                return;
             }
 
             const exp = currentObj.span.innerText;
