@@ -403,11 +403,6 @@
                     </div>
 
                     <div>
-                        <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">📝 Your Spoken Transcript:</label>
-                        <div id="speechTranscript" style="background:var(--card-inner); border:1px solid var(--border-color); border-radius:10px; padding:14px; min-height:70px; font-size:1rem; margin-top:6px; word-break:break-word; color:var(--text-main);">Speak into your microphone to generate text...</div>
-                    </div>
-
-                    <div>
                         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
                             <label style="font-size:0.95rem; font-weight:700; color:var(--primary);">💡 Personalised Sample Answer (Band 6.5–7.5):</label>
                             <button class="control-btn" onclick="playUK(activeSpeakingAns)" style="color:var(--primary); border-color:var(--primary);">🔊 Listen Answer</button>
@@ -1305,7 +1300,6 @@
 
             displaySampleAnswers(item);
             document.getElementById('audioPlayback').style.display = 'none';
-            document.getElementById('speechTranscript').innerText = 'Speak into your microphone to generate text...';
 
             if (shouldSpeak && document.getElementById('soundToggle').checked) {
                 playUK(item.question);
@@ -1344,17 +1338,15 @@
             });
         }
 
-        let isRec = false, recog = null, mediaRecorder = null, audioChunks = [], micStream = null;
-        let finalTranscript = "";
+        let isRec = false, mediaRecorder = null, audioChunks = [], micStream = null;
 
         async function toggleSpeech() {
-            const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus'), out = document.getElementById('speechTranscript');
+            const btn = document.getElementById('micBtn'), st = document.getElementById('micStatus');
             const audioPlayback = document.getElementById('audioPlayback');
 
             if (!isRec) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    alert('Speech Recognition is not supported on this browser/device. Please use Google Chrome or Safari.');
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+                    alert('Audio recording is not supported on this browser/device.');
                     return;
                 }
                 try {
@@ -1370,55 +1362,17 @@
                         audioPlayback.style.display = 'block';
                     };
 
-                    recog = new SpeechRecognition();
-                    recog.continuous = true;
-                    recog.interimResults = true;
-                    recog.lang = 'en-GB';
-
-                    finalTranscript = "";
-                    out.innerText = '';
                     audioPlayback.style.display = 'none';
-
-                    recog.onstart = () => {
-                        isRec = true;
-                        btn.innerText = "🛑 Stop Recording";
-                        btn.classList.add('recording');
-                        st.innerText = "Listening & Recording...";
-                    };
-
-                    recog.onresult = (e) => {
-                        let interim = '';
-                        for (let i = e.resultIndex; i < e.results.length; ++i) {
-                            if (e.results[i].isFinal) {
-                                finalTranscript += e.results[i][0].transcript + ' ';
-                            } else {
-                                interim += e.results[i][0].transcript;
-                            }
-                        }
-                        out.innerText = finalTranscript + interim;
-                    };
-
-                    recog.onerror = (event) => {
-                        console.error('Speech recognition error', event.error);
-                    };
-
-                    recog.onend = () => {
-                        if (isRec) {
-                            try { recog.start(); } catch (err) {}
-                        }
-                    };
-
                     mediaRecorder.start();
-                    recog.start();
-
+                    isRec = true;
+                    btn.innerText = "🛑 Stop Recording";
+                    btn.classList.add('recording');
+                    st.innerText = "Recording...";
                 } catch (err) {
                     alert("Microphone access denied or not supported on this view. Please allow mic permissions.");
                 }
             } else {
                 stopRecordingUI();
-                if (recog) {
-                    try { recog.stop(); } catch (e) {}
-                }
                 if (mediaRecorder && mediaRecorder.state !== "inactive") {
                     try { mediaRecorder.stop(); } catch (e) {}
                 }
